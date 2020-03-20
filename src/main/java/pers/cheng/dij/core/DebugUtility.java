@@ -191,6 +191,7 @@ public class DebugUtility {
                 deleteEventRequestSafely(debugSession.getVM().eventRequestManager(), request);
                 debugEvent.setShouldResume(false);
                 ThreadReference bpThread = ((MethodEntryEvent) debugEvent.getEvent()).thread();
+                // Tell the future to complete.
                 future.complete(bpThread.uniqueID());
             }
         });

@@ -24,7 +24,7 @@ public class DebugSession implements IDebugSession {
         threadDeathRequest.setSuspendPolicy(EventRequest.SUSPEND_NONE);
         threadDeathRequest.enable();
 
-        eventHub.start();
+        eventHub.start(vm);
     }
 
     @Override
@@ -34,26 +34,39 @@ public class DebugSession implements IDebugSession {
 
     @Override
     public void resume() {
-
+        for (ThreadReference tr : DebugUtility.getAllThreadsSafely(this)) {
+            while (!tr.isCollected() && tr.suspendCount() > 1) {
+                tr.resume();
+            }
+        }
+        vm.resume();
     }
 
     @Override
     public void detach() {
-
+        vm.dispose();
     }
 
     @Override
     public void terminate() {
-
+        if (vm.process() == null || vm.process().isAlive()) {
+            vm.exit(0);
+        }
     }
 
     @Override
-    public IBreakpoint createBreakpoint(String className, int lineNumber, int hitCount, String condition, String logMessage) {
-        return null;
+    public IBreakpoint createBreakpoint(
+        String className,
+        int lineNumber,
+        int hitCount,
+        String condition,
+        String logMessage) {
     }
 
     @Override
-    public void setExceptionBreakpoints(boolean notifyCaught, boolean notifyUncaught) {
+    public void setExceptionBreakpoints(
+        boolean notifyCaught,
+        boolean notifyUncaught) {
 
     }
 
