@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class EventHub implements IEventHub {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
-    private PublishSubject<DebugEvent> subject = PublishSubject.<DebugEvent>create();
+    private PublishSubject<DebugEvent> subject = PublishSubject.create();
 
     private Thread workingThread = null;
     private boolean isClosed = false;

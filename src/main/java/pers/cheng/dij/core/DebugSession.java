@@ -3,14 +3,17 @@ package pers.cheng.dij.core;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.request.EventRequest;
+import com.sun.jdi.request.EventRequestManager;
+import com.sun.jdi.request.ExceptionRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DebugSession implements IDebugSession {
     private VirtualMachine vm;
     private EventHub eventHub = new EventHub();
 
-    public DebugSession(VirtualMachine virtualMachine) {
+    DebugSession(VirtualMachine virtualMachine) {
         vm = virtualMachine;
     }
 
@@ -61,13 +64,19 @@ public class DebugSession implements IDebugSession {
         int hitCount,
         String condition,
         String logMessage) {
+        return new EvaluatableBreakpoint(vm, getEventHub(), className, lineNumber, hitCount, condition, logMessage);
     }
 
     @Override
     public void setExceptionBreakpoints(
         boolean notifyCaught,
         boolean notifyUncaught) {
-
+        EventRequestManager manager = vm.eventRequestManager();
+        //Create a new list since the original list is unmodifiable.
+        ArrayList<ExceptionRequest> legacy = new ArrayList<>(manager.exceptionRequests());
+        // Remove all exception requests.
+        manager.deleteEventRequests(legacy);
+        if ()
     }
 
     @Override

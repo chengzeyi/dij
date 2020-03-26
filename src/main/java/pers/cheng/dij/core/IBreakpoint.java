@@ -5,11 +5,11 @@ import java.util.concurrent.CompletableFuture;
 public interface IBreakpoint extends IDebugResource {
     public String getClassName();
 
-    public int getgetLineNumber();
+    public int getLineNumber();
 
     public int getHitCount();
 
-    public void setSetHitCount(int hitCount);
+    public void setHitCount(int hitCount);
 
     public CompletableFuture<IBreakpoint> install();
 
