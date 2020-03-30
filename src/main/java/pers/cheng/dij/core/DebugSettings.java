@@ -16,16 +16,16 @@ public class DebugSettings {
         return CURRENT;
     }
 
-    public static void updateSettings(String jsonSettings) {
+    public static void updateSettings(String settings) {
         try {
-            FileInputStream ip = new FileInputStream(jsonSettings);
+            FileInputStream ip = new FileInputStream(settings);
             Properties properties = new Properties();
             properties.load(ip);
 
             CURRENT.setLogLevel(properties.getProperty("logLevel"));
             CURRENT.setJavaHome(properties.getProperty("javaHome"));
         } catch (IOException e) {
-            LOGGER.severe(String.format("Invalid config.properties for debugSettings: %s, %s", jsonSettings, e));
+            LOGGER.severe(String.format("Invalid properties for DebugSettings: %s, %s", settings, e));
         }
     }
 

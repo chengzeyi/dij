@@ -76,26 +76,33 @@ public class DebugSession implements IDebugSession {
         ArrayList<ExceptionRequest> legacy = new ArrayList<>(manager.exceptionRequests());
         // Remove all exception requests.
         manager.deleteEventRequests(legacy);
-        if ()
+        // When no exception breakpoints are requests are requests, no need to create an empty
+        // exception request.
+        if (notifyCaught || notifyUncaught) {
+            // TODO: Fix potential bug.
+            ExceptionRequest request = manager.createExceptionRequest(null, notifyCaught, notifyUncaught);
+            request.setSuspendPolicy(EventRequest.SUSPEND_EVENT_THREAD);
+            request.enable();
+        }
     }
 
     @Override
     public Process getProcess() {
-        return null;
+        return vm.process();
     }
 
     @Override
     public List<ThreadReference> getAllThreads() {
-        return null;
+        return vm.allThreads();
     }
 
     @Override
     public IEventHub getEventHub() {
-        return null;
+        return eventHub;
     }
 
     @Override
     public VirtualMachine getVM() {
-        return null;
+        return vm;
     }
 }

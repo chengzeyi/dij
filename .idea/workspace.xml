@@ -2,144 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76adaabd-e4fe-4412-adfa-07f8b6337530" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/cheng.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EvaluatableBreakpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dij.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vim/coc-settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/ValueUtility.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ArrayWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ClassObjectWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ObjectWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ObjectWrapperBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/StringWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/Breakpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/Breakpoint.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EventHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EventHub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IBreakpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IBreakpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSettings.java" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/out/" />
-    <ignored path="$PROJECT_DIR$/target/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/Breakpoint.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="59">
-              <caret line="211" column="66" selection-start-line="211" selection-start-column="66" selection-end-line="211" selection-end-column="66" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#9259#9260#0" expanded="true" />
-                <element signature="e#9302#9303#0" expanded="true" />
-                <element signature="e#9361#9362#0" expanded="true" />
-                <element signature="e#9404#9405#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugResource.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IEventHub.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EventHub.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSession.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="76" column="40" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2043#2044#0" expanded="true" />
-                <element signature="e#2070#2071#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/Configuration.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/lang/Object.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2527">
-              <caret line="156" column="19" selection-start-line="156" selection-start-column="19" selection-end-line="156" selection-end-column="19" />
-              <folding>
-                <element signature="e#6874#6875#0" expanded="true" />
-                <element signature="e#6910#6911#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.rmi/java/rmi/activation/ActivationDesc.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5244">
-              <caret line="310" column="26" selection-start-line="310" selection-start-column="26" selection-end-line="310" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.rmi/java/rmi/activation/ActivationGroupID.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1463">
-              <caret line="106" column="20" selection-start-line="106" selection-start-column="20" selection-end-line="106" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/io/reactivex/rxjava2/rxjava/2.2.18/rxjava-2.2.18-sources.jar!/io/reactivex/Observable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158916">
-              <caret line="8418" column="31" selection-start-line="8418" selection-start-column="31" selection-end-line="8418" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -152,132 +49,38 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/test/java/pers/cheng/dij/AppTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/exp/DebugException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/exp/SetBreakPointException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/exp/SetBreakPointsException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/Configuration.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/exp/DisplayVariablesException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/JDIDebuggee.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/JDIDebugger.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugResource.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IBreakpoint.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugSession.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IEvaluatableBreakpoint.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/StackFrameUtility.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/JDIExceptionReference.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/Runner/JDIDebugger.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/Runner/JDIDebuggee.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/App.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IEventHub.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugEvent.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/runner/JDIDebuggee.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/resources/config.properties" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugUtility.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSettings.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/Breakpoint.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EvaluatableBreakpoint.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EventHub.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSession.java" />
-      </list>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="950" />
-    <option name="width" value="980" />
-    <option name="height" value="1050" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="dij" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dij" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dij" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dij" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dij" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dij" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dij" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dij" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dij" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dij" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="dij" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dij" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dij" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="dij" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-    </panes>
+  <component name="ProjectId" id="1ZjugLi7EMg9LcapsdyxSNcpxa1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../java-debug" />
+    <property name="last_opened_file_path" value="/usr/lib/jvm/java-13-openjdk-amd64/docs/legal" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15436894" />
     <property name="project.structure.side.proportion" value="0.42699116" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="pers.cheng.dij.core" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -298,7 +101,7 @@
       <module name="dij" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pers.cheng.dij.core.*" />
+          <option name="PATTERN" value="pers.cheng.dij.core.object.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -357,11 +160,20 @@
       <workItem from="1585124081121" duration="6675000" />
       <workItem from="1585149204536" duration="2546000" />
       <workItem from="1585219586100" duration="2201000" />
+      <workItem from="1585364942116" duration="104000" />
+      <workItem from="1585365146907" duration="647000" />
+      <workItem from="1585365831373" duration="83000" />
+      <workItem from="1585368094662" duration="459000" />
+      <workItem from="1585368572642" duration="2145000" />
+      <workItem from="1585370745571" duration="6673000" />
+      <workItem from="1585379410562" duration="1025000" />
+      <workItem from="1585396022460" duration="4019000" />
+      <workItem from="1585407268704" duration="5082000" />
+      <workItem from="1585477853163" duration="3287000" />
+      <workItem from="1585534411855" duration="361000" />
+      <workItem from="1585534904066" duration="31276000" />
     </task>
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119277000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -372,72 +184,6 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="848" extended-state="7" />
-    <editor active="true" />
-    <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22319035" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32828283" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.26917714" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.23988843" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.20530726" />
-      <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info anchor="bottom" id="TODO" order="9" weight="0.32863188" />
-      <window_info anchor="bottom" x="13" y="587" width="1492" height="152" id="Terminal" order="10" weight="0.27754533" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32869786" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.32914925" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Maven" order="6" />
-      <window_info anchor="right" id="Capture Analysis" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-    </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12533513" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32828283" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.26917714" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.23988843" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.20530726" />
-      <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info anchor="bottom" id="TODO" order="9" weight="0.32863188" />
-      <window_info anchor="bottom" x="13" y="587" width="1492" height="152" id="Terminal" order="10" weight="0.27754533" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32960895" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.32914925" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Maven" order="6" />
-      <window_info anchor="right" id="Capture Analysis" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-    </layout-to-restore>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
@@ -447,20 +193,7 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
-              <option name="COLUMN_ORDER">
-                <list>
-                  <option value="0" />
-                  <option value="1" />
-                  <option value="2" />
-                  <option value="3" />
-                </list>
-              </option>
+              <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
@@ -481,413 +214,83 @@
       </map>
     </option>
   </component>
+  <component name="WindowStateProjectService">
+    <state x="555" y="190" width="802" height="680" key="#Vim_Emulation" timestamp="1585552020330">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="555" y="190" width="802" height="680" key="#Vim_Emulation/41.0.1879.1080@41.0.1879.1080" timestamp="1585552020330" />
+    <state x="577" y="317" width="757" height="425" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585552050492">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="577" y="317" width="757" height="425" key="#com.intellij.fileTypes.FileTypeChooser/41.0.1879.1080@41.0.1879.1080" timestamp="1585552050492" />
+    <state x="775" y="427" width="413" height="231" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1585365386664">
+      <screen x="51" y="0" width="1869" height="1080" />
+    </state>
+    <state x="775" y="427" width="413" height="231" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/51.0.1869.1080@51.0.1869.1080" timestamp="1585365386664" />
+    <state x="462" y="119" width="1032" height="849" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor" timestamp="1585365384315">
+      <screen x="51" y="0" width="1869" height="1080" />
+    </state>
+    <state x="462" y="119" width="1032" height="849" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/51.0.1869.1080@51.0.1869.1080" timestamp="1585365384315" />
+    <state x="488" y="443" width="943" height="174" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1585578424291">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="488" y="443" width="943" height="174" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/41.0.1879.1080@41.0.1879.1080" timestamp="1585578424291" />
+    <state x="658" y="390" width="604" height="280" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1585578427286">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="658" y="390" width="604" height="280" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/41.0.1879.1080@41.0.1879.1080" timestamp="1585578427286" />
+    <state x="0" y="0" width="725" height="1080" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1585540657098">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="0" y="0" width="725" height="1080" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/41.0.1879.1080@41.0.1879.1080" timestamp="1585540657098" />
+    <state x="899" y="271" width="615" height="598" key="DetectedRootsChooserDialog" timestamp="1585379743389">
+      <screen x="51" y="0" width="1869" height="1080" />
+    </state>
+    <state x="899" y="271" width="615" height="598" key="DetectedRootsChooserDialog/51.0.1869.1080@51.0.1869.1080" timestamp="1585379743389" />
+    <state x="951" y="325" key="FileChooserDialogImpl" timestamp="1585395944779">
+      <screen x="51" y="0" width="1869" height="1080" />
+    </state>
+    <state x="951" y="325" key="FileChooserDialogImpl/51.0.1869.1080@51.0.1869.1080" timestamp="1585395944779" />
+    <state x="404" y="50" width="1082" height="731" key="SettingsEditor" timestamp="1585552313273">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="404" y="50" width="1082" height="731" key="SettingsEditor/41.0.1879.1080@41.0.1879.1080" timestamp="1585552313273" />
+    <state x="546" y="117" width="1329" height="906" key="SettingsEditor/51.0.1869.1080@51.0.1869.1080" timestamp="1585395947276" />
+    <state x="510" y="329" key="com.intellij.ide.util.TipDialog" timestamp="1585534904836">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="510" y="329" key="com.intellij.ide.util.TipDialog/41.0.1879.1080@41.0.1879.1080" timestamp="1585534904836" />
+    <state x="518" y="329" key="com.intellij.ide.util.TipDialog/51.0.1869.1080@51.0.1869.1080" timestamp="1585407725222" />
+    <state x="569" y="28" width="823" height="1029" key="find.popup" timestamp="1585539544033">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="569" y="28" width="823" height="1029" key="find.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585539544033" />
+    <state x="576" y="28" width="818" height="1029" key="find.popup/51.0.1869.1080@51.0.1869.1080" timestamp="1585408290750" />
+    <state width="600" height="424" key="javadoc.popup" timestamp="1585541960915">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state width="578" height="500" key="javadoc.popup.new" timestamp="1585581850980">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state width="578" height="500" key="javadoc.popup.new/41.0.1879.1080@41.0.1879.1080" timestamp="1585581850980" />
+    <state width="600" height="424" key="javadoc.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585541960915" />
+    <state x="684" y="383" width="731" height="324" key="org.intellij.images.editor.actions.BackgroundImageDialog" timestamp="1585376486729">
+      <screen x="51" y="0" width="1869" height="1080" />
+    </state>
+    <state x="684" y="383" width="731" height="324" key="org.intellij.images.editor.actions.BackgroundImageDialog/51.0.1869.1080@51.0.1869.1080" timestamp="1585376486729" />
+    <state x="616" y="239" width="676" height="685" key="run.anything.popup" timestamp="1585541897857">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="616" y="239" width="676" height="685" key="run.anything.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585541897857" />
+    <state x="623" y="239" width="672" height="685" key="run.anything.popup/51.0.1869.1080@51.0.1869.1080" timestamp="1585365997572" />
+    <state x="614" y="218" width="716" height="687" key="search.everywhere.popup" timestamp="1585581198245">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="614" y="218" width="716" height="687" key="search.everywhere.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585581198245" />
+    <state x="621" y="218" width="712" height="687" key="search.everywhere.popup/51.0.1869.1080@51.0.1869.1080" timestamp="1585408275943" />
+  </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/pers/cheng/dij/AppTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/exp/SetBreakPointsException.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/exp/SetBreakPointException.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/exp/DisplayVariablesException.java" />
-    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/lang/AutoCloseable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="50" column="17" selection-start-line="50" selection-start-column="17" selection-end-line="50" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/jdk.jdi/com/sun/jdi/ObjectReference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="60" column="17" selection-start-line="60" selection-start-column="17" selection-end-line="60" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/StackFrameUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
-          <folding>
-            <element signature="e#1109#1110#0" expanded="true" />
-            <element signature="e#1170#1171#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Documents/repos/dij/src/main/java/pers/cheng/dij/core/JDIDebuggee.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
-          <folding>
-            <element signature="e#1180#1181#0" expanded="true" />
-            <element signature="e#1212#1213#0" expanded="true" />
-            <element signature="e#1263#1264#0" expanded="true" />
-            <element signature="e#1305#1306#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugSession.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/runner/JDIDebugger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="35" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/JDIExceptionReference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IBreakpoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/jdk.jdi/com/sun/jdi/request/EventRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1566">
-          <caret line="157" column="9" selection-start-line="157" selection-start-column="9" selection-end-line="157" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/util/Objects.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="75" column="26" selection-start-line="75" selection-start-column="26" selection-end-line="75" selection-end-column="26" />
-          <folding>
-            <element signature="e#3483#3484#0" expanded="true" />
-            <element signature="e#3544#3545#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.9/commons-lang3-3.9.jar!/org/apache/commons/lang3/StringUtils.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
-          <folding>
-            <element signature="e#906#907#0" expanded="true" />
-            <element signature="e#959#960#0" expanded="true" />
-            <element signature="e#1016#1017#0" expanded="true" />
-            <element signature="e#1051#1052#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1548">
-          <caret line="112" column="12" selection-start-line="112" selection-start-column="12" selection-end-line="112" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="7" selection-start-column="7" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/runner/JDIDebuggee.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="40" column="56" selection-start-line="40" selection-start-column="56" selection-end-line="40" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSettings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="94" column="67" selection-start-line="94" selection-start-column="67" selection-end-line="94" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/config.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#266#267#0" expanded="true" />
-            <element signature="e#294#295#0" expanded="true" />
-            <element signature="e#335#336#0" expanded="true" />
-            <element signature="e#369#370#0" expanded="true" />
-            <element signature="e#406#407#0" expanded="true" />
-            <element signature="e#437#438#0" expanded="true" />
-            <element signature="e#487#488#0" expanded="true" />
-            <element signature="e#527#528#0" expanded="true" />
-            <element signature="e#566#567#0" expanded="true" />
-            <element signature="e#601#602#0" expanded="true" />
-            <element signature="e#658#659#0" expanded="true" />
-            <element signature="e#706#707#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IEvaluatableBreakpoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="23" column="49" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/Breakpoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="211" column="66" selection-start-line="211" selection-start-column="66" selection-end-line="211" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#9259#9260#0" expanded="true" />
-            <element signature="e#9302#9303#0" expanded="true" />
-            <element signature="e#9361#9362#0" expanded="true" />
-            <element signature="e#9404#9405#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EvaluatableBreakpoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="7" column="41" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1374#1375#0" expanded="true" />
-            <element signature="e#1435#1436#0" expanded="true" />
-            <element signature="e#1500#1501#0" expanded="true" />
-            <element signature="e#1562#1563#0" expanded="true" />
-            <element signature="e#1796#1797#0" expanded="true" />
-            <element signature="e#1848#1849#0" expanded="true" />
-            <element signature="e#2089#2090#0" expanded="true" />
-            <element signature="e#2138#2139#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IEventHub.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EventHub.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/Configuration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/lang/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2527">
-          <caret line="156" column="19" selection-start-line="156" selection-start-column="19" selection-end-line="156" selection-end-column="19" />
-          <folding>
-            <element signature="e#6874#6875#0" expanded="true" />
-            <element signature="e#6910#6911#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.rmi/java/rmi/activation/ActivationDesc.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5244">
-          <caret line="310" column="26" selection-start-line="310" selection-start-column="26" selection-end-line="310" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.rmi/java/rmi/activation/ActivationGroupID.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1463">
-          <caret line="106" column="20" selection-start-line="106" selection-start-column="20" selection-end-line="106" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/io/reactivex/rxjava2/rxjava/2.2.18/rxjava-2.2.18-sources.jar!/io/reactivex/Observable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158916">
-          <caret line="8418" column="31" selection-start-line="8418" selection-start-column="31" selection-end-line="8418" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSession.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="76" column="40" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2043#2044#0" expanded="true" />
-            <element signature="e#2070#2071#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>dij</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.42699116" />
-                <option value="0.6" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>Maven: junit:junit:4.11</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.42699116" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ScopeChooserConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.42699116" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>
