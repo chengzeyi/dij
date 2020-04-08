@@ -6,25 +6,25 @@ import com.sun.jdi.VirtualMachine;
 import java.util.List;
 
 public interface IDebugSession {
-    public void start();
+    void start();
 
-    public void suspend();
+    void suspend();
 
-    public void resume();
+    void resume();
 
-    public void detach();
+    void detach();
 
-    public void terminate();
+    void terminate();
 
-    public IBreakpoint createBreakpoint(String className, int lineNumber, int hitCount, String condition, String logMessage);
+    IBreakpoint createBreakpoint(String className, int lineNumber, int hitCount, String condition, String logMessage);
 
-    public void setExceptionBreakpoints(boolean notifyCaught, boolean notifyUncaught);
+    void setExceptionBreakpoints(boolean notifyCaught, boolean notifyUncaught);
 
-    public Process getProcess();
+    Process getProcess();
 
-    public List<ThreadReference> getAllThreads();
+    List<ThreadReference> getAllThreads();
 
-    public IEventHub getEventHub();
+    IEventHub getEventHub();
 
-    public VirtualMachine getVM();
+    VirtualMachine getVM();
 }

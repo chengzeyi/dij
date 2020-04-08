@@ -21,28 +21,28 @@ public class EventHub implements IEventHub {
 
     @Override
     public Observable<DebugEvent> getBreakpointEvents() {
-        return this.getEvents().filter(debugEvent -> debugEvent.getEvent() instanceof BreakpointEvent);
+        return getEvents().filter(debugEvent -> debugEvent.getEvent() instanceof BreakpointEvent);
     }
 
     @Override
     public Observable<DebugEvent> getThreadEvents() {
-        return this.getEvents().filter(debugEvent -> debugEvent.getEvent() instanceof ThreadStartEvent ||
+        return getEvents().filter(debugEvent -> debugEvent.getEvent() instanceof ThreadStartEvent ||
                  debugEvent.getEvent() instanceof ThreadStartEvent);
     }
 
     @Override
     public Observable<DebugEvent> getExceptionEvents() {
-        return this.getEvents().filter(debugEvent -> debugEvent.getEvent() instanceof ExceptionEvent);
+        return getEvents().filter(debugEvent -> debugEvent.getEvent() instanceof ExceptionEvent);
     }
 
     @Override
     public Observable<DebugEvent> getStepEvents() {
-        return this.getEvents().filter(debugEvent -> debugEvent.getEvent() instanceof StepEvent);
+        return getEvents().filter(debugEvent -> debugEvent.getEvent() instanceof StepEvent);
     }
 
     @Override
     public Observable<DebugEvent> getVMEvents() {
-        return this.getEvents().filter(debugEvent -> debugEvent.getEvent() instanceof VMStartEvent ||
+        return getEvents().filter(debugEvent -> debugEvent.getEvent() instanceof VMStartEvent ||
                 debugEvent.getEvent() instanceof VMDisconnectEvent ||
                 debugEvent.getEvent() instanceof VMDeathEvent);
     }

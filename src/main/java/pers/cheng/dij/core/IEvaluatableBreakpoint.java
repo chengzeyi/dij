@@ -1,25 +1,25 @@
 package pers.cheng.dij.core;
 
 public interface IEvaluatableBreakpoint {
-    public boolean containsEvaluatableExpression();
+    boolean containsEvaluatableExpression();
 
-    public boolean containsConditionalExpression();
+    boolean containsConditionalExpression();
 
-    public boolean containsLogpointExpression();
+    boolean containsLogpointExpression();
 
-    public String getCondition();
+    String getCondition();
 
-    public void setCondition(String condition);
+    void setCondition(String condition);
 
-    public String getLogMessage();
+    String getLogMessage();
 
-    public void setLogMessage(String logMessage);
+    void setLogMessage(String logMessage);
 
-    public void setCompiledConditionalExpression(Object compiledExpression);
+    void setCompiledConditionalExpression(Object compiledExpression);
 
-    public Object getCompiledConditionalExpression();
+    Object getCompiledConditionalExpression();
 
-    public void setCompiledLogpointExpression(Object compiledLogpointExpression);
+    void setCompiledLogpointExpression(Object compiledLogpointExpression);
 
-    public Object getCompiledLogpointExpression();
+    Object getCompiledLogpointExpression();
 }

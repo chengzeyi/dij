@@ -2,19 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76adaabd-e4fe-4412-adfa-07f8b6337530" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dij.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.vim/coc-settings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/ValueUtility.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ArrayWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ClassObjectWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ObjectWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ObjectWrapperBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/StringWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config.properties" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EventHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EventHub.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IBreakpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IBreakpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IEvaluatableBreakpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IEvaluatableBreakpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/ValueUtility.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ArrayWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ClassObjectWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ObjectWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ObjectWrapperBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/StringWrapper.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +80,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="pers.cheng.dij.adapter" />
       <recent name="pers.cheng.dij.core" />
     </key>
   </component>
@@ -101,7 +103,7 @@
       <module name="dij" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pers.cheng.dij.core.object.*" />
+          <option name="PATTERN" value="pers.cheng.dij.adapter.primitive.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -171,7 +173,9 @@
       <workItem from="1585407268704" duration="5082000" />
       <workItem from="1585477853163" duration="3287000" />
       <workItem from="1585534411855" duration="361000" />
-      <workItem from="1585534904066" duration="31276000" />
+      <workItem from="1585534904066" duration="59716000" />
+      <workItem from="1585801302348" duration="712000" />
+      <workItem from="1585812388914" duration="61571000" />
     </task>
     <servers />
   </component>
@@ -223,6 +227,10 @@
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
     <state x="577" y="317" width="757" height="425" key="#com.intellij.fileTypes.FileTypeChooser/41.0.1879.1080@41.0.1879.1080" timestamp="1585552050492" />
+    <state x="785" y="240" width="382" height="605" key="#com.intellij.ide.util.MemberChooser" timestamp="1585823122504">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="785" y="240" width="382" height="605" key="#com.intellij.ide.util.MemberChooser/41.0.1879.1080@41.0.1879.1080" timestamp="1585823122504" />
     <state x="775" y="427" width="413" height="231" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1585365386664">
       <screen x="51" y="0" width="1869" height="1080" />
     </state>
@@ -231,18 +239,26 @@
       <screen x="51" y="0" width="1869" height="1080" />
     </state>
     <state x="462" y="119" width="1032" height="849" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/51.0.1869.1080@51.0.1869.1080" timestamp="1585365384315" />
-    <state x="488" y="443" width="943" height="174" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1585578424291">
+    <state x="488" y="443" width="1099" height="174" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1585814014789">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
-    <state x="488" y="443" width="943" height="174" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/41.0.1879.1080@41.0.1879.1080" timestamp="1585578424291" />
-    <state x="658" y="390" width="604" height="280" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1585578427286">
+    <state x="488" y="443" width="1099" height="174" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/41.0.1879.1080@41.0.1879.1080" timestamp="1585814014789" />
+    <state x="678" y="374" width="604" height="349" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1585842560158">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
-    <state x="658" y="390" width="604" height="280" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/41.0.1879.1080@41.0.1879.1080" timestamp="1585578427286" />
+    <state x="678" y="374" width="604" height="349" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/41.0.1879.1080@41.0.1879.1080" timestamp="1585842560158" />
+    <state x="658" y="390" width="604" height="280" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1585814019073">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="658" y="390" width="604" height="280" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/41.0.1879.1080@41.0.1879.1080" timestamp="1585814019073" />
     <state x="0" y="0" width="725" height="1080" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1585540657098">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
     <state x="0" y="0" width="725" height="1080" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/41.0.1879.1080@41.0.1879.1080" timestamp="1585540657098" />
+    <state x="710" y="284" width="532" height="517" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1585801994617">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="710" y="284" width="532" height="517" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/41.0.1879.1080@41.0.1879.1080" timestamp="1585801994617" />
     <state x="899" y="271" width="615" height="598" key="DetectedRootsChooserDialog" timestamp="1585379743389">
       <screen x="51" y="0" width="1869" height="1080" />
     </state>
@@ -256,10 +272,10 @@
     </state>
     <state x="404" y="50" width="1082" height="731" key="SettingsEditor/41.0.1879.1080@41.0.1879.1080" timestamp="1585552313273" />
     <state x="546" y="117" width="1329" height="906" key="SettingsEditor/51.0.1869.1080@51.0.1869.1080" timestamp="1585395947276" />
-    <state x="510" y="329" key="com.intellij.ide.util.TipDialog" timestamp="1585534904836">
+    <state x="510" y="329" key="com.intellij.ide.util.TipDialog" timestamp="1585812934170">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
-    <state x="510" y="329" key="com.intellij.ide.util.TipDialog/41.0.1879.1080@41.0.1879.1080" timestamp="1585534904836" />
+    <state x="510" y="329" key="com.intellij.ide.util.TipDialog/41.0.1879.1080@41.0.1879.1080" timestamp="1585812934170" />
     <state x="518" y="329" key="com.intellij.ide.util.TipDialog/51.0.1869.1080@51.0.1869.1080" timestamp="1585407725222" />
     <state x="569" y="28" width="823" height="1029" key="find.popup" timestamp="1585539544033">
       <screen x="41" y="0" width="1879" height="1080" />
@@ -269,24 +285,28 @@
     <state width="600" height="424" key="javadoc.popup" timestamp="1585541960915">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
-    <state width="578" height="500" key="javadoc.popup.new" timestamp="1585581850980">
+    <state width="557" height="226" key="javadoc.popup.new" timestamp="1585923296678">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
-    <state width="578" height="500" key="javadoc.popup.new/41.0.1879.1080@41.0.1879.1080" timestamp="1585581850980" />
+    <state width="557" height="226" key="javadoc.popup.new/41.0.1879.1080@41.0.1879.1080" timestamp="1585923296678" />
     <state width="600" height="424" key="javadoc.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585541960915" />
     <state x="684" y="383" width="731" height="324" key="org.intellij.images.editor.actions.BackgroundImageDialog" timestamp="1585376486729">
       <screen x="51" y="0" width="1869" height="1080" />
     </state>
     <state x="684" y="383" width="731" height="324" key="org.intellij.images.editor.actions.BackgroundImageDialog/51.0.1869.1080@51.0.1869.1080" timestamp="1585376486729" />
+    <state x="669" y="126" width="573" height="808" key="refactoring.ChangeSignatureDialog" timestamp="1585840536614">
+      <screen x="41" y="0" width="1879" height="1080" />
+    </state>
+    <state x="669" y="126" width="573" height="808" key="refactoring.ChangeSignatureDialog/41.0.1879.1080@41.0.1879.1080" timestamp="1585840536614" />
     <state x="616" y="239" width="676" height="685" key="run.anything.popup" timestamp="1585541897857">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
     <state x="616" y="239" width="676" height="685" key="run.anything.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585541897857" />
     <state x="623" y="239" width="672" height="685" key="run.anything.popup/51.0.1869.1080@51.0.1869.1080" timestamp="1585365997572" />
-    <state x="614" y="218" width="716" height="687" key="search.everywhere.popup" timestamp="1585581198245">
+    <state x="614" y="218" width="716" height="687" key="search.everywhere.popup" timestamp="1585890693144">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
-    <state x="614" y="218" width="716" height="687" key="search.everywhere.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585581198245" />
+    <state x="614" y="218" width="716" height="687" key="search.everywhere.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585890693144" />
     <state x="621" y="218" width="712" height="687" key="search.everywhere.popup/51.0.1869.1080@51.0.1869.1080" timestamp="1585408275943" />
   </component>
   <component name="antWorkspaceConfiguration">

@@ -1,9 +1,9 @@
-package pers.cheng.dij.core.object;
+package pers.cheng.dij.wrapper.object;
 
 import com.sun.jdi.StringReference;
 
 public class StringWrapper extends ObjectWrapper {
-    StringWrapper(StringReference objReference) {
+    public StringWrapper(StringReference objReference) {
         super(objReference);
     }
 

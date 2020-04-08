@@ -1,4 +1,4 @@
-package pers.cheng.dij.core.object;
+package pers.cheng.dij.wrapper.object;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import com.sun.jdi.Value;
 import pers.cheng.dij.core.DebugException;
 
 public class ArrayWrapper extends ObjectWrapper {
-    ArrayWrapper(ArrayReference objReference) {
+    public ArrayWrapper(ArrayReference objReference) {
         super(objReference);
     }
 
@@ -37,10 +37,10 @@ public class ArrayWrapper extends ObjectWrapper {
         } catch (InvalidTypeException e) {
             throw new DebugException(
                     String.format("The type %s of value is not campatible with the declared type of the array type %s",
-                            value.type().name(), ((ArrayReference) objReference).referenceType().name()));
+                            value.type().name(), objReference.referenceType().name()));
         } catch (ClassNotLoadedException e) {
             throw new DebugException(String.format("The array component type of array type %s has not been loaded.",
-                    ((ArrayReference) objReference).referenceType().name()), e);
+                    objReference.referenceType().name()), e);
         } catch (VMCannotBeModifiedException e) {
             handleVMCannotBeModifiedException();
         }

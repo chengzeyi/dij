@@ -6,7 +6,7 @@ import io.reactivex.disposables.Disposable;
 import java.util.List;
 
 public interface IDebugResource extends AutoCloseable {
-    public List<EventRequest> getRequests();
+    List<EventRequest> getRequests();
 
-    public List<Disposable> getSubscriptions();
+    List<Disposable> getSubscriptions();
 }

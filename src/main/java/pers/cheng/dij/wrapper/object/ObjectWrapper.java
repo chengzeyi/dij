@@ -1,16 +1,17 @@
-package pers.cheng.dij.core.object;
+package pers.cheng.dij.wrapper.object;
 
 import com.sun.jdi.*;
+import pers.cheng.dij.wrapper.IValueWrapper;
 import pers.cheng.dij.core.Configuration;
 import pers.cheng.dij.core.DebugException;
 
 import java.util.logging.Logger;
 
-public class ObjectWrapper {
+public class ObjectWrapper implements IValueWrapper {
     protected static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
     protected ObjectReference objReference;
 
-    ObjectWrapper(ObjectReference objReference) {
+    public ObjectWrapper(ObjectReference objReference) {
         this.objReference = objReference;
     }
 
@@ -76,20 +77,13 @@ public class ObjectWrapper {
         }
     }
 
-    public ThreadReference getThreadReference() throws DebugException {
-        try {
-            return objReference.owningThread();
-        } catch (IncompatibleThreadStateException e) {
-            throw new DebugException(String.format("The owning thread of %s is not suspended.",
-                    objReference.toString()), e);
-        } catch (UnsupportedOperationException e) {
-            throw new DebugException(String.format("The target vm of %s does not support getting ThreadReference.",
-                    objReference.toString()), e);
-        }
-    }
-
     protected void handleVMCannotBeModifiedException() {
         LOGGER.warning("The target vm cannot be modified.");
+    }
+
+    @Override
+    public Type getType() {
+        return objReference.type();
     }
 
     @Override
