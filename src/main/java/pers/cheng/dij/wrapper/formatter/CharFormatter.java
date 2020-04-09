@@ -29,7 +29,7 @@ public class CharFormatter implements IValueFormatter {
         if (value.length() == 3
                 && value.startsWith("'")
                 && value.endsWith("'")) {
-            return type.virtualMachine().mirrorOf(value.charAt(1));
+            return vm.mirrorOf(value.charAt(1));
         }
         return vm.mirrorOf(value.charAt(0));
     }

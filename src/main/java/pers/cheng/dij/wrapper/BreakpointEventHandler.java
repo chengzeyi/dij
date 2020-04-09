@@ -46,11 +46,11 @@ public class BreakpointEventHandler {
             // The first to run the virtual machine, need to get context information.
             breakpointContext = getBreakpointContext(breakpointEvent);
         } else if (status == BpHandlerStatus.CONTEXT_BINDED) {
-
+            // Try different values using context information.
         } else if (status == BpHandlerStatus.CONTEXT_BIND_FAILED) {
-
+            // Failed to get breakpoint context, do nothing.
         } else {
-            // stopped.
+            // Stopped.
             // Just do nothing.
         }
     }

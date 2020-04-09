@@ -3,19 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="76adaabd-e4fe-4412-adfa-07f8b6337530" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSettings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EventHub.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/EventHub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IBreakpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IBreakpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IDebugSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IEvaluatableBreakpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/IEvaluatableBreakpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/ValueUtility.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ArrayWrapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ClassObjectWrapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ObjectWrapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/ObjectWrapperBuilder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/object/StringWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BreakpointContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BreakpointContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BreakpointEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BreakpointEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/CharFormatter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/CharFormatter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +165,7 @@
       <workItem from="1585534411855" duration="361000" />
       <workItem from="1585534904066" duration="59716000" />
       <workItem from="1585801302348" duration="712000" />
-      <workItem from="1585812388914" duration="61571000" />
+      <workItem from="1585812388914" duration="63982000" />
     </task>
     <servers />
   </component>
