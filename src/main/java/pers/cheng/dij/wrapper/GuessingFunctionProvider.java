@@ -131,4 +131,8 @@ public class GuessingFunctionProvider{
         ret.add(true);
         return ret;
     }
+
+    public static List<Object> guessingAnything(Object object) {
+        return new ArrayList<>();
+    }
 }

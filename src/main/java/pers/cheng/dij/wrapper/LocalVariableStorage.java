@@ -1,6 +1,7 @@
 package pers.cheng.dij.wrapper;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -22,7 +23,7 @@ import pers.cheng.dij.wrapper.formatter.TypeIdentifier;
 
 public class LocalVariableStorage {
     private static Function<Object, List<Object>> DEFAULT_GUESSING_FUNCTION = null;
-    private static Map<String, Function<Object, List<Object>>> CLASS_NAME2_GUESSING_FUNCTION = null;
+    private static Map<String, Function<Object, List<Object>>> CLASS_NAME_2_GUESSING_FUNCTION = null;
 
     private boolean isPrimitiveType = false;
     private Class<?> variableClass = null;
@@ -31,7 +32,32 @@ public class LocalVariableStorage {
     private List<Object> guessedValues = null;
 
     static {
+        DEFAULT_GUESSING_FUNCTION = GuessingFunctionProvider::guessingAnything;
 
+        CLASS_NAME_2_GUESSING_FUNCTION.put(Byte.class.getName(), GuessingFunctionProvider::guessingByte);
+        CLASS_NAME_2_GUESSING_FUNCTION.put(Character.class.getName(), GuessingFunctionProvider::guessingChar);
+        CLASS_NAME_2_GUESSING_FUNCTION.put(Float.class.getName(), GuessingFunctionProvider::guessingFloat);
+        CLASS_NAME_2_GUESSING_FUNCTION.put(Double.class.getName(), GuessingFunctionProvider::guessingDouble);
+        CLASS_NAME_2_GUESSING_FUNCTION.put(Integer.class.getName(), GuessingFunctionProvider::guessingInt);
+        CLASS_NAME_2_GUESSING_FUNCTION.put(Long.class.getName(), GuessingFunctionProvider::guessingLong);
+        CLASS_NAME_2_GUESSING_FUNCTION.put(Short.class.getName(), GuessingFunctionProvider::guessingShort);
+        CLASS_NAME_2_GUESSING_FUNCTION.put(Boolean.class.getName(), GuessingFunctionProvider::guessingBoolean);
+    }
+
+    public Iterator<Object> getIterator() {
+        return guessedValues.iterator();
+    }
+
+    public List<Object> getGuessedValues() {
+        return guessedValues;
+    }
+
+    public int getGuessedValueCount() {
+        return guessedValues.size();
+    }
+
+    public String getVariableName() {
+        return variableName;
     }
 
     public void setInitialValue(LocalVariable localVariable, StackFrame stackFrame) {
@@ -42,7 +68,7 @@ public class LocalVariableStorage {
             return;
         }
 
-        variableName = localVariable.name();
+        setVariableName(localVariable.name());
 
         String signature;
         try {
@@ -97,8 +123,7 @@ public class LocalVariableStorage {
     }
 
     private Function<Object, List<Object>> getGuessingFunction(String className) {
-        Function<Object, List<Object>> guessingFunction = CLASS_NAME2_GUESSING_FUNCTION.get(className);
-        return guessingFunction == null ?
-            DEFAULT_GUESSING_FUNCTION : guessingFunction;
+        Function<Object, List<Object>> guessingFunction = CLASS_NAME_2_GUESSING_FUNCTION.get(className);
+        return guessingFunction == null ? DEFAULT_GUESSING_FUNCTION : guessingFunction;
     }
 }
