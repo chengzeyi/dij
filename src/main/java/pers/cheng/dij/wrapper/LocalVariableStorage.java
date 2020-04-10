@@ -44,6 +44,10 @@ public class LocalVariableStorage {
         CLASS_NAME_2_GUESSING_FUNCTION.put(Boolean.class.getName(), GuessingFunctionProvider::guessingBoolean);
     }
 
+    public String getVariableClassName() {
+        return variableClass.getName();
+    }
+
     public Iterator<Object> getIterator() {
         return guessedValues.iterator();
     }
@@ -68,7 +72,7 @@ public class LocalVariableStorage {
             return;
         }
 
-        setVariableName(localVariable.name());
+        variableName = localVariable.name();
 
         String signature;
         try {

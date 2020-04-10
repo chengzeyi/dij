@@ -17,6 +17,8 @@ public class LocalVariableKVStorage implements Iterator<Object> {
     private Iterator<Object> guessedValueIter = null;
     private int currentIdx = 0;
     private int guessedValueTotal = 0;
+    private String currentVariableClassName = null;
+    private String currentVariableName = null;
 
     public void init(StackFrame stackFrame) {
         variableName2Storage = new HashMap<>();
@@ -52,8 +54,18 @@ public class LocalVariableKVStorage implements Iterator<Object> {
             } else if (guessedValueIter.hasNext()) {
                 return guessedValueIter.next();
             }
-            String variableName = variableNameIter.next();
-            guessedValueIter = variableName2Storage.get(variableName).getIterator();
+            currentVariableName = variableNameIter.next();
+            LocalVariableStorage localVariableStorage = variableName2Storage.get(currentVariableName);
+            currentVariableClassName = localVariableStorage.getVariableClassName();
+            guessedValueIter = localVariableStorage.getIterator();
         }
+    }
+    
+    public String getCurrentVariableClassName() {
+        return currentVariableClassName;
+    }
+
+    public String getCurrentVariableName() {
+        return currentVariableName;
     }
 }

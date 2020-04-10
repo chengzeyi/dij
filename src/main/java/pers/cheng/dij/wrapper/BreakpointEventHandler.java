@@ -57,14 +57,15 @@ public class BreakpointEventHandler {
 
     private BreakpointContext getBreakpointContext(BreakpointEvent breakpointEvent) {
         ThreadReference threadReference = breakpointEvent.thread();
-        BreakpointContext breakpointContext = null;
+        List<StackFrame> stackFrames;
         try {
-            List<StackFrame> stackFrames = threadReference.frames();
-            breakpointContext = new BreakpointContext();
-            breakpointContext.setTopStackFrame(stackFrames.get(0));
+            stackFrames = threadReference.frames();
         } catch (IncompatibleThreadStateException e) {
             status = BpHandlerStatus.CONTEXT_BIND_FAILED;
+            return null;
         }
+        BreakpointContext breakpointContext = new BreakpointContext();
+        breakpointContext.processTopStackFrame(stackFrames.get(0));
         return breakpointContext;
     }
 }
