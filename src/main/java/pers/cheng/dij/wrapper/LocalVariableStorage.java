@@ -1,6 +1,5 @@
 package pers.cheng.dij.wrapper;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +32,6 @@ public class LocalVariableStorage {
 
     static {
 
-    }
-
-    public LocalVariableStorage(Function<Object, List<String>> guessingFunction) {
-        this.guessingFunction = guessingFunction;
     }
 
     public void setInitialValue(LocalVariable localVariable, StackFrame stackFrame) {
@@ -98,7 +93,7 @@ public class LocalVariableStorage {
         }
 
         Function<Object, List<Object>> guessingFunction = getGuessingFunction(variableClass.getName());
-        guessedValues =  guessingFunction.apply(initialValue);
+        guessedValues = guessingFunction.apply(initialValue);
     }
 
     private Function<Object, List<Object>> getGuessingFunction(String className) {
