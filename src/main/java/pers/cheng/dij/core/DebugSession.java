@@ -79,7 +79,9 @@ public class DebugSession implements IDebugSession {
         // When no exception breakpoints are requests are requests, no need to create an empty
         // exception request.
         if (notifyCaught || notifyUncaught) {
-            // TODO: Fix potential bug.
+            // java-debug says that if this method is not called,
+            // there will be a bug.
+            vm.allThreads();
             ExceptionRequest request = manager.createExceptionRequest(null, notifyCaught, notifyUncaught);
             request.setSuspendPolicy(EventRequest.SUSPEND_EVENT_THREAD);
             request.enable();

@@ -2,10 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76adaabd-e4fe-4412-adfa-07f8b6337530" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BreakpointContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BreakpointContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BreakpointEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BreakpointEventHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/CharFormatter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/CharFormatter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/core/DebugSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BpHandlerStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BreakpointContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/BreakpointEventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/CrashInformation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/GuessingFunctionProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/LocalVariableKVStorage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/LocalVariableStorage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/LocalVariableUtility.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/ArrayObjectFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/BooleanFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/CharFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/ClassObjectFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/IFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/ITypeFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/IValueFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/IVariableFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/NullObjectFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/NumericFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/ObjectFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/SimpleTypeFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/StringObjectFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/formatter/TypeIdentifier.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/object/ArrayWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/object/ClassObjectWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/object/ObjectWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/object/StringWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/primitive/PrimitiveWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/variable/Variable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/variable/VariableDetailUtility.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pers/cheng/dij/wrapper/variable/VariableFormatter.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,10 +79,10 @@
   <component name="ProjectId" id="1ZjugLi7EMg9LcapsdyxSNcpxa1" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -166,6 +195,7 @@
       <workItem from="1585534904066" duration="59716000" />
       <workItem from="1585801302348" duration="712000" />
       <workItem from="1585812388914" duration="63982000" />
+      <workItem from="1586683254371" duration="907000" />
     </task>
     <servers />
   </component>
@@ -179,16 +209,14 @@
     </todo-panel>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -207,6 +235,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="555" y="190" width="802" height="680" key="#Vim_Emulation" timestamp="1585552020330">
@@ -275,10 +304,10 @@
     <state width="600" height="424" key="javadoc.popup" timestamp="1585541960915">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
-    <state width="557" height="226" key="javadoc.popup.new" timestamp="1585923296678">
+    <state width="557" height="226" key="javadoc.popup.new" timestamp="1586683477989">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
-    <state width="557" height="226" key="javadoc.popup.new/41.0.1879.1080@41.0.1879.1080" timestamp="1585923296678" />
+    <state width="557" height="226" key="javadoc.popup.new/41.0.1879.1080@41.0.1879.1080" timestamp="1586683477989" />
     <state width="600" height="424" key="javadoc.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585541960915" />
     <state x="684" y="383" width="731" height="324" key="org.intellij.images.editor.actions.BackgroundImageDialog" timestamp="1585376486729">
       <screen x="51" y="0" width="1869" height="1080" />
@@ -293,10 +322,10 @@
     </state>
     <state x="616" y="239" width="676" height="685" key="run.anything.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585541897857" />
     <state x="623" y="239" width="672" height="685" key="run.anything.popup/51.0.1869.1080@51.0.1869.1080" timestamp="1585365997572" />
-    <state x="614" y="218" width="716" height="687" key="search.everywhere.popup" timestamp="1585890693144">
+    <state x="614" y="218" width="716" height="687" key="search.everywhere.popup" timestamp="1586683288165">
       <screen x="41" y="0" width="1879" height="1080" />
     </state>
-    <state x="614" y="218" width="716" height="687" key="search.everywhere.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1585890693144" />
+    <state x="614" y="218" width="716" height="687" key="search.everywhere.popup/41.0.1879.1080@41.0.1879.1080" timestamp="1586683288165" />
     <state x="621" y="218" width="712" height="687" key="search.everywhere.popup/51.0.1869.1080@51.0.1869.1080" timestamp="1585408275943" />
   </component>
   <component name="antWorkspaceConfiguration">
