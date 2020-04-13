@@ -11,16 +11,13 @@ import io.reactivex.Observable;
 import pers.cheng.dij.core.DebugEvent;
 
 public class BreakpointEventHandler {
-    private Observable<DebugEvent> breakpointEvents = null;
-
-    private CrashInformation crashInformation = null;
-
     private BreakpointContext breakpointContext = null;
 
-    private BpHandlerStatus status;
+    private BpHandlerStatus status = BpHandlerStatus.CONTEXT_UNBINDED;
 
-    BreakpointEventHandler(CrashInformation crashInformation) {
-        this.crashInformation = crashInformation;
+    private boolean breakpointHitten = false;
+
+    BreakpointEventHandler() {
         status = BpHandlerStatus.CONTEXT_UNBINDED;
     }
 
@@ -29,6 +26,8 @@ public class BreakpointEventHandler {
     }
 
     public void setBreakpointEvents(Observable<DebugEvent> breakpointEvents) {
+        breakpointHitten = false;
+
         if (status == BpHandlerStatus.UNINITIALIZED) {
             throw new UnsupportedOperationException("This handler has not been initialized.");
         }
@@ -39,6 +38,11 @@ public class BreakpointEventHandler {
     }
 
     private void handleBreakpointEvent(BreakpointEvent breakpointEvent) {
+        if (breakpointHitten) {
+            return;
+        }
+        breakpointHitten = true;
+
         if (status == BpHandlerStatus.UNINITIALIZED) {
             throw new UnsupportedOperationException("This handler has not been initialized.");
         }

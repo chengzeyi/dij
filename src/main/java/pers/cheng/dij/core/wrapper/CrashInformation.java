@@ -9,6 +9,10 @@ import java.util.List;
 public class CrashInformation {
     private List<String> crashLines;
 
+    private List<String> stackTrace;
+
+    private String exceptionLine;
+
     public void parseCrashLinesFromFile(String filename) throws IOException {
         crashLines = new ArrayList<>();
 
@@ -23,9 +27,29 @@ public class CrashInformation {
             line = bufferedReader.readLine();
         }
         bufferedReader.close();
+
+        if (crashLines.isEmpty()) {
+            exceptionLine = "";
+        } else {
+            exceptionLine = crashLines.get(0);
+        }
+
+        if (crashLines.size() > 1) {
+            stackTrace = crashLines.subList(1, stackTrace.size());
+        } else {
+            stackTrace = new ArrayList<>();
+        }
     }
 
     public List<String> getCrashLines() {
         return crashLines;
+    }
+
+    public List<String> getStackTrace() {
+        return stackTrace;
+    }
+
+    public String getExceptionLine() {
+        return exceptionLine;
     }
 }

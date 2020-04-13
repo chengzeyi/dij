@@ -1,6 +1,5 @@
 package pers.cheng.dij.core.wrapper;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -8,9 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
-import com.sun.jdi.ArrayReference;
 import com.sun.jdi.ClassNotLoadedException;
 import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.InvalidTypeException;
@@ -28,15 +25,18 @@ import pers.cheng.dij.core.DebugEvent;
 
 public class ExceptionEventHandler {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
-    private Observable<DebugEvent> exceptionEvents = null;
-
+    
     private CrashInformation crashInformation = null;
+
+    private boolean lastReproductionSuccessful = false;
 
     ExceptionEventHandler(CrashInformation crashInformation) {
         this.crashInformation = crashInformation;
     }
 
     public void setExceptionEvents(Observable<DebugEvent> exceptionEvents) {
+        lastReproductionSuccessful = false;
+
         exceptionEvents.subscribe(debugEvent -> {
             ExceptionEvent exceptionEvent = (ExceptionEvent) debugEvent.getEvent();
             handleExceptionEvent(exceptionEvent);
@@ -44,62 +44,45 @@ public class ExceptionEventHandler {
     }
 
     private void handleExceptionEvent(ExceptionEvent exceptionEvent) {
+        if (!lastReproductionSuccessful) {
+            lastReproductionSuccessful = isSuccessfulReproduction(exceptionEvent);
+        }
+    }
 
+    public boolean isLastReproductionSuccessful() {
+        return lastReproductionSuccessful;
     }
 
     private boolean isSuccessfulReproduction(ExceptionEvent exceptionEvent) {
         ObjectReference exceptionReference = exceptionEvent.exception();
-        Method getStackTraceMethod = null;
+        Method toStringMethod = null;
         for (Method method : exceptionReference.referenceType().allMethods()) {
-            if ("getStackTrace".equals(method.name())) {
-                getStackTraceMethod = method;
+            if ("toString".equals(method.name()) && "()Ljava/lang/String;".equals(method.signature())) {
+                toStringMethod = method;
                 break;
             }
         }
-        if (getStackTraceMethod == null) {
+        if (toStringMethod == null) {
+            LOGGER.log(Level.SEVERE, String
+                    .format("Failed to get toString() method from the reference type %s.",
+                        exceptionReference.referenceType().name()));
             return false;
         }
 
+        String exceptionString;
         ThreadReference thread = exceptionEvent.thread();
-        Value returnValue;
         try {
-            returnValue = exceptionReference.invokeMethod(thread, getStackTraceMethod, Collections.emptyList(),
+            Value returnValue = exceptionReference.invokeMethod(thread, toStringMethod, Collections.emptyList(),
                     ObjectReference.INVOKE_SINGLE_THREADED);
+            exceptionString = ((StringReference) returnValue).value();
         } catch (InvalidTypeException | ClassNotLoadedException | IncompatibleThreadStateException
                 | InvocationException e) {
-            LOGGER.log(Level.SEVERE, String.format("Failed to get the return value of the method Exception.toString(): %s.", e.toString()));
+            LOGGER.log(Level.SEVERE, String
+                    .format("Failed to get the return value of the method Exception.toString(): %s.", e.toString(), e));
             return false;
         }
-        ArrayReference jdiStackTraceElementArray = (ArrayReference) returnValue;
-        List<Value> jdiStackTraceElements = jdiStackTraceElementArray.getValues();
-        List<String> stackTrace = jdiStackTraceElements.stream().map(jdiStackTraceElementValue -> {
-            ObjectReference jdiStackTraceElementReference = (ObjectReference) jdiStackTraceElementValue;
-            Method toStringMethod = null;
-            for (Method method : jdiStackTraceElementReference.referenceType().allMethods()) {
-                if ("toString".equals(method.name())) {
-                    toStringMethod = method;
-                    break;
-                }
-            }
-            if (toStringMethod == null) {
-                return null;
-            }
-            Value retValue;
-            try {
-                retValue = jdiStackTraceElementReference.invokeMethod(thread, toStringMethod, Collections.emptyList(),
-                        ObjectReference.INVOKE_SINGLE_THREADED);
-            } catch (InvalidTypeException | ClassNotLoadedException | IncompatibleThreadStateException
-                    | InvocationException e) {
-                LOGGER.log(Level.SEVERE, String.format("Failed to get the return value of the method StackTraceElement.toString(): %s.", e.toString()));
-                return null;
-            }
-            StringReference jdiStackTraceElementToStringReference = (StringReference) retValue;
-            String jdiStackTraceElementToString = jdiStackTraceElementToStringReference.value();
-            return jdiStackTraceElementToString;
-        }).filter(Objects::nonNull).collect(Collectors.toList());
 
-        List<String> crashLines = crashInformation.getCrashLines();
-        //TODO: Compare similarity.
-        return false;
+        String exceptionLine = crashInformation.getExceptionLine();
+        return exceptionString.equals(exceptionLine);
     }
 }
