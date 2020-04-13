@@ -2,11 +2,14 @@ package pers.cheng.dij.core.wrapper;
 
 import java.util.List;
 
+import com.sun.jdi.AbsentInformationException;
 import com.sun.jdi.ClassNotLoadedException;
 import com.sun.jdi.IncompatibleThreadStateException;
+import com.sun.jdi.InvalidTypeException;
 import com.sun.jdi.LocalVariable;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.ThreadReference;
+import com.sun.jdi.Value;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.BreakpointEvent;
 
@@ -72,7 +75,18 @@ public class BreakpointEventHandler {
                 Object guessedLocalVariableValue = breakpointContext.nextGuessedLocalVariableValue();
                 String guessedLocalVariableClassName = breakpointContext.getCurrentGuessedVariableClassName();
                 String guessedLocalVariableName = breakpointContext.getCurrentGuessedVariableName();
-
+                ThreadReference threadReference = breakpointEvent.thread();
+                List<StackFrame> stackFrames = null;
+                try {
+                    stackFrames = threadReference.frames();
+                } catch (IncompatibleThreadStateException e) {
+                    // Cannot continue to change the value.
+                }
+                if (stackFrames != null) {
+                    StackFrame topStackFrame = stackFrames.get(0);
+                    changeLocalVariableValue(topStackFrame, guessedLocalVariableValue, guessedLocalVariableClassName,
+                            guessedLocalVariableName);
+                }
             } else {
                 status = BpHandlerStatus.STOPPED;
             }
@@ -100,11 +114,14 @@ public class BreakpointEventHandler {
         return breakpointContext;
     }
 
-    private void changeLocalVariableValue(StackFrame stackFrame,
-                Object guessedLocalVariableValue,
-                String guessedLocalVariableClassName,
-                String guessedLocalVariableName) {
-        List<LocalVariable> localVariables = stackFrame.visibleVariables();
+    private void changeLocalVariableValue(StackFrame stackFrame, Object guessedLocalVariableValue,
+            String guessedLocalVariableClassName, String guessedLocalVariableName) {
+        List<LocalVariable> localVariables;
+        try {
+            localVariables = stackFrame.visibleVariables();
+        } catch (AbsentInformationException e) {
+            return;
+        }
         for (LocalVariable localVariable : localVariables) {
             if (localVariable.name().equals(guessedLocalVariableName)) {
                 String signature;
@@ -129,48 +146,53 @@ public class BreakpointEventHandler {
                         continue;
                 }
                 VirtualMachine virtualMachine = stackFrame.virtualMachine();
-                if (signature0 == TypeIdentifier.BYTE) {
-                    if (guessedLocalVariableClassName.equals(Byte.class.getName())) {
-                        Value newValue = virtualMachine.mirrorOf((byte) guessedLocalVariableValue);
-                        stackFrame.setValue(localVariable, newValue);
+                try {
+                    if (signature0 == TypeIdentifier.BYTE) {
+                        if (guessedLocalVariableClassName.equals(Byte.class.getName())) {
+                            Value newValue = virtualMachine.mirrorOf((byte) guessedLocalVariableValue);
+                            stackFrame.setValue(localVariable, newValue);
+                        }
+                    } else if (signature0 == TypeIdentifier.CHAR) {
+                        if (guessedLocalVariableClassName.equals(Character.class.getName())) {
+                            Value newValue = virtualMachine.mirrorOf((char) guessedLocalVariableValue);
+                            stackFrame.setValue(localVariable, newValue);
+                        }
+                    } else if (signature0 == TypeIdentifier.FLOAT) {
+                        if (guessedLocalVariableClassName.equals(Float.class.getName())) {
+                            Value newValue = virtualMachine.mirrorOf((float) guessedLocalVariableValue);
+                            stackFrame.setValue(localVariable, newValue);
+                        }
+                    } else if (signature0 == TypeIdentifier.DOUBLE) {
+                        if (guessedLocalVariableClassName.equals(Double.class.getName())) {
+                            Value newValue = virtualMachine.mirrorOf((double) guessedLocalVariableValue);
+                            stackFrame.setValue(localVariable, newValue);
+                        }
+                    } else if (signature0 == TypeIdentifier.INT) {
+                        if (guessedLocalVariableClassName.equals(Integer.class.getName())) {
+                            Value newValue = virtualMachine.mirrorOf((int) guessedLocalVariableValue);
+                            stackFrame.setValue(localVariable, newValue);
+                        }
+                    } else if (signature0 == TypeIdentifier.LONG) {
+                        if (guessedLocalVariableClassName.equals(Long.class.getName())) {
+                            Value newValue = virtualMachine.mirrorOf((long) guessedLocalVariableValue);
+                            stackFrame.setValue(localVariable, newValue);
+                        }
+                    } else if (signature0 == TypeIdentifier.SHORT) {
+                        if (guessedLocalVariableClassName.equals(Short.class.getName())) {
+                            Value newValue = virtualMachine.mirrorOf((short) guessedLocalVariableValue);
+                            stackFrame.setValue(localVariable, newValue);
+                        }
+                    } else if (signature0 == TypeIdentifier.BOOLEAN) {
+                        if (guessedLocalVariableClassName.equals(Boolean.class.getName())) {
+                            Value newValue = virtualMachine.mirrorOf((boolean) guessedLocalVariableValue);
+                            stackFrame.setValue(localVariable, newValue);
+                        }
+                    } else {
+                        // This can never happen.
                     }
-                } else if (signature0 == TypeIdentifier.CHAR) {
-                    if (guessedLocalVariableClassName.equals(Character.class.getName())) {
-                        Value newValue = virtualMachine.mirrorOf((char) guessedLocalVariableValue);
-                        stackFrame.setValue(localVariable, newValue);
-                    }
-                } else if (signature0 == TypeIdentifier.FLOAT) {
-                    if (guessedLocalVariableClassName.equals(Float.class.getName())) {
-                        Value newValue = virtualMachine.mirrorOf((float) guessedLocalVariableValue);
-                        stackFrame.setValue(localVariable, newValue);
-                    }
-                } else if (signature0 == TypeIdentifier.DOUBLE) {
-                    if (guessedLocalVariableClassName.equals(Double.class.getName())) {
-                        Value newValue = virtualMachine.mirrorOf((double) guessedLocalVariableValue);
-                        stackFrame.setValue(localVariable, newValue);
-                    }
-                } else if (signature0 == TypeIdentifier.INT) {
-                    if (guessedLocalVariableClassName.equals(Integer.class.getName())) {
-                        Value newValue = virtualMachine.mirrorOf((int) guessedLocalVariableValue);
-                        stackFrame.setValue(localVariable, newValue);
-                    }
-                } else if (signature0 == TypeIdentifier.LONG) {
-                    if (guessedLocalVariableClassName.equals(Long.class.getName())) {
-                        Value newValue = virtualMachine.mirrorOf((long) guessedLocalVariableValue);
-                        stackFrame.setValue(localVariable, newValue);
-                    }
-                } else if (signature0 == TypeIdentifier.SHORT) {
-                    if (guessedLocalVariableClassName.equals(Short.class.getName())) {
-                        Value newValue = virtualMachine.mirrorOf((short) guessedLocalVariableValue);
-                        stackFrame.setValue(localVariable, newValue);
-                    }
-                } else if (signature0 == TypeIdentifier.BOOLEAN) {
-                    if (guessedLocalVariableClassName.equals(Boolean.class.getName())) {
-                        Value newValue = virtualMachine.mirrorOf((boolean) guessedLocalVariableValue);
-                        stackFrame.setValue(localVariable, newValue);
-                    }
-                } else {
-                    // This can never happen;
+                } catch (ClassNotLoadedException | InvalidTypeException e) {
+                    // May never hanppen.
+                    break;
                 }
                 lastChangedLocalVariableName = guessedLocalVariableName;
                 lastChangedLocalVariableClassName = guessedLocalVariableClassName;
