@@ -18,6 +18,8 @@ public interface IDebugSession {
 
     IBreakpoint createBreakpoint(String className, int lineNumber, int hitCount, String condition, String logMessage);
 
+    IBreakpoint createBreakpoint(String className, int lineNumber);
+
     void setExceptionBreakpoints(boolean notifyCaught, boolean notifyUncaught);
 
     Process getProcess();

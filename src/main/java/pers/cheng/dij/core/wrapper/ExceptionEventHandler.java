@@ -30,7 +30,7 @@ public class ExceptionEventHandler {
 
     private boolean lastReproductionSuccessful = false;
 
-    ExceptionEventHandler(CrashInformation crashInformation) {
+    public ExceptionEventHandler(CrashInformation crashInformation) {
         this.crashInformation = crashInformation;
     }
 

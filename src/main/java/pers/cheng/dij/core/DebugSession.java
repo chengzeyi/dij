@@ -68,6 +68,13 @@ public class DebugSession implements IDebugSession {
     }
 
     @Override
+    public IBreakpoint createBreakpoint(
+        String className,
+        int lineNumber) {
+        return new EvaluatableBreakpoint(vm, getEventHub(), className, lineNumber);
+    }
+
+    @Override
     public void setExceptionBreakpoints(
         boolean notifyCaught,
         boolean notifyUncaught) {

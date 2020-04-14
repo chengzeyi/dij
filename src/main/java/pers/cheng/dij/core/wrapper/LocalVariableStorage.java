@@ -124,6 +124,7 @@ public class LocalVariableStorage {
 
         Function<Object, List<Object>> guessingFunction = getGuessingFunction(variableClass.getName());
         guessedValues = guessingFunction.apply(initialValue);
+        guessedValues = guessingFunction.apply(initialValue);
     }
 
     private Function<Object, List<Object>> getGuessingFunction(String className) {

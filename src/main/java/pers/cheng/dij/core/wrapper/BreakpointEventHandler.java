@@ -28,7 +28,7 @@ public class BreakpointEventHandler {
     private String lastChangedLocalVariableClassName = null;
     private Object lastChangedLocalVariableValue = null;
 
-    BreakpointEventHandler() {
+    public BreakpointEventHandler() {
         status = BpHandlerStatus.CONTEXT_UNBINDED;
     }
 
@@ -43,9 +43,9 @@ public class BreakpointEventHandler {
         lastChangedLocalVariableClassName = null;
         lastChangedLocalVariableValue = null;
 
-        if (status == BpHandlerStatus.UNINITIALIZED) {
-            throw new UnsupportedOperationException("This handler has not been initialized.");
-        }
+        // if (status == BpHandlerStatus.UNINITIALIZED) {
+        //     throw new UnsupportedOperationException("This handler has not been initialized.");
+        // }
         breakpointEvents.subscribe(debugEvent -> {
             BreakpointEvent breakpointEvent = (BreakpointEvent) debugEvent.getEvent();
             handleBreakpointEvent(breakpointEvent);
@@ -58,16 +58,16 @@ public class BreakpointEventHandler {
         }
         breakpointHitten = true;
 
-        if (status == BpHandlerStatus.UNINITIALIZED) {
-            throw new UnsupportedOperationException("This handler has not been initialized.");
-        }
+        // if (status == BpHandlerStatus.UNINITIALIZED) {
+        //     throw new UnsupportedOperationException("This handler has not been initialized.");
+        // }
         if (status == BpHandlerStatus.CONTEXT_UNBINDED) {
             // The first to run the virtual machine, need to get context information.
             breakpointContext = getBreakpointContext(breakpointEvent);
             if (breakpointContext.hasNextGuessedLocalVariableValue()) {
                 status = BpHandlerStatus.CONTEXT_BINDED;
             } else {
-                status = BpHandlerStatus.STOPPED;
+                status = BpHandlerStatus.CANNOT_CONTINUE;
             }
         } else if (status == BpHandlerStatus.CONTEXT_BINDED) {
             // Try different values using context information.
@@ -88,7 +88,7 @@ public class BreakpointEventHandler {
                             guessedLocalVariableName);
                 }
             } else {
-                status = BpHandlerStatus.STOPPED;
+                status = BpHandlerStatus.CANNOT_CONTINUE;
             }
         } else if (status == BpHandlerStatus.CONTEXT_BIND_FAILED) {
             // Failed to get breakpoint context, do nothing.
@@ -200,5 +200,17 @@ public class BreakpointEventHandler {
                 break;
             }
         }
+    }
+
+    public String getLastChangedLocalVariableName() {
+        return lastChangedLocalVariableName;
+    }
+
+    public String getLastChangedLocalVariableClassName() {
+        return lastChangedLocalVariableClassName;
+    }
+
+    public Object getLastChangedLocalVariableValue() {
+        return lastChangedLocalVariableValue;
     }
 }
