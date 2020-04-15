@@ -8,6 +8,8 @@ import java.util.List;
 public interface IDebugSession {
     void start();
 
+    void waitFor();
+
     void suspend();
 
     void resume();

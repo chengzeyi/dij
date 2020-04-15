@@ -28,14 +28,14 @@ public class ExceptionEventHandler {
     
     private CrashInformation crashInformation = null;
 
-    private boolean lastReproductionSuccessful = false;
+    private boolean reproductionSuccessful = false;
 
     public ExceptionEventHandler(CrashInformation crashInformation) {
         this.crashInformation = crashInformation;
     }
 
     public void setExceptionEvents(Observable<DebugEvent> exceptionEvents) {
-        lastReproductionSuccessful = false;
+        reproductionSuccessful = false;
 
         exceptionEvents.subscribe(debugEvent -> {
             ExceptionEvent exceptionEvent = (ExceptionEvent) debugEvent.getEvent();
@@ -44,13 +44,13 @@ public class ExceptionEventHandler {
     }
 
     private void handleExceptionEvent(ExceptionEvent exceptionEvent) {
-        if (!lastReproductionSuccessful) {
-            lastReproductionSuccessful = isSuccessfulReproduction(exceptionEvent);
+        if (!reproductionSuccessful) {
+            reproductionSuccessful = isSuccessfulReproduction(exceptionEvent);
         }
     }
 
-    public boolean isLastReproductionSuccessful() {
-        return lastReproductionSuccessful;
+    public boolean isReproductionSuccessful() {
+        return reproductionSuccessful;
     }
 
     private boolean isSuccessfulReproduction(ExceptionEvent exceptionEvent) {
@@ -83,6 +83,6 @@ public class ExceptionEventHandler {
         }
 
         String exceptionLine = crashInformation.getExceptionLine();
-        return exceptionString.equals(exceptionLine);
+        return exceptionString.trim().equals(exceptionLine);
     }
 }

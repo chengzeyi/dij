@@ -31,6 +31,15 @@ public class DebugSession implements IDebugSession {
     }
 
     @Override
+    public void waitFor() {
+        try {
+            vm.process().waitFor();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void suspend() {
         vm.suspend();
     }
@@ -58,32 +67,25 @@ public class DebugSession implements IDebugSession {
     }
 
     @Override
-    public IBreakpoint createBreakpoint(
-        String className,
-        int lineNumber,
-        int hitCount,
-        String condition,
-        String logMessage) {
+    public IBreakpoint createBreakpoint(String className, int lineNumber, int hitCount, String condition,
+            String logMessage) {
         return new EvaluatableBreakpoint(vm, getEventHub(), className, lineNumber, hitCount, condition, logMessage);
     }
 
     @Override
-    public IBreakpoint createBreakpoint(
-        String className,
-        int lineNumber) {
+    public IBreakpoint createBreakpoint(String className, int lineNumber) {
         return new EvaluatableBreakpoint(vm, getEventHub(), className, lineNumber);
     }
 
     @Override
-    public void setExceptionBreakpoints(
-        boolean notifyCaught,
-        boolean notifyUncaught) {
+    public void setExceptionBreakpoints(boolean notifyCaught, boolean notifyUncaught) {
         EventRequestManager manager = vm.eventRequestManager();
-        //Create a new list since the original list is unmodifiable.
+        // Create a new list since the original list is unmodifiable.
         ArrayList<ExceptionRequest> legacy = new ArrayList<>(manager.exceptionRequests());
         // Remove all exception requests.
         manager.deleteEventRequests(legacy);
-        // When no exception breakpoints are requests are requests, no need to create an empty
+        // When no exception breakpoints are requests are requests, no need to create an
+        // empty
         // exception request.
         if (notifyCaught || notifyUncaught) {
             // java-debug says that if this method is not called,
