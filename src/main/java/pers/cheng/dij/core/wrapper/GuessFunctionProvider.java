@@ -3,8 +3,8 @@ package pers.cheng.dij.core.wrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuessingFunctionProvider{
-    public static List<Object> guessingByte(Object object) {
+public class GuessFunctionProvider{
+    public static List<Object> guessByte(Object object) {
         List<Object> ret = new ArrayList<>(256);
         if (!(object instanceof Byte)) {
             return ret;
@@ -16,7 +16,7 @@ public class GuessingFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessingChar(Object object) {
+    public static List<Object> guessChar(Object object) {
         List<Object> ret = new ArrayList<>(256);
         if (!(object instanceof Character)) {
             return ret;
@@ -28,7 +28,7 @@ public class GuessingFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessingFloat(Object object) {
+    public static List<Object> guessFloat(Object object) {
         List<Object> ret = new ArrayList<>();
         if (!(object instanceof Float)) {
             return ret;
@@ -51,7 +51,7 @@ public class GuessingFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessingDouble(Object object) {
+    public static List<Object> guessDouble(Object object) {
         List<Object> ret = new ArrayList<>();
         if (!(object instanceof Double)) {
             return ret;
@@ -74,7 +74,7 @@ public class GuessingFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessingInt(Object object) {
+    public static List<Object> guessInt(Object object) {
         List<Object> ret = new ArrayList<>();
         if (!(object instanceof Integer)) {
             return ret;
@@ -90,7 +90,7 @@ public class GuessingFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessingLong(Object object) {
+    public static List<Object> guessLong(Object object) {
         List<Object> ret = new ArrayList<>();
         if (!(object instanceof Long)) {
             return ret;
@@ -106,7 +106,7 @@ public class GuessingFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessingShort(Object object) {
+    public static List<Object> guessShort(Object object) {
         List<Object> ret = new ArrayList<>();
         if (!(object instanceof Short)) {
             return ret;
@@ -122,7 +122,7 @@ public class GuessingFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessingBoolean(Object object) {
+    public static List<Object> guessBoolean(Object object) {
         List<Object> ret = new ArrayList<>(2);
         if (!(object instanceof Short)) {
             return ret;
@@ -132,7 +132,7 @@ public class GuessingFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessingAnything(Object object) {
+    public static List<Object> guessAnyth(Object object) {
         return new ArrayList<>();
     }
 }

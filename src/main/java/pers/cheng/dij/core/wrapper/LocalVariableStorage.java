@@ -22,8 +22,8 @@ import com.sun.jdi.Value;
 import pers.cheng.dij.core.wrapper.formatter.TypeIdentifier;
 
 public class LocalVariableStorage {
-    private static Function<Object, List<Object>> DEFAULT_GUESSING_FUNCTION = null;
-    private static Map<String, Function<Object, List<Object>>> CLASS_NAME_2_GUESSING_FUNCTION = null;
+    private static Function<Object, List<Object>> DEFAULT_GUESS_FUNCTION = null;
+    private static Map<Str, Function<Object, List<Object>>> CLASS_NAME_2_GUESS_FUNCTION = null;
 
     private boolean isPrimitiveType = false;
     private Class<?> variableClass = null;
@@ -32,16 +32,16 @@ public class LocalVariableStorage {
     private List<Object> guessedValues = null;
 
     static {
-        DEFAULT_GUESSING_FUNCTION = GuessingFunctionProvider::guessingAnything;
+        DEFAULT_GUESS_FUNCTION = GuessFunctionProvider::guessAnyth;
 
-        CLASS_NAME_2_GUESSING_FUNCTION.put(Byte.class.getName(), GuessingFunctionProvider::guessingByte);
-        CLASS_NAME_2_GUESSING_FUNCTION.put(Character.class.getName(), GuessingFunctionProvider::guessingChar);
-        CLASS_NAME_2_GUESSING_FUNCTION.put(Float.class.getName(), GuessingFunctionProvider::guessingFloat);
-        CLASS_NAME_2_GUESSING_FUNCTION.put(Double.class.getName(), GuessingFunctionProvider::guessingDouble);
-        CLASS_NAME_2_GUESSING_FUNCTION.put(Integer.class.getName(), GuessingFunctionProvider::guessingInt);
-        CLASS_NAME_2_GUESSING_FUNCTION.put(Long.class.getName(), GuessingFunctionProvider::guessingLong);
-        CLASS_NAME_2_GUESSING_FUNCTION.put(Short.class.getName(), GuessingFunctionProvider::guessingShort);
-        CLASS_NAME_2_GUESSING_FUNCTION.put(Boolean.class.getName(), GuessingFunctionProvider::guessingBoolean);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Byte.class.getName(), GuessFunctionProvider::guessByte);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Character.class.getName(), GuessFunctionProvider::guessChar);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Float.class.getName(), GuessFunctionProvider::guessFloat);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Double.class.getName(), GuessFunctionProvider::guessDouble);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Integer.class.getName(), GuessFunctionProvider::guessInt);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Long.class.getName(), GuessFunctionProvider::guessLong);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Short.class.getName(), GuessFunctionProvider::guessShort);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Boolean.class.getName(), GuessFunctionProvider::guessBoolean);
     }
 
     public String getVariableClassName() {
@@ -122,13 +122,13 @@ public class LocalVariableStorage {
                 return;
         }
 
-        Function<Object, List<Object>> guessingFunction = getGuessingFunction(variableClass.getName());
-        guessedValues = guessingFunction.apply(initialValue);
-        guessedValues = guessingFunction.apply(initialValue);
+        Function<Object, List<Object>> guessFunction = getGuessFunction(variableClass.getName());
+        guessedValues = guessFunction.apply(initialValue);
+        guessedValues = guessFunction.apply(initialValue);
     }
 
-    private Function<Object, List<Object>> getGuessingFunction(String className) {
-        Function<Object, List<Object>> guessingFunction = CLASS_NAME_2_GUESSING_FUNCTION.get(className);
-        return guessingFunction == null ? DEFAULT_GUESSING_FUNCTION : guessingFunction;
+    private Function<Object, List<Object>> getGuessFunction(Str className) {
+        Function<Object, List<Object>> guessFunction = CLASS_NAME_2_GUESS_FUNCTION.get(className);
+        return guessFunction == null ? DEFAULT_GUESS_FUNCTION : guessFunction;
     }
 }

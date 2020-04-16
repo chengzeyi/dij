@@ -13,6 +13,10 @@ public class CrashInformation {
 
     private String exceptionLine;
 
+    private String breakpointClassName;
+
+    private int breakpointLineNumber;
+
     public void parseCrashLinesFromFile(String filename) throws IOException {
         crashLines = new ArrayList<>();
 
