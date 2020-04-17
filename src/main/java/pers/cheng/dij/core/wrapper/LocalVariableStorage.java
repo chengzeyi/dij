@@ -23,7 +23,7 @@ import pers.cheng.dij.core.wrapper.formatter.TypeIdentifier;
 
 public class LocalVariableStorage {
     private static Function<Object, List<Object>> DEFAULT_GUESS_FUNCTION = null;
-    private static Map<Str, Function<Object, List<Object>>> CLASS_NAME_2_GUESS_FUNCTION = null;
+    private static Map<String, Function<Object, List<Object>>> CLASS_NAME_2_GUESS_FUNCTION = null;
 
     private boolean isPrimitiveType = false;
     private Class<?> variableClass = null;
@@ -127,7 +127,7 @@ public class LocalVariableStorage {
         guessedValues = guessFunction.apply(initialValue);
     }
 
-    private Function<Object, List<Object>> getGuessFunction(Str className) {
+    private Function<Object, List<Object>> getGuessFunction(String className) {
         Function<Object, List<Object>> guessFunction = CLASS_NAME_2_GUESS_FUNCTION.get(className);
         return guessFunction == null ? DEFAULT_GUESS_FUNCTION : guessFunction;
     }

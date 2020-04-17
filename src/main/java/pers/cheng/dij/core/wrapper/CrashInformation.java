@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CrashInformation {
+    private static final String[] EXCLUDED_PREFIXS = {
+        "java.",
+        "com.sun."
+    };
+
     private List<String> crashLines;
 
     private List<String> stackTrace;
@@ -40,8 +45,46 @@ public class CrashInformation {
 
         if (crashLines.size() > 1) {
             stackTrace = crashLines.subList(1, stackTrace.size());
+            analyzeStackTrace(stackTrace);
         } else {
             stackTrace = new ArrayList<>();
+        }
+    }
+
+    private void analyzeStackTrace(List<String> stackTrace) {
+OUTER_LOOP:
+        for (String stackTraceLine : stackTrace) {
+            String[] split = stackTraceLine.split("\\s");
+            if (split.length < 2 || !split[0].equals("at")) {
+                continue;
+            }
+            String stackTraceElement = split[1];
+            for (String excludedPrefix : EXCLUDED_PREFIXS) {
+                if (stackTraceElement.startsWith(excludedPrefix)) {
+                    continue OUTER_LOOP;
+                }
+            }
+
+            int leftParenPos = stackTraceElement.indexOf('(');
+            int rightParenPos = stackTraceElement.lastIndexOf(')');
+            if (leftParenPos < 0 || rightParenPos < 0 || leftParenPos > rightParenPos) {
+                continue;
+            }
+            String fileAndLine = stackTraceElement.substring(leftParenPos + 1, rightParenPos);
+            String[] fileAndLineSplit = fileAndLine.split(":");
+            if (split.length < 2) {
+                continue;
+            }
+            breakpointLineNumber = Integer.parseInt(fileAndLineSplit[fileAndLineSplit.length - 1]);
+
+            String methodSignature = stackTraceElement.substring(0, leftParenPos);
+            int lastDotPos = methodSignature.lastIndexOf('.');
+            if (lastDotPos < 0) {
+                continue;
+            }
+
+            breakpointClassName = methodSignature.substring(0, lastDotPos);
+            return;
         }
     }
 
@@ -55,5 +98,17 @@ public class CrashInformation {
 
     public String getExceptionLine() {
         return exceptionLine;
+    }
+
+    public String getBreakpointClassName() {
+        return breakpointClassName;
+    }
+
+    public int getBreakpointLineNumber() {
+        return breakpointLineNumber;
+    }
+
+    public boolean hasBreakpoint() {
+        return breakpointClassName != null;
     }
 }

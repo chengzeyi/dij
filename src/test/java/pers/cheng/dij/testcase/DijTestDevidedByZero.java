@@ -1,4 +1,6 @@
-package pers.cheng.dij;
+package pers.cheng.dij.testcase;
+
+import pers.cheng.dij.DijTestUtility;
 
 public class DijTestDevidedByZero {
     public static void main(String[] args) {

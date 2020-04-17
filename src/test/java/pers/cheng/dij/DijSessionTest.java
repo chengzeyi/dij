@@ -5,7 +5,6 @@ import org.junit.Test;
 public class DijSessionTest {
     public void testDijClass(String className) {
         String classFullName = DijTestUtility.completeClassName(className);
-        
     }
 
     @Test
