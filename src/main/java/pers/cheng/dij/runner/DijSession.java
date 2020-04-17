@@ -2,7 +2,6 @@ package pers.cheng.dij.runner;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 import com.sun.jdi.Bootstrap;
@@ -39,8 +38,8 @@ public class DijSession {
     private boolean reproductionSuccessful = false;
     private ReproductionResult reproductionResult;
 
-    public DijSession(String mainClass, String programArguments, String vmArguments, List<String> modulePaths,
-            List<String> classPaths, String cwd, String crashPath) {
+    public DijSession(String mainClass, String programArguments, String vmArguments, String[] modulePaths,
+            String[] classPaths, String cwd, String crashPath) {
         this(mainClass, programArguments, vmArguments, String.join(File.pathSeparator, modulePaths),
                 String.join(File.pathSeparator, classPaths), cwd, crashPath);
     }
@@ -62,8 +61,8 @@ public class DijSession {
         this(mainClass, programArguments, vmArguments, modulePaths, classPaths, ".", crashPath);
     }
 
-    public DijSession(String mainClass, String programArguments, String vmArguments, List<String> modulePaths,
-            List<String> classPaths, String crashPath) {
+    public DijSession(String mainClass, String programArguments, String vmArguments, String[] modulePaths,
+            String[] classPaths, String crashPath) {
         this(mainClass, programArguments, vmArguments, modulePaths, classPaths, ".", crashPath);
     }
 
@@ -72,13 +71,21 @@ public class DijSession {
         this.breakpointLineNumber = lineNumber;
     }
 
-    public boolean reproduct() {
+    public boolean reproduce() {
         CrashInformation crashInformation = new CrashInformation();
         try {
             crashInformation.parseCrashLinesFromFile(crashPath);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+
+        if (breakpointClassName == null) {
+            if (crashInformation.hasBreakpoint()) {
+                setBreakpoint(crashInformation.getBreakpointClassName(), crashInformation.getBreakpointLineNumber());
+            } else {
+                return false;
+            }
         }
 
         VirtualMachineManager vmManager = Bootstrap.virtualMachineManager();

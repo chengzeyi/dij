@@ -9,7 +9,7 @@ import java.util.List;
 public class CrashInformation {
     private static final String[] EXCLUDED_PREFIXS = {
         "java.",
-        "com.sun."
+        "jdk."
     };
 
     private List<String> crashLines;
@@ -44,7 +44,7 @@ public class CrashInformation {
         }
 
         if (crashLines.size() > 1) {
-            stackTrace = crashLines.subList(1, stackTrace.size());
+            stackTrace = crashLines.subList(1, crashLines.size());
             analyzeStackTrace(stackTrace);
         } else {
             stackTrace = new ArrayList<>();

@@ -16,6 +16,8 @@ public class ReproductionResult {
 
     @Override
     public String toString() {
-        return String.format("{changedLocalVariableName: %s, changedLocalVariableClassName: %s, changedLocalVariableRawValue: %s, changedLocalVariableNewValue: %s}", changedLocalVariableName, changedLocalVariableClassName, changedLocalVariableRawValue, changedLocalVariableNewValue);
+        return "ReproductionResult [changedLocalVariableClassName=" + changedLocalVariableClassName
+                + ", changedLocalVariableName=" + changedLocalVariableName + ", changedLocalVariableNewValue="
+                + changedLocalVariableNewValue + ", changedLocalVariableRawValue=" + changedLocalVariableRawValue + "]";
     }
 }

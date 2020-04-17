@@ -7,11 +7,28 @@ import java.nio.file.Path;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import pers.cheng.dij.testcase.*;
+
 public class DijTestUtility {
     private static final String CRASH_LOG_DIR = Path.of("resources", "log").toAbsolutePath().toString();
     private static final String CRASH_LOG_EXT = ".log";
 
-    public static boolean getTrigger(String[] args) {
+    private static final String[] CLASS_PATHS = { "target/classes" };
+    private static final String[] MODULE_PATHS = {};
+
+    private static final Class<?>[] TESTED_CLASSES = {
+        DijTestDevidedByZero.class,
+        DijTestDevidedByFloatZero.class,
+        DijTestDevidedByDoubleZero.class,
+        DijTestBooleanOperation.class,
+        DijTestIndexOutOfBound.class
+    };
+
+    public static Class<?>[] getTestedClasses() {
+        return TESTED_CLASSES;
+    }
+
+    public static boolean isTrigger(String[] args) {
         for (String arg : args) {
             if (arg.equals("trigger")) {
                 return true;
@@ -25,11 +42,11 @@ public class DijTestUtility {
     }
 
     public static String[] getModulePaths() {
-        return new String[] {};
+        return CLASS_PATHS;
     }
 
     public static String[] getClassPaths() {
-        return new String[] { "target/classes" };
+        return MODULE_PATHS;
     }
 
     public static String generateCrashLog(Class<?> testCaseClass) {
@@ -50,8 +67,8 @@ public class DijTestUtility {
             PrintStream ps;
             try {
                 ps = new PrintStream(crashLogPath);
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
                 return null;
             }
             e.getTargetException().printStackTrace(ps);

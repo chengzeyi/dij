@@ -19,13 +19,13 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class Breakpoint implements IBreakpoint {
-    private VirtualMachine vm = null;
-    private IEventHub eventHub = null;
-    private String className = null;
-    private int lineNumber = 0;
-    private int hitCount = 0;
-    private String condition = null;
-    private String logMessage = null;
+    private VirtualMachine vm;
+    private IEventHub eventHub;
+    private String className;
+    private int lineNumber;
+    private int hitCount;
+    private String condition;
+    private String logMessage;
     private HashMap<Object, Object> propertyMap = new HashMap<>();
 
     private List<EventRequest> requests = new ArrayList<>();
