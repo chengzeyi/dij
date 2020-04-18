@@ -5,6 +5,7 @@ import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.*;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
+import pers.cheng.dij.Configuration;
 
 import java.util.logging.Logger;
 
@@ -66,8 +67,9 @@ public class EventHub implements IEventHub {
                     boolean shouldResume = true;
                     for (Event event : set) {
                         try {
-                            LOGGER.fine(String.format("\nJDI Event: %s\n", event));
+                            LOGGER.info(String.format("JDI Event: %s", event));
                         } catch (VMDisconnectedException e) {
+                            LOGGER.warning(String.format("The target VM has been disconnected, %s", e));
                             // do nothing
                         }
                         DebugEvent debugEvent = new DebugEvent();
@@ -79,20 +81,24 @@ public class EventHub implements IEventHub {
 
                     if (shouldResume) {
                         set.resume();
+                        LOGGER.info("The target VM has been resumed");
                     }
                 } catch (InterruptedException e) {
                     isClosed = true;
                     subject.onComplete();
+                    LOGGER.warning(String.format("The thread has been interrupted, %s", e));
                     return;
                 } catch (VMDisconnectedException e) {
                     isClosed = true;
                     subject.onError(e);
+                    LOGGER.warning(String.format("The target VM has been disconnected, %s", e));
                     return;
                 }
             }
-        }, "Event Hub");
+        }, "EventHub");
 
         workingThread.start();
+        LOGGER.info("The target VM thread has been started");
     }
 
     @Override

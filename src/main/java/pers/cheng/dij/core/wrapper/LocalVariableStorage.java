@@ -1,10 +1,12 @@
 package pers.cheng.dij.core.wrapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Logger;
 
 import com.sun.jdi.BooleanValue;
 import com.sun.jdi.ByteValue;
@@ -19,11 +21,14 @@ import com.sun.jdi.ShortValue;
 import com.sun.jdi.StackFrame;
 import com.sun.jdi.Value;
 
+import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.wrapper.formatter.TypeIdentifier;
 
 public class LocalVariableStorage {
+    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
+
     private static Function<Object, List<Object>> DEFAULT_GUESS_FUNCTION = null;
-    private static Map<String, Function<Object, List<Object>>> CLASS_NAME_2_GUESS_FUNCTION = null;
+    private static Map<String, Function<Object, List<Object>>> CLASS_NAME_2_GUESS_FUNCTION = new HashMap<>();
 
     private boolean isPrimitiveType = false;
     private Class<?> variableClass = null;
@@ -34,14 +39,14 @@ public class LocalVariableStorage {
     static {
         DEFAULT_GUESS_FUNCTION = GuessFunctionProvider::guessAnyth;
 
-        CLASS_NAME_2_GUESS_FUNCTION.put(Byte.class.getName(), GuessFunctionProvider::guessByte);
-        CLASS_NAME_2_GUESS_FUNCTION.put(Character.class.getName(), GuessFunctionProvider::guessChar);
-        CLASS_NAME_2_GUESS_FUNCTION.put(Float.class.getName(), GuessFunctionProvider::guessFloat);
-        CLASS_NAME_2_GUESS_FUNCTION.put(Double.class.getName(), GuessFunctionProvider::guessDouble);
-        CLASS_NAME_2_GUESS_FUNCTION.put(Integer.class.getName(), GuessFunctionProvider::guessInt);
-        CLASS_NAME_2_GUESS_FUNCTION.put(Long.class.getName(), GuessFunctionProvider::guessLong);
-        CLASS_NAME_2_GUESS_FUNCTION.put(Short.class.getName(), GuessFunctionProvider::guessShort);
-        CLASS_NAME_2_GUESS_FUNCTION.put(Boolean.class.getName(), GuessFunctionProvider::guessBoolean);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Byte.TYPE.getName(), GuessFunctionProvider::guessByte);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Character.TYPE.getName(), GuessFunctionProvider::guessChar);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Float.TYPE.getName(), GuessFunctionProvider::guessFloat);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Double.TYPE.getName(), GuessFunctionProvider::guessDouble);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Integer.TYPE.getName(), GuessFunctionProvider::guessInt);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Long.TYPE.getName(), GuessFunctionProvider::guessLong);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Short.TYPE.getName(), GuessFunctionProvider::guessShort);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Boolean.TYPE.getName(), GuessFunctionProvider::guessBoolean);
     }
 
     public String getVariableClassName() {
@@ -68,6 +73,7 @@ public class LocalVariableStorage {
         isPrimitiveType = LocalVariableUtility.isPrimitiveType(localVariable);
         if (!isPrimitiveType) {
             // Cannot handle non-primitive types.
+            LOGGER.info(String.format("Cannot handle non-primitive type of local variable %s", localVariable));
             guessedValues = new ArrayList<>();
             return;
         }
@@ -122,9 +128,14 @@ public class LocalVariableStorage {
                 return;
         }
 
+        LOGGER.info(String.format("variableClass: %s, initialValue: %s", variableClass, initialValue));
+
         Function<Object, List<Object>> guessFunction = getGuessFunction(variableClass.getName());
+        LOGGER.info(String.format("Got guessFunction: %s", guessFunction));
+
         guessedValues = guessFunction.apply(initialValue);
-        guessedValues = guessFunction.apply(initialValue);
+
+        LOGGER.info(String.format("Guessed values are: %s", guessedValues));
     }
 
     private Function<Object, List<Object>> getGuessFunction(String className) {

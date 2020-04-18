@@ -3,6 +3,7 @@ package pers.cheng.dij.runner;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import com.sun.jdi.Bootstrap;
 import com.sun.jdi.VirtualMachineManager;
@@ -10,6 +11,7 @@ import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.VMStartException;
 
 import io.reactivex.Observable;
+import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.DebugEvent;
 import pers.cheng.dij.core.DebugUtility;
 import pers.cheng.dij.core.IBreakpoint;
@@ -23,14 +25,15 @@ import pers.cheng.dij.core.wrapper.LoopBreakpointEventHandler;
 import pers.cheng.dij.core.wrapper.ReproductionResult;
 
 public class DijSession {
-    private String mainClass;
-    private String programArguments;
-    private String vmArguments;
-    private String modulePaths;
-    private String classPaths;
-    private String cwd;
+    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
+    private final String mainClass;
+    private final String programArguments;
+    private final String vmArguments;
+    private final String modulePaths;
+    private final String classPaths;
+    private final String cwd;
 
-    private String crashPath;
+    private final String crashPath;
 
     private String breakpointClassName;
     private int breakpointLineNumber;
@@ -72,11 +75,15 @@ public class DijSession {
     }
 
     public boolean reproduce() {
+        LOGGER.info(String.format(
+                "Reproduction started, mainClass: %s, programArguments: %s, vmArguments: %s, modulePaths: %s, classPaths: %s, cwd: %s, crashPath: %s",
+                mainClass, programArguments, vmArguments, modulePaths, classPaths, cwd, crashPath));
+
         CrashInformation crashInformation = new CrashInformation();
         try {
             crashInformation.parseCrashLinesFromFile(crashPath);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.severe(String.format("Cannot read crash lines from file, %s", e));
             return false;
         }
 
@@ -84,6 +91,7 @@ public class DijSession {
             if (crashInformation.hasBreakpoint()) {
                 setBreakpoint(crashInformation.getBreakpointClassName(), crashInformation.getBreakpointLineNumber());
             } else {
+                LOGGER.severe(String.format("Cannot infer breakpoint position from crash log, path: %s", crashPath));
                 return false;
             }
         }
@@ -96,12 +104,14 @@ public class DijSession {
             debugSession = DebugUtility.launch(vmManager, mainClass, programArguments, vmArguments, modulePaths,
                     classPaths, cwd);
         } catch (IOException | IllegalConnectorArgumentsException | VMStartException e) {
-            e.printStackTrace();
+            LOGGER.severe(String.format("Cannot launch debug session, %s", e));
             return false;
         }
 
         IBreakpoint breakpoint = debugSession.createBreakpoint(breakpointClassName, breakpointLineNumber);
         breakpoint.install();
+        LOGGER.info(String.format("Breakpoint have been installed for debug session, className: %s, line: %d",
+                breakpointClassName, breakpointLineNumber));
 
         IEventHub eventHub = debugSession.getEventHub();
 
@@ -112,23 +122,30 @@ public class DijSession {
         debugSession.waitFor();
 
         if (!firstBreakpointEventHandler.isSuccessful()) {
+            LOGGER.severe("Failed to handle first breakpoint successfully");
             return false;
         }
 
         BreakpointContext breakpointContext = firstBreakpointEventHandler.getBreakpointContext();
 
+        LOGGER.info("Got breakpointContext from first breakpointEventHandler");
+
         LoopBreakpointEventHandler loopBreakpointEventHandler = new LoopBreakpointEventHandler(breakpointContext);
         ExceptionEventHandler exceptionEventHandler = new ExceptionEventHandler(crashInformation);
         while (loopBreakpointEventHandler.hasNextLoop()) {
+            LOGGER.info("Trying to start a new debug loop");
             try {
                 debugSession = DebugUtility.launch(vmManager, mainClass, programArguments, vmArguments, modulePaths,
                         classPaths, cwd);
             } catch (IOException | IllegalConnectorArgumentsException | VMStartException e) {
-                e.printStackTrace();
+                LOGGER.severe("Failed to launch debug session.");
                 return false;
             }
+
             breakpoint = debugSession.createBreakpoint(breakpointClassName, breakpointLineNumber);
             breakpoint.install();
+            LOGGER.info(String.format("Breakpoint have been installed for debug session, className: %s, line: %d",
+                    breakpointClassName, breakpointLineNumber));
 
             eventHub = debugSession.getEventHub();
             breakpointEvents = eventHub.getBreakpointEvents();
@@ -137,11 +154,13 @@ public class DijSession {
             exceptionEventHandler.setExceptionEvents(exceptionEvents);
 
             debugSession.setExceptionBreakpoints(false, true);
+            LOGGER.info("Exception breakpoints have been set");
 
             debugSession.start();
             debugSession.waitFor();
 
             if (exceptionEventHandler.isReproductionSuccessful()) {
+                LOGGER.info("The handler has successfully reproduced the crash");
                 reproductionSuccessful = true;
                 String changedLocalVariableName = loopBreakpointEventHandler.getChangedLocalVariableName();
                 String changedLocalVariableClassName = loopBreakpointEventHandler.getChangedLocalVariableClassName();

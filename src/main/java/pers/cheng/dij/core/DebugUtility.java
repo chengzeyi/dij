@@ -9,12 +9,16 @@ import com.sun.jdi.VirtualMachineManager;
 import com.sun.jdi.connect.IllegalConnectorArgumentsException;
 import com.sun.jdi.connect.LaunchingConnector;
 import com.sun.jdi.connect.VMStartException;
+import com.sun.jdi.connect.Connector.Argument;
 import com.sun.jdi.request.EventRequest;
 import com.sun.jdi.request.EventRequestManager;
 import com.sun.jdi.event.MethodEntryEvent;
 import com.sun.jdi.request.MethodEntryRequest;
 import com.sun.jdi.request.StepRequest;
 import org.apache.commons.lang3.StringUtils;
+
+import pers.cheng.dij.Configuration;
+import pers.cheng.dij.DijSettings;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,10 +29,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 public class DebugUtility {
+    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
+    private static final String SUN_LAUNCHING_CONNECTOR = "com.sun.tools.jdi.SunCommandLineLauncher";
+
     public static final String HOME = "home";
     public static final String OPTIONS = "options";
     public static final String MAIN = "main";
@@ -97,9 +106,18 @@ public class DebugUtility {
                                        String cwd,
                                        String javaExec) throws IOException, IllegalConnectorArgumentsException, VMStartException {
 
-        LaunchingConnector connector = vmManager.defaultConnector();
+        List<LaunchingConnector> connectors = vmManager.launchingConnectors();
+        LaunchingConnector connector = connectors.get(0);
 
-        var arguments = connector.defaultArguments();
+        for (LaunchingConnector con : connectors) {
+            if (con.getClass().getName().equals(SUN_LAUNCHING_CONNECTOR)) {
+                connector = con;
+                break;
+            }
+        }
+        LOGGER.info(String.format("The name of the connector is: %s", connector.getClass().getName()));
+
+        Map<String, Argument> arguments = connector.defaultArguments();
         arguments.get(SUSPEND).setValue("true");
 
         StringBuilder optionsBuilder = new StringBuilder();
@@ -118,7 +136,7 @@ public class DebugUtility {
             mainClass = "-m " + mainClass;
         }
         if (StringUtils.isNotBlank(programArguments)) {
-            mainClass += " "+ programArguments;
+            mainClass += " " + programArguments;
         }
         arguments.get(MAIN).setValue(mainClass);
 
@@ -131,10 +149,11 @@ public class DebugUtility {
             String javaHome = new File(javaExec).getParentFile().getParentFile().getAbsolutePath();
             arguments.get(HOME).setValue(javaHome);
             arguments.get(EXEC).setValue(vmExec);
-        } else if (StringUtils.isNotEmpty(DebugSettings.getCurrent().getJavaHome())) {
-            arguments.get(HOME).setValue(DebugSettings.getCurrent().getJavaHome());
+        } else if (StringUtils.isNotEmpty(DijSettings.getCurrent().getJavaHome())) {
+            arguments.get(HOME).setValue(DijSettings.getCurrent().getJavaHome());
         }
 
+        LOGGER.info(String.format("VM arguments: %s", arguments));
         VirtualMachine vm = connector.launch(arguments);
         return new DebugSession(vm);
     }
@@ -194,7 +213,35 @@ public class DebugUtility {
                 // Tell the future to complete.
                 future.complete(bpThread.uniqueID());
             }
-        });
+        }, onError -> {});
+        request.enable();
+
+        return future;
+    }
+
+    public static CompletableFuture<Long> logEnterMainMethod(IDebugSession debugSession, String mainClass) {
+        CompletableFuture<Long> future = new CompletableFuture<>();
+
+        EventRequestManager manager = debugSession.getVM().eventRequestManager();
+        MethodEntryRequest request = manager.createMethodEntryRequest();
+        request.addClassFilter(mainClass);
+        request.setSuspendPolicy(EventRequest.SUSPEND_EVENT_THREAD);
+
+        debugSession.getEventHub().getEvents().filter(debugEvent -> {
+            return debugEvent.getEvent() instanceof MethodEntryEvent &&
+                request.equals(debugEvent.getEvent().request());
+        }).subscribe(debugEvent -> {
+            Method method = ((MethodEntryEvent) debugEvent.getEvent()).method();
+            if (method.isPublic() && method.isStatic() && method.name().equals("main") && method.signature().equals("([Ljava/lang/String;)V")) {
+                deleteEventRequestSafely(debugSession.getVM().eventRequestManager(), request);
+
+                LOGGER.info(String.format("Entered main method of class %s", mainClass));
+
+                ThreadReference bpThread = ((MethodEntryEvent) debugEvent.getEvent()).thread();
+                // Tell the future to complete.
+                future.complete(bpThread.uniqueID());
+            }
+        }, onError -> {});
         request.enable();
 
         return future;

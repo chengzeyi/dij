@@ -4,16 +4,22 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.nio.file.Path;
+import java.util.logging.Logger;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import pers.cheng.dij.testcase.*;
 
 public class DijTestUtility {
+    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
+
     private static final String CRASH_LOG_DIR = Path.of("resources", "log").toAbsolutePath().toString();
     private static final String CRASH_LOG_EXT = ".log";
 
-    private static final String[] CLASS_PATHS = { "target/classes" };
+    private static final String[] CLASS_PATHS = {
+        Path.of("target", "test-classes").toAbsolutePath().toString()
+    };
+
     private static final String[] MODULE_PATHS = {};
 
     private static final Class<?>[] TESTED_CLASSES = {
@@ -57,7 +63,7 @@ public class DijTestUtility {
         try {
             mainMethod = testCaseClass.getDeclaredMethod("main", String[].class);
         } catch (NoSuchMethodException | SecurityException e) {
-            e.printStackTrace();
+            LOGGER.severe(String.format("Cannot get main method, %s", e));
             return null;
         }
 
@@ -68,16 +74,17 @@ public class DijTestUtility {
             try {
                 ps = new PrintStream(crashLogPath);
             } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
+                LOGGER.severe(String.format("Cannot open file for writing log, %s", e));
                 return null;
             }
             e.getTargetException().printStackTrace(ps);
             ps.close();
+            return crashLogPath;
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            LOGGER.severe(String.format("The target main method is inaccessible, %s", e));
             return null;
         }
 
-        return crashLogPath;
+        return null;
     }
 }

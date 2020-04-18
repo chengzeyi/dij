@@ -9,7 +9,7 @@ import java.util.List;
 public class CrashInformation {
     private static final String[] EXCLUDED_PREFIXS = {
         "java.",
-        "jdk."
+        "com.sun."
     };
 
     private List<String> crashLines;

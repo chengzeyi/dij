@@ -13,10 +13,6 @@ public interface IBreakpoint extends IDebugResource {
 
     CompletableFuture<IBreakpoint> install();
 
-    void putProperty(Object key, Object value);
-
-    Object getProperty(Object key);
-
     String getCondition();
 
     void setCondition(String condition);

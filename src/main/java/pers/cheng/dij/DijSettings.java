@@ -1,19 +1,25 @@
-package pers.cheng.dij.core;
+package pers.cheng.dij;
 
 // import java.io.FileInputStream;
 // import java.io.IOException;
 // import java.util.Properties;
+
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DebugSettings {
+public class DijSettings {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
-    private static DebugSettings CURRENT = new DebugSettings();
+    private static DijSettings CURRENT = new DijSettings();
+
+    static {
+        LOGGER.setLevel(Level.ALL);
+    }
 
     // TODO: update logLevel and javaHome.
     private String logLevel = null;
     private String javaHome = null;
 
-    public static DebugSettings getCurrent() {
+    public static DijSettings getCurrent() {
         return CURRENT;
     }
 
@@ -36,6 +42,7 @@ public class DebugSettings {
 
     public void setLogLevel(String logLevel) {
         this.logLevel = logLevel;
+        LOGGER.setLevel(Level.parse(logLevel));
     }
 
     public String getJavaHome() {

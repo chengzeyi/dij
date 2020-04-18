@@ -20,7 +20,7 @@ public abstract class BreakpointEventHandler {
             breakpointHitten = true;
             BreakpointEvent breakpointEvent = (BreakpointEvent) debugEvent.getEvent();
             successful = handleBreakpointEvent(breakpointEvent);
-        });
+        }, onError -> {});
     }
 
     protected abstract boolean handleBreakpointEvent(BreakpointEvent breakpointEvent);

@@ -1,10 +1,6 @@
 package pers.cheng.dij.core.wrapper;
 
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +16,7 @@ import com.sun.jdi.Value;
 import com.sun.jdi.event.ExceptionEvent;
 
 import io.reactivex.Observable;
-import pers.cheng.dij.core.Configuration;
+import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.DebugEvent;
 
 public class ExceptionEventHandler {
@@ -40,7 +36,7 @@ public class ExceptionEventHandler {
         exceptionEvents.subscribe(debugEvent -> {
             ExceptionEvent exceptionEvent = (ExceptionEvent) debugEvent.getEvent();
             handleExceptionEvent(exceptionEvent);
-        });
+        }, onError -> {});
     }
 
     private void handleExceptionEvent(ExceptionEvent exceptionEvent) {
@@ -63,8 +59,8 @@ public class ExceptionEventHandler {
             }
         }
         if (toStringMethod == null) {
-            LOGGER.log(Level.SEVERE, String
-                    .format("Failed to get toString() method from the reference type %s.",
+            LOGGER.severe(String
+                    .format("Failed to get toString() method from the reference type %s",
                         exceptionReference.referenceType().name()));
             return false;
         }
@@ -77,10 +73,12 @@ public class ExceptionEventHandler {
             exceptionString = ((StringReference) returnValue).value();
         } catch (InvalidTypeException | ClassNotLoadedException | IncompatibleThreadStateException
                 | InvocationException e) {
-            LOGGER.log(Level.SEVERE, String
-                    .format("Failed to get the return value of the method Exception.toString(): %s.", e.toString(), e));
+            LOGGER.severe(String
+                    .format("Failed to get the return value of the method Exception.toString(): %s", e));
             return false;
         }
+
+        LOGGER.info(String.format("Got exceptionString: %s", exceptionString));
 
         String exceptionLine = crashInformation.getExceptionLine();
         return exceptionString.trim().equals(exceptionLine);

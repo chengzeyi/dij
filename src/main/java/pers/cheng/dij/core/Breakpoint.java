@@ -1,9 +1,9 @@
 package pers.cheng.dij.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 import com.sun.jdi.Location;
 import com.sun.jdi.ReferenceType;
@@ -17,16 +17,18 @@ import com.sun.jdi.request.EventRequest;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import pers.cheng.dij.Configuration;
 
 public class Breakpoint implements IBreakpoint {
-    private VirtualMachine vm;
-    private IEventHub eventHub;
-    private String className;
-    private int lineNumber;
+    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
+
+    private final VirtualMachine vm;
+    private final IEventHub eventHub;
+    private final String className;
+    private final int lineNumber;
     private int hitCount;
     private String condition;
     private String logMessage;
-    private HashMap<Object, Object> propertyMap = new HashMap<>();
 
     private List<EventRequest> requests = new ArrayList<>();
     private List<Disposable> subscriptions = new ArrayList<>();
@@ -41,18 +43,18 @@ public class Breakpoint implements IBreakpoint {
 
     Breakpoint(VirtualMachine vm, IEventHub eventHub, String className, int lineNumber, int hitCount,
                String condition, String logMessage) {
-        this(vm, eventHub, className, lineNumber, hitCount, condition);
-        this.logMessage = logMessage;
-    }
-
-    Breakpoint(VirtualMachine vm, IEventHub eventHub, String className, int lineNumber, int hitCount,
-               String condition) {
         this.vm = vm;
         this.eventHub = eventHub;
         this.className = className;
         this.lineNumber = lineNumber;
         this.hitCount = hitCount;
         this.condition = condition;
+        this.logMessage = logMessage;
+    }
+
+    Breakpoint(VirtualMachine vm, IEventHub eventHub, String className, int lineNumber, int hitCount,
+               String condition) {
+        this(vm, eventHub, className, lineNumber, hitCount, condition, null);
     }
 
     private List<BreakpointRequest> createBreakpointRequests(ReferenceType refType, int lineNumber, int hitCount,
@@ -70,12 +72,12 @@ public class Breakpoint implements IBreakpoint {
         List<Location> existingLocations = new ArrayList<>(requests.size());
         Observable.fromIterable(requests).filter(request ->
                 request instanceof BreakpointRequest).map(request ->
-                ((BreakpointRequest) request).location()).toList().subscribe((Consumer<List<Location>>) existingLocations::addAll);
+                ((BreakpointRequest) request).location()).toList().subscribe((Consumer<List<Location>>) existingLocations::addAll, onError -> {});
 
         // Remove duplicated locations.
         List<Location> newLocations = new ArrayList<>(locations.size());
         Observable.fromIterable(locations).filter(location ->
-                !existingLocations.contains(location)).toList().subscribe((Consumer<List<Location>>) newLocations::addAll);
+                !existingLocations.contains(location)).toList().subscribe((Consumer<List<Location>>) newLocations::addAll, onError -> {});
 
         List<BreakpointRequest> newRequests = new ArrayList<>(newLocations.size());
         newLocations.forEach(location -> {
@@ -85,8 +87,11 @@ public class Breakpoint implements IBreakpoint {
                 if (hitCount > 0) {
                     request.addCountFilter(hitCount);
                 }
+                request.enable();
+                LOGGER.info(String.format("BreakpointRequest has been created, %s", request));
             } catch (VMDisconnectedException e) {
                 // Return an empty array.
+                LOGGER.severe(String.format("Cannot create breakpointRequest, %s", e));
             }
         });
 
@@ -113,6 +118,7 @@ public class Breakpoint implements IBreakpoint {
             });
         } catch (VMDisconnectedException e) {
             // Should return an empty array.
+            LOGGER.severe("The target VM has been disconnected");
         }
 
         return locations;
@@ -183,7 +189,7 @@ public class Breakpoint implements IBreakpoint {
                 request instanceof BreakpointRequest).subscribe(request -> {
             request.addCountFilter(hitCount);
             request.enable();
-        });
+        }, onError -> {});
     }
 
     @Override
@@ -194,12 +200,14 @@ public class Breakpoint implements IBreakpoint {
         classPrepareRequest.addClassFilter(className);
         classPrepareRequest.enable();
         requests.add(classPrepareRequest);
+        LOGGER.info("Created class prepare request for installing breakpoint");
 
         // Local types also need to be handled.
         ClassPrepareRequest localClassPrepareRequest = vm.eventRequestManager().createClassPrepareRequest();
         localClassPrepareRequest.addClassFilter(className + "$*");
         localClassPrepareRequest.enable();
         requests.add(localClassPrepareRequest);
+        LOGGER.info("Created local class prepare request for installing breakpoint");
 
         CompletableFuture<IBreakpoint> future = new CompletableFuture<>();
 
@@ -213,34 +221,30 @@ public class Breakpoint implements IBreakpoint {
             List<BreakpointRequest> newRequests = createBreakpointRequests(
                     event.referenceType(), lineNumber, hitCount, false);
             requests.addAll(newRequests);
+            LOGGER.info(String.format("Created breakpointRequests in subscription of ClassPrepareEvent, class: %s, line: %s", event.referenceType().name(), lineNumber));
             if (!newRequests.isEmpty() && !future.isDone()) {
-                this.putProperty("verified", true);
                 future.complete(this);
             }
-        });
+        }, onError -> {});
         subscriptions.add(subscription);
 
         // Create BreakpointRequests for loaded classes.
+        // TODO: fix bug
         List<ReferenceType> refTypes = vm.classesByName(className);
+        if (refTypes.isEmpty()) {
+            LOGGER.info(String.format("No loaded classes found for %s", className));
+        } else {
+            LOGGER.info(String.format("Got loaded classes matching %s from the target VM for installing breakpoints, %s", className, refTypes));
+        }
         List<BreakpointRequest> newRequests = createBreakpointRequests(refTypes, lineNumber, hitCount, true);
+        LOGGER.info("Created breakpointRequests for loaded classes");
         requests.addAll(newRequests);
 
         if (!newRequests.isEmpty() && !future.isDone()) {
-            this.putProperty("verified", true);
             future.complete(this);
         }
 
         return future;
-    }
-
-    @Override
-    public void putProperty(Object key, Object value) {
-        propertyMap.put(key, value);
-    }
-
-    @Override
-    public Object getProperty(Object key) {
-        return propertyMap.get(key);
     }
 
     @Override

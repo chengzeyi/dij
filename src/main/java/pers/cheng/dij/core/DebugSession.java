@@ -5,13 +5,16 @@ import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.request.EventRequest;
 import com.sun.jdi.request.EventRequestManager;
 import com.sun.jdi.request.ExceptionRequest;
+import pers.cheng.dij.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class DebugSession implements IDebugSession {
-    private VirtualMachine vm;
-    private EventHub eventHub = new EventHub();
+    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
+    private final VirtualMachine vm;
+    private final EventHub eventHub = new EventHub();
 
     DebugSession(VirtualMachine virtualMachine) {
         vm = virtualMachine;
@@ -28,6 +31,7 @@ public class DebugSession implements IDebugSession {
         threadDeathRequest.enable();
 
         eventHub.start(vm);
+        LOGGER.info("The debug session has successfully started");
     }
 
     @Override
@@ -35,8 +39,9 @@ public class DebugSession implements IDebugSession {
         try {
             vm.process().waitFor();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.warning(String.format("The current thread is interrupted, %s", e));
         }
+        LOGGER.info("Stopped waiting for the target thread");
     }
 
     @Override
@@ -94,6 +99,7 @@ public class DebugSession implements IDebugSession {
             ExceptionRequest request = manager.createExceptionRequest(null, notifyCaught, notifyUncaught);
             request.setSuspendPolicy(EventRequest.SUSPEND_EVENT_THREAD);
             request.enable();
+            LOGGER.info(String.format("Exception request enabled, notifyCaught: %b, notifyUncaught: %b", notifyCaught, notifyUncaught));
         }
     }
 

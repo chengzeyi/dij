@@ -5,9 +5,9 @@ import com.sun.jdi.StackFrame;
 public class BreakpointContext {
     private LocalVariableKVStorage localVariableKVStorage = null;
 
-    public void processTopStackFrame(StackFrame topStackFrame) {
+    public boolean processTopStackFrame(StackFrame topStackFrame) {
         localVariableKVStorage = new LocalVariableKVStorage();
-        localVariableKVStorage.init(topStackFrame);
+        return localVariableKVStorage.init(topStackFrame);
     }
 
     public boolean hasNextGuessedLocalVariableValue() {
