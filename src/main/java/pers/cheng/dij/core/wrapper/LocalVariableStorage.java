@@ -69,13 +69,13 @@ public class LocalVariableStorage {
         return variableName;
     }
 
-    public void setInitialValue(LocalVariable localVariable, StackFrame stackFrame) {
+    public boolean setInitialValue(LocalVariable localVariable, StackFrame stackFrame) {
         isPrimitiveType = LocalVariableUtility.isPrimitiveType(localVariable);
         if (!isPrimitiveType) {
             // Cannot handle non-primitive types.
             LOGGER.info(String.format("Cannot handle non-primitive type of local variable %s", localVariable));
             guessedValues = new ArrayList<>();
-            return;
+            return false;
         }
 
         variableName = localVariable.name();
@@ -85,7 +85,7 @@ public class LocalVariableStorage {
             signature = localVariable.type().signature();
         } catch (ClassNotLoadedException e) {
             // Ignore it since the variable must be loaded.
-            return;
+            return false;
         }
         Value value = stackFrame.getValue(localVariable);
         char signature0 = signature.charAt(0);
@@ -125,10 +125,10 @@ public class LocalVariableStorage {
             default:
                 // Cannot handle non-primitive types.
                 // The same case has been handled before.
-                return;
+                return false;
         }
 
-        LOGGER.info(String.format("variableClass: %s, initialValue: %s", variableClass, initialValue));
+        LOGGER.info(String.format("LocalVariable: %s, variableClass: %s, initialValue: %s", localVariable, variableClass, initialValue));
 
         Function<Object, List<Object>> guessFunction = getGuessFunction(variableClass.getName());
         LOGGER.info(String.format("Got guessFunction: %s", guessFunction));
@@ -136,6 +136,8 @@ public class LocalVariableStorage {
         guessedValues = guessFunction.apply(initialValue);
 
         LOGGER.info(String.format("Guessed values are: %s", guessedValues));
+
+        return true;
     }
 
     private Function<Object, List<Object>> getGuessFunction(String className) {

@@ -124,7 +124,7 @@ public class GuessFunctionProvider{
 
     public static List<Object> guessBoolean(Object object) {
         List<Object> ret = new ArrayList<>(2);
-        if (!(object instanceof Short)) {
+        if (!(object instanceof Boolean)) {
             return ret;
         }
         ret.add(false);

@@ -36,7 +36,10 @@ public class LocalVariableKVStorage implements Iterator<Object> {
         for (LocalVariable localVariable : localVariables) {
             String variableName = localVariable.name();
             LocalVariableStorage localVariableStorage = new LocalVariableStorage();
-            localVariableStorage.setInitialValue(localVariable, stackFrame);
+            if (!localVariableStorage.setInitialValue(localVariable, stackFrame)) {
+                LOGGER.info(String.format("Localvariable %s is not compatible for analysis", localVariable));
+                continue;
+            }
             variableName2Storage.put(variableName, localVariableStorage);
             guessedValueTotal += localVariableStorage.getGuessedValueCount();
             LOGGER.info(String.format("New local variable added, name: %s, type: %s", localVariable.name(), localVariable.typeName()));
@@ -55,18 +58,24 @@ public class LocalVariableKVStorage implements Iterator<Object> {
     @Override
     public Object next() {
         if (!hasNext()) {
+            LOGGER.severe("No next item left");
             return null;
         }
         ++currentIdx;
         while (true) {
             if (variableNameIter == null) {
+                LOGGER.info("The variableNameIter needs initializing");
                 variableNameIter = variableName2Storage.keySet().iterator();
             } else if (guessedValueIter.hasNext()) {
-                return guessedValueIter.next();
+                Object guessedValue = guessedValueIter.next();
+                LOGGER.info(String.format("Got guessedValue from localVariableStorage, value: %s", guessedValue));
+                return guessedValue;
             }
             currentVariableName = variableNameIter.next();
+            LOGGER.info(String.format("Current guessed variable name: %s", currentVariableName));
             LocalVariableStorage localVariableStorage = variableName2Storage.get(currentVariableName);
             currentVariableClassName = localVariableStorage.getVariableClassName();
+            LOGGER.info(String.format("Current guessed variable className: %s", currentVariableClassName));
             guessedValueIter = localVariableStorage.getIterator();
         }
     }

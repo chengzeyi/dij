@@ -1,7 +1,6 @@
 package pers.cheng.dij.core.wrapper;
 
 import java.util.Collections;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.sun.jdi.ClassNotLoadedException;
@@ -42,7 +41,9 @@ public class ExceptionEventHandler {
     private void handleExceptionEvent(ExceptionEvent exceptionEvent) {
         if (!reproductionSuccessful) {
             reproductionSuccessful = isSuccessfulReproduction(exceptionEvent);
+            return;
         }
+        LOGGER.info("Previous reproduction was successful, no need to handle this exceptionEvent");
     }
 
     public boolean isReproductionSuccessful() {
@@ -55,6 +56,7 @@ public class ExceptionEventHandler {
         for (Method method : exceptionReference.referenceType().allMethods()) {
             if ("toString".equals(method.name()) && "()Ljava/lang/String;".equals(method.signature())) {
                 toStringMethod = method;
+                LOGGER.info(String.format("toString() method of referenceType %s is found", exceptionReference.referenceType()));
                 break;
             }
         }
@@ -74,7 +76,7 @@ public class ExceptionEventHandler {
         } catch (InvalidTypeException | ClassNotLoadedException | IncompatibleThreadStateException
                 | InvocationException e) {
             LOGGER.severe(String
-                    .format("Failed to get the return value of the method Exception.toString(): %s", e));
+                    .format("Failed to get the return value of method Exception.toString(): %s", e));
             return false;
         }
 
