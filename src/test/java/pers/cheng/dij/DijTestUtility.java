@@ -13,7 +13,11 @@ import pers.cheng.dij.testcase.*;
 public class DijTestUtility {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
 
-    private static final String CRASH_LOG_DIR = Path.of("resources", "log").toAbsolutePath().toString();
+    private static final String CRASH_LOG_DIR = Path.of("tmp", "log").toAbsolutePath().toString();
+    static {
+        new File(CRASH_LOG_DIR).mkdirs();
+    }
+    
     private static final String CRASH_LOG_EXT = ".log";
 
     private static final String[] CLASS_PATHS = {

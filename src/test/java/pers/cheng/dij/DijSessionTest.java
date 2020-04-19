@@ -1,16 +1,11 @@
 package pers.cheng.dij;
 
-
 import org.junit.Test;
 
 import junit.framework.TestCase;
 import pers.cheng.dij.runner.DijSession;
 
-import java.util.logging.Logger;
-
 public class DijSessionTest {
-    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
-
     @Test
     public void testAll() {
         String[] classPaths = DijTestUtility.getClassPaths();
@@ -34,7 +29,7 @@ public class DijSessionTest {
 
             TestCase.assertTrue(reproductionStatus);
 
-            LOGGER.info(String.format("The test reproduction result is: %s", dijSession.getReproductionResult()));
+            dijSession.getReproductionResult().print();
         }
     }
 }

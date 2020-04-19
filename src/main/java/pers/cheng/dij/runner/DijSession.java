@@ -150,6 +150,7 @@ public class DijSession {
             eventHub = debugSession.getEventHub();
             breakpointEvents = eventHub.getBreakpointEvents();
             loopBreakpointEventHandler.setBreakpointEvents(breakpointEvents);
+
             Observable<DebugEvent> exceptionEvents = eventHub.getExceptionEvents();
             exceptionEventHandler.setExceptionEvents(exceptionEvents);
 

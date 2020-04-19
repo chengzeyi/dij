@@ -12,7 +12,7 @@ public class DijSettings {
     private static DijSettings CURRENT = new DijSettings();
 
     static {
-        LOGGER.setLevel(Level.ALL);
+        LOGGER.setLevel(Level.WARNING);
     }
 
     // TODO: update logLevel and javaHome.
