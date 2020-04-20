@@ -18,7 +18,7 @@ In the remaining loop of the launch of the target VM, Dij would set a breakpoint
 
 ## Run
 
-`java -jar target/dij-1.0-SNAPSHOT.jar [OPTIONS]... CRASH_LOG MAIN_CLASS [PROG_ARG]`
+`java -jar target/dij-1.0-SNAPSHOT.jar [OPTIONS]... CRASH_LOG MAIN_CLASS [PROG_ARG]...`
 
 To see the help of options, run without any argument:
 
@@ -42,7 +42,7 @@ The Dij Application has its own test system. All test cases are located in `src/
 
 - Extensibility: A very extensive framework to analyze and modify variables.
 - Universalily: Can run any java program.
-- Concurrency: Build upon an asynchronous framework.
+- Concurrency: Built upon an asynchronous framework.
 
 ## Limitions
 
