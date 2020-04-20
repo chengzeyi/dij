@@ -54,7 +54,7 @@ public class LoopBreakpointEventHandler extends BreakpointEventHandler {
                 return false;
             }
             StackFrame topStackFrame = stackFrames.get(0);
-            LOGGER.severe("Got top stack frame from the target thread");
+            LOGGER.info("Got top stack frame from the target thread");
             return changeLocalVariableValue(topStackFrame, guessedLocalVariableValue, guessedLocalVariableClassName,
                     guessedLocalVariableName);
         }
@@ -110,65 +110,73 @@ public class LoopBreakpointEventHandler extends BreakpointEventHandler {
                             changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).byteValue();
                             Value newValue = virtualMachine.mirrorOf((byte) guessedLocalVariableValue);
                             stackFrame.setValue(localVariable, newValue);
+                        } else {
+                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
+                                    guessedLocalVariableClassName, Byte.TYPE.getName()));
                         }
-                        LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                guessedLocalVariableClassName, Byte.TYPE.getName()));
                     } else if (signature0 == TypeIdentifier.CHAR) {
                         if (guessedLocalVariableClassName.equals(Character.TYPE.getName())) {
                             changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).charValue();
                             Value newValue = virtualMachine.mirrorOf((char) guessedLocalVariableValue);
                             stackFrame.setValue(localVariable, newValue);
+                        } else {
+                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
+                                    guessedLocalVariableClassName, Character.TYPE.getName()));
                         }
-                        LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                guessedLocalVariableClassName, Character.TYPE.getName()));
                     } else if (signature0 == TypeIdentifier.FLOAT) {
                         if (guessedLocalVariableClassName.equals(Float.TYPE.getName())) {
                             changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).floatValue();
                             Value newValue = virtualMachine.mirrorOf((float) guessedLocalVariableValue);
                             stackFrame.setValue(localVariable, newValue);
+                        } else {
+                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
+                                    guessedLocalVariableClassName, Float.TYPE.getName()));
                         }
-                        LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                guessedLocalVariableClassName, Float.TYPE.getName()));
                     } else if (signature0 == TypeIdentifier.DOUBLE) {
                         if (guessedLocalVariableClassName.equals(Double.TYPE.getName())) {
                             changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).doubleValue();
                             Value newValue = virtualMachine.mirrorOf((double) guessedLocalVariableValue);
                             stackFrame.setValue(localVariable, newValue);
+                        } else {
+                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
+                                    guessedLocalVariableClassName, Double.TYPE.getName()));
                         }
-                        LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                guessedLocalVariableClassName, Double.TYPE.getName()));
                     } else if (signature0 == TypeIdentifier.INT) {
                         if (guessedLocalVariableClassName.equals(Integer.TYPE.getName())) {
                             changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).intValue();
                             Value newValue = virtualMachine.mirrorOf((int) guessedLocalVariableValue);
                             stackFrame.setValue(localVariable, newValue);
+                        } else {
+                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
+                                    guessedLocalVariableClassName, Integer.TYPE.getName()));
                         }
-                        LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                guessedLocalVariableClassName, Integer.TYPE.getName()));
                     } else if (signature0 == TypeIdentifier.LONG) {
                         if (guessedLocalVariableClassName.equals(Long.TYPE.getName())) {
                             changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).longValue();
                             Value newValue = virtualMachine.mirrorOf((long) guessedLocalVariableValue);
                             stackFrame.setValue(localVariable, newValue);
+                        } else {
+                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
+                                    guessedLocalVariableClassName, Long.TYPE.getName()));
                         }
-                        LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                guessedLocalVariableClassName, Long.TYPE.getName()));
                     } else if (signature0 == TypeIdentifier.SHORT) {
                         if (guessedLocalVariableClassName.equals(Short.TYPE.getName())) {
                             changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).shortValue();
                             Value newValue = virtualMachine.mirrorOf((short) guessedLocalVariableValue);
                             stackFrame.setValue(localVariable, newValue);
+                        } else {
+                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
+                                    guessedLocalVariableClassName, Short.TYPE.getName()));
                         }
-                        LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                guessedLocalVariableClassName, Short.TYPE.getName()));
                     } else if (signature0 == TypeIdentifier.BOOLEAN) {
                         changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).booleanValue();
                         if (guessedLocalVariableClassName.equals(Boolean.TYPE.getName())) {
                             Value newValue = virtualMachine.mirrorOf((boolean) guessedLocalVariableValue);
                             stackFrame.setValue(localVariable, newValue);
+                        } else {
+                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
+                                    guessedLocalVariableClassName, Boolean.TYPE.getName()));
                         }
-                        LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                guessedLocalVariableClassName, Boolean.TYPE.getName()));
                     } else {
                         // This can never happen.
                         LOGGER.severe("This line should be dead code");
