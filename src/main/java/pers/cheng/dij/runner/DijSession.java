@@ -131,7 +131,7 @@ public class DijSession {
         debugSession.waitFor();
 
         if (!pioneerBreakpointEventHandler.isSuccessful()) {
-            LOGGER.severe("Failed to handle first breakpoint successfully");
+            LOGGER.severe("Failed to handle pioneerBreakpoint successfully");
             return false;
         }
 

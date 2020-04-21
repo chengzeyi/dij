@@ -18,7 +18,14 @@ In the remaining loop of the launch of the target VM, Dij would set a breakpoint
 
 ## Run
 
+Command line syntax:
+
 `java -jar target/dij-1.0-SNAPSHOT.jar [OPTION]... CRASH_LOG MAIN_CLASS [PROG_ARG]...`
+
+For example:
+
+`java -jar target/dij-1.0-SNAPSHOT.jar -X -cp target/test-classes tmp/log/pers.cheng.dij.testcase.
+DijTestNullPointer.log pers.cheng.dij.testcase.DijTestNullPointer`
 
 To see the help of options, run without any argument:
 

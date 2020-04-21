@@ -200,14 +200,14 @@ public class Breakpoint implements IBreakpoint {
         classPrepareRequest.addClassFilter(className);
         classPrepareRequest.enable();
         requests.add(classPrepareRequest);
-        LOGGER.info("Created class prepare request for installing breakpoint");
+        LOGGER.info("Created classPrepareRequest for installing breakpoint");
 
         // Local types also need to be handled.
         ClassPrepareRequest localClassPrepareRequest = vm.eventRequestManager().createClassPrepareRequest();
         localClassPrepareRequest.addClassFilter(className + "$*");
         localClassPrepareRequest.enable();
         requests.add(localClassPrepareRequest);
-        LOGGER.info("Created local class prepare request for installing breakpoint");
+        LOGGER.info("Created localClassPrepare request for installing breakpoint");
 
         CompletableFuture<IBreakpoint> future = new CompletableFuture<>();
 
