@@ -2,6 +2,8 @@ package pers.cheng.dij.runner;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -20,8 +22,8 @@ import pers.cheng.dij.core.IEventHub;
 import pers.cheng.dij.core.wrapper.BreakpointContext;
 import pers.cheng.dij.core.wrapper.CrashInformation;
 import pers.cheng.dij.core.wrapper.ExceptionEventHandler;
-import pers.cheng.dij.core.wrapper.FirstBreakpointEventHandler;
-import pers.cheng.dij.core.wrapper.LoopBreakpointEventHandler;
+import pers.cheng.dij.core.wrapper.PioneerBreakpointEventHandler;
+import pers.cheng.dij.core.wrapper.ModificationBreakpointEventHandler;
 import pers.cheng.dij.core.wrapper.ReproductionResult;
 
 public class DijSession {
@@ -38,8 +40,8 @@ public class DijSession {
     private String breakpointClassName;
     private int breakpointLineNumber;
 
-    private boolean reproductionSuccessful = false;
-    private ReproductionResult reproductionResult;
+    private boolean successfulReproduction = false;
+    private List<ReproductionResult> reproductionResults = new ArrayList<>();
 
     public DijSession(String mainClass, String programArguments, String vmArguments, String[] modulePaths,
             String[] classPaths, String cwd, String crashPath) {
@@ -97,7 +99,6 @@ public class DijSession {
         }
 
         VirtualMachineManager vmManager = Bootstrap.virtualMachineManager();
-        FirstBreakpointEventHandler firstBreakpointEventHandler = new FirstBreakpointEventHandler();
 
         IDebugSession debugSession;
         try {
@@ -115,24 +116,35 @@ public class DijSession {
 
         IEventHub eventHub = debugSession.getEventHub();
 
+        PioneerBreakpointEventHandler pioneerBreakpointEventHandler = new PioneerBreakpointEventHandler();
         Observable<DebugEvent> breakpointEvents = eventHub.getBreakpointEvents();
-        firstBreakpointEventHandler.setBreakpointEvents(breakpointEvents);
+        pioneerBreakpointEventHandler.setBreakpointEvents(breakpointEvents);
+
+        ExceptionEventHandler exceptionEventHandler = new ExceptionEventHandler(crashInformation);
+        Observable<DebugEvent> exceptionEvents = eventHub.getExceptionEvents();
+        exceptionEventHandler.setExceptionEvents(exceptionEvents);
+
+        debugSession.setExceptionBreakpoints(false, true);
+        LOGGER.info("Exception breakpoints have been set");
 
         debugSession.start();
         debugSession.waitFor();
 
-        if (!firstBreakpointEventHandler.isSuccessful()) {
+        if (!pioneerBreakpointEventHandler.isSuccessful()) {
             LOGGER.severe("Failed to handle first breakpoint successfully");
             return false;
         }
 
-        BreakpointContext breakpointContext = firstBreakpointEventHandler.getBreakpointContext();
+        if (exceptionEventHandler.isReproductionSuccessful()) {
+            LOGGER.severe("Please check the target program, the exception can be reproduced without modifying any variable");
+        }
 
-        LOGGER.info("Got breakpointContext from first breakpointEventHandler");
+        BreakpointContext breakpointContext = pioneerBreakpointEventHandler.getBreakpointContext();
 
-        LoopBreakpointEventHandler loopBreakpointEventHandler = new LoopBreakpointEventHandler(breakpointContext);
-        ExceptionEventHandler exceptionEventHandler = new ExceptionEventHandler(crashInformation);
-        while (loopBreakpointEventHandler.hasNextLoop()) {
+        LOGGER.info("Got breakpointContext from pioneerBreakpointEventHandler");
+
+        ModificationBreakpointEventHandler modificationBreakpointEventHandler = new ModificationBreakpointEventHandler(breakpointContext);
+        while (modificationBreakpointEventHandler.hasNextLoop()) {
             LOGGER.info("Trying to start a new debug loop");
             try {
                 debugSession = DebugUtility.launch(vmManager, mainClass, programArguments, vmArguments, modulePaths,
@@ -149,9 +161,9 @@ public class DijSession {
 
             eventHub = debugSession.getEventHub();
             breakpointEvents = eventHub.getBreakpointEvents();
-            loopBreakpointEventHandler.setBreakpointEvents(breakpointEvents);
+            modificationBreakpointEventHandler.setBreakpointEvents(breakpointEvents);
 
-            Observable<DebugEvent> exceptionEvents = eventHub.getExceptionEvents();
+            exceptionEvents = eventHub.getExceptionEvents();
             exceptionEventHandler.setExceptionEvents(exceptionEvents);
 
             debugSession.setExceptionBreakpoints(false, true);
@@ -162,28 +174,29 @@ public class DijSession {
 
             if (exceptionEventHandler.isReproductionSuccessful()) {
                 LOGGER.info("The handler has successfully reproduced the crash");
-                reproductionSuccessful = true;
-                String changedLocalVariableName = loopBreakpointEventHandler.getChangedLocalVariableName();
-                String changedLocalVariableClassName = loopBreakpointEventHandler.getChangedLocalVariableClassName();
+                successfulReproduction = true;
+                String changedLocalVariableName = modificationBreakpointEventHandler.getChangedLocalVariableName();
+                String changedLocalVariableClassName = modificationBreakpointEventHandler.getChangedLocalVariableClassName();
                 String changedLocalVariableRawValue = Objects
-                        .toString(loopBreakpointEventHandler.getChangedLocalVariableRawValue());
+                        .toString(modificationBreakpointEventHandler.getChangedLocalVariableRawValue());
                 String changedLocalVariableNewValue = Objects
-                        .toString(loopBreakpointEventHandler.getChangedLocalVariableNewValue());
-                reproductionResult = new ReproductionResult(changedLocalVariableName, changedLocalVariableClassName,
-                        changedLocalVariableRawValue, changedLocalVariableNewValue);
-
-                return true;
+                        .toString(modificationBreakpointEventHandler.getChangedLocalVariableNewValue());
+                ReproductionResult reproductionResult = new ReproductionResult(breakpointClassName, breakpointLineNumber, changedLocalVariableName, changedLocalVariableClassName, changedLocalVariableRawValue, changedLocalVariableNewValue);
+                reproductionResults.add(reproductionResult);
             }
         }
 
-        return false;
+        if (!successfulReproduction) {
+            LOGGER.severe(String.format("Reproduction failed, mainClass: %s", mainClass));
+        }
+        return successfulReproduction;
     }
 
-    public boolean isReproductionSuccessful() {
-        return reproductionSuccessful;
+    public boolean isSuccessfulReproduction() {
+        return successfulReproduction;
     }
 
-    public ReproductionResult getReproductionResult() {
-        return reproductionResult;
+    public List<ReproductionResult> getReproductionResults() {
+        return reproductionResults;
     }
 }

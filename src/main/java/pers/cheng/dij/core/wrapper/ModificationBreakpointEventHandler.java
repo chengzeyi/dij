@@ -10,6 +10,7 @@ import com.sun.jdi.InvalidTypeException;
 import com.sun.jdi.LocalVariable;
 import com.sun.jdi.PrimitiveValue;
 import com.sun.jdi.StackFrame;
+import com.sun.jdi.StringReference;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.Value;
 import com.sun.jdi.VirtualMachine;
@@ -18,7 +19,7 @@ import com.sun.jdi.event.BreakpointEvent;
 import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.wrapper.formatter.TypeIdentifier;
 
-public class LoopBreakpointEventHandler extends BreakpointEventHandler {
+public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
 
     private String changedLocalVariableName;
@@ -28,7 +29,7 @@ public class LoopBreakpointEventHandler extends BreakpointEventHandler {
 
     private BreakpointContext breakpointContext;
 
-    public LoopBreakpointEventHandler(BreakpointContext breakpointContext) {
+    public ModificationBreakpointEventHandler(BreakpointContext breakpointContext) {
         this.breakpointContext = breakpointContext;
     }
 
@@ -87,6 +88,7 @@ public class LoopBreakpointEventHandler extends BreakpointEventHandler {
                 }
 
                 char signature0 = signature.charAt(0);
+                // Pre-check
                 switch (signature0) {
                     case TypeIdentifier.BYTE:
                     case TypeIdentifier.CHAR:
@@ -96,6 +98,8 @@ public class LoopBreakpointEventHandler extends BreakpointEventHandler {
                     case TypeIdentifier.LONG:
                     case TypeIdentifier.SHORT:
                     case TypeIdentifier.BOOLEAN:
+                    case TypeIdentifier.STRING:
+                    case TypeIdentifier.OBJECT:
                         break;
                     default:
                         LOGGER.warning(String.format("Unsupported type identifier: %s", signature));
@@ -177,13 +181,32 @@ public class LoopBreakpointEventHandler extends BreakpointEventHandler {
                             LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
                                     guessedLocalVariableClassName, Boolean.TYPE.getName()));
                         }
+                    // If the signature is TypeIdentifier.STRING_SIGNATURE, it
+                    // will be caught here, not in the 'Object' clause.
+                    } else if (signature0 == TypeIdentifier.STRING || signature.equals(TypeIdentifier.STRING_SIGNATURE)) {
+                        changedLocalVariableRawValue = ((StringReference) localVariableRawValue).value();
+                        // A null value's type is always 'Object' indeed, which is the only exception.
+                        if (guessedLocalVariableClassName.equals(String.class.getName()) || guessedLocalVariableValue == null) {
+                            Value newValue = virtualMachine.mirrorOf((String) guessedLocalVariableValue);
+                            stackFrame.setValue(localVariable, newValue);
+                        } else {
+                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
+                                    guessedLocalVariableClassName, String.class.getName()));
+                        }
+                    } else if (signature0 == TypeIdentifier.OBJECT) {
+                        // Currently it is too complex to get the general value of any plain 'Object'.
+                        changedLocalVariableRawValue = "unknown";
+                        if (guessedLocalVariableClassName.equals(Object.class.getName())) {
+                            // It's hard to create a 'Value' mirror except for 'null' for a plain 'Object' type.
+                            stackFrame.setValue(localVariable, null);
+                        }
                     } else {
-                        // This can never happen.
+                        // This should never happen.
                         LOGGER.severe("This line should be dead code");
                     }
                 } catch (ClassNotLoadedException | InvalidTypeException e) {
                     // May never hanppen.
-                    LOGGER.severe(String.format("Cannot set value for local variable: %s", guessedLocalVariableName));
+                    LOGGER.severe(String.format("Cannot set value for local variable: %s, %s", guessedLocalVariableName, e));
                     break;
                 }
 

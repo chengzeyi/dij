@@ -21,6 +21,7 @@ public class LocalVariableKVStorage implements Iterator<Object> {
     private Iterator<Object> guessedValueIter = null;
     private int currentIdx = 0;
     private int guessedValueTotal = 0;
+    // The class name for an Object, or the class name representing the primitive type.
     private String currentVariableClassName = null;
     private String currentVariableName = null;
 

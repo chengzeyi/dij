@@ -9,7 +9,7 @@ import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.BreakpointEvent;
 import pers.cheng.dij.Configuration;
 
-public class FirstBreakpointEventHandler extends BreakpointEventHandler {
+public class PioneerBreakpointEventHandler extends BreakpointEventHandler {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
 
     private BreakpointContext breakpointContext;

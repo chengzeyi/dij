@@ -1,6 +1,7 @@
 package pers.cheng.dij.core.wrapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class GuessFunctionProvider{
@@ -132,7 +133,22 @@ public class GuessFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessAnyth(Object object) {
+    public static List<Object> guessAnything(Object object) {
         return new ArrayList<>();
+    }
+
+    public static List<Object> guessObject(Object object) {
+        return Arrays.asList((Object) null);
+    }
+
+    public static List<Object> guessString(Object object) {
+        String str = (String) object;
+        List<Object> ret = Arrays.asList((String) null, "", str + str);
+        if (str.length() < 16) {
+            for (int i = 1; i < str.length(); ++i) {
+                ret.add(str.substring(0, i));
+            }
+        }
+        return ret;
     }
 }

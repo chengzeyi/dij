@@ -12,6 +12,6 @@ public class DijTestDevidedByZero {
         int divisor = DijTestUtility.isTrigger(args) ? 0 : 1;
         // EXP
         int result = 1 / divisor;
-        LOGGER.info(String.format("%s ended, isTrigger: %b", DijTestDevidedByZero.class.getName(), DijTestUtility.isTrigger(args)));
+        LOGGER.info(String.format("%s ended, no exception occurs", DijTestIndexOutOfBound.class.getName()));
     }
 }

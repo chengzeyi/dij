@@ -18,7 +18,7 @@ In the remaining loop of the launch of the target VM, Dij would set a breakpoint
 
 ## Run
 
-`java -jar target/dij-1.0-SNAPSHOT.jar [OPTIONS]... CRASH_LOG MAIN_CLASS [PROG_ARG]...`
+`java -jar target/dij-1.0-SNAPSHOT.jar [OPTION]... CRASH_LOG MAIN_CLASS [PROG_ARG]...`
 
 To see the help of options, run without any argument:
 
@@ -34,7 +34,6 @@ The Dij Application has its own test system. All test cases are located in `src/
 
 ## Road Map
 
-- Support modifying non-primitive type variables.
 - Support modifying `this` object in the stack frame.
 - More accurate algorithms to analyze the breakpoint context information.
 
@@ -46,5 +45,5 @@ The Dij Application has its own test system. All test cases are located in `src/
 
 ## Limitions
 
-- Currently only support primitive types.
 - Does not support `this` object.
+- Limited modification on plain `Object`.

@@ -12,6 +12,6 @@ public class DijTestDevidedByFloatZero {
         float divisor = DijTestUtility.isTrigger(args) ? 0.0f : 1.0f;
         // EXP
         int result = 1 / (int) divisor;
-        LOGGER.info(String.format("%s ended, isTrigger: %b", DijTestDevidedByFloatZero.class.getName(), DijTestUtility.isTrigger(args)));
+        LOGGER.info(String.format("%s ended, no exception occurs", DijTestIndexOutOfBound.class.getName()));
     }
 }

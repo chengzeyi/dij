@@ -12,6 +12,6 @@ public class DijTestBooleanOperation {
         boolean cond = DijTestUtility.isTrigger(args) ? true : false;
         // EXP
         boolean result = cond && 1 / 0 > 0;
-        LOGGER.info(String.format("%s ended, isTrigger: %b", DijTestUtility.class.getName(), DijTestUtility.isTrigger(args)));
+        LOGGER.info(String.format("%s ended, isTrigger: %b", DijTestIndexOutOfBound.class.getName(), DijTestUtility.isTrigger(args)));
     }
 }

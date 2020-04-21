@@ -1,6 +1,7 @@
 package pers.cheng.dij;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -63,6 +64,8 @@ public class DijApp {
         boolean debug = cmd.hasOption("debug");
         if (debug) {
             DijSettings.getCurrent().setLogLevel("ALL");
+        } else {
+            DijSettings.getCurrent().setLogLevel("WARNING");
         }
 
 
@@ -72,11 +75,11 @@ public class DijApp {
             System.exit(1);
         }
 
-        ReproductionResult reproductionResult = dijSession.getReproductionResult();
+        List<ReproductionResult> reproductionResults = dijSession.getReproductionResults();
         if (output != null) {
-            reproductionResult.writeToFile(output);
+            reproductionResults.forEach(reproductionResult -> reproductionResult.writeToFile(output));
         } else {
-            reproductionResult.print();
+            reproductionResults.forEach(ReproductionResult::print);;
         }
     }
 

@@ -19,6 +19,7 @@ import com.sun.jdi.LocalVariable;
 import com.sun.jdi.LongValue;
 import com.sun.jdi.ShortValue;
 import com.sun.jdi.StackFrame;
+import com.sun.jdi.StringReference;
 import com.sun.jdi.Value;
 
 import pers.cheng.dij.Configuration;
@@ -30,14 +31,13 @@ public class LocalVariableStorage {
     private static Function<Object, List<Object>> DEFAULT_GUESS_FUNCTION = null;
     private static Map<String, Function<Object, List<Object>>> CLASS_NAME_2_GUESS_FUNCTION = new HashMap<>();
 
-    private boolean isPrimitiveType = false;
     private Class<?> variableClass = null;
     private String variableName = null;
     private Object initialValue = null;
     private List<Object> guessedValues = null;
 
     static {
-        DEFAULT_GUESS_FUNCTION = GuessFunctionProvider::guessAnyth;
+        DEFAULT_GUESS_FUNCTION = GuessFunctionProvider::guessAnything;
 
         CLASS_NAME_2_GUESS_FUNCTION.put(Byte.TYPE.getName(), GuessFunctionProvider::guessByte);
         CLASS_NAME_2_GUESS_FUNCTION.put(Character.TYPE.getName(), GuessFunctionProvider::guessChar);
@@ -47,6 +47,8 @@ public class LocalVariableStorage {
         CLASS_NAME_2_GUESS_FUNCTION.put(Long.TYPE.getName(), GuessFunctionProvider::guessLong);
         CLASS_NAME_2_GUESS_FUNCTION.put(Short.TYPE.getName(), GuessFunctionProvider::guessShort);
         CLASS_NAME_2_GUESS_FUNCTION.put(Boolean.TYPE.getName(), GuessFunctionProvider::guessBoolean);
+        CLASS_NAME_2_GUESS_FUNCTION.put(String.class.getName(), GuessFunctionProvider::guessString);
+        CLASS_NAME_2_GUESS_FUNCTION.put(Object.class.getName(), GuessFunctionProvider::guessObject);
     }
 
     public String getVariableClassName() {
@@ -70,13 +72,7 @@ public class LocalVariableStorage {
     }
 
     public boolean setInitialValue(LocalVariable localVariable, StackFrame stackFrame) {
-        isPrimitiveType = LocalVariableUtility.isPrimitiveType(localVariable);
-        if (!isPrimitiveType) {
-            // Cannot handle non-primitive types.
-            LOGGER.info(String.format("Cannot handle non-primitive type of local variable %s", localVariable));
-            guessedValues = new ArrayList<>();
-            return false;
-        }
+        LOGGER.info(String.format("Handling local variable: %s", localVariable));
 
         variableName = localVariable.name();
 
@@ -122,10 +118,24 @@ public class LocalVariableStorage {
                 variableClass = Boolean.TYPE;
                 initialValue = ((BooleanValue) value).value();
                 break;
+            case TypeIdentifier.STRING:
+                variableClass = String.class;
+                initialValue = ((StringReference) value).value();
+                break;
             default:
-                // Cannot handle non-primitive types.
-                // The same case has been handled before.
-                return false;
+                if (signature.equals(TypeIdentifier.STRING_SIGNATURE)) {
+                    variableClass = String.class;
+                    initialValue = ((StringReference) value).value();
+                } else if (signature0 == TypeIdentifier.OBJECT) {
+                    variableClass = Object.class;
+                    // It is complex to get the initial value of an 'Object' local variable.
+                    // Maybe some serialization techniques would work.
+                    // Current set it to "unknown" for display purpose.
+                    initialValue = "unknown";
+                } else {
+                    LOGGER.info(String.format("Cannot handle local variable: %s", localVariable));
+                    return false;
+                }
         }
 
         LOGGER.info(String.format("LocalVariable: %s, variableClass: %s, initialValue: %s", localVariable, variableClass, initialValue));

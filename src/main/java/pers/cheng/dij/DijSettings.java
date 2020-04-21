@@ -11,9 +11,11 @@ public class DijSettings {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
     private static DijSettings CURRENT = new DijSettings();
 
-    static {
-        LOGGER.setLevel(Level.WARNING);
-    }
+    // This might not be effective since this class might be loaded after
+    // java.util.logging.Logger
+    // static {
+    //     LOGGER.setLevel(Level.WARNING);
+    // }
 
     // TODO: update logLevel and javaHome.
     private String logLevel = null;

@@ -31,7 +31,9 @@ public class DijTestUtility {
         DijTestDevidedByFloatZero.class,
         DijTestDevidedByDoubleZero.class,
         DijTestBooleanOperation.class,
-        DijTestIndexOutOfBound.class
+        DijTestIndexOutOfBound.class,
+        DijTestStringIndexOutOfBound.class,
+        DijTestNullPointer.class
     };
 
     public static Class<?>[] getTestedClasses() {
