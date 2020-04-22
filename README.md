@@ -37,9 +37,9 @@ To run tests:
 
 ## Test
 
-The Dij Application has its own test system. All test cases are located in `src/test/java/pers/cheng/dij/testcase/`. Each test case is a single Java class file with a `main` method defined. Each test case would not throw an exception if it is executed with out any argument. But if the arguments contain a String of `trigger`, then the exception would be thrown. The class `pers.cheng.dij.DijTestUtility` would use this feature to generate crash logs in `tmp/log` and run crash reproduction process.
+The Dij Application has its own test system. All test cases are located in `src/test/java/pers/cheng/dij/testcase/`. Each test case is a single Java class file with a `main` method defined. Each test case would not throw an exception if it is executed without any argument. However, if the arguments contain a String of `trigger`, then the exception would be thrown. The class `pers.cheng.dij.DijTestUtility` would use this feature to generate crash logs in `tmp/log` and run crash reproduction process.
 
-## Road Map
+## Roadmap
 
 - Support modifying `this` object in the stack frame.
 - More accurate algorithms to analyze the breakpoint context information.
@@ -50,7 +50,7 @@ The Dij Application has its own test system. All test cases are located in `src/
 - Universalily: Can run any java program.
 - Concurrency: Built upon an asynchronous framework.
 
-## Limitions
+## Limitations
 
 - Does not support `this` object.
 - Limited modification on plain `Object`.

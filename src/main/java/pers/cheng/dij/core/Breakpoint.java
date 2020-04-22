@@ -16,7 +16,6 @@ import com.sun.jdi.request.EventRequest;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import pers.cheng.dij.Configuration;
 
 public class Breakpoint implements IBreakpoint {
@@ -72,12 +71,12 @@ public class Breakpoint implements IBreakpoint {
         List<Location> existingLocations = new ArrayList<>(requests.size());
         Observable.fromIterable(requests).filter(request ->
                 request instanceof BreakpointRequest).map(request ->
-                ((BreakpointRequest) request).location()).toList().subscribe((Consumer<List<Location>>) existingLocations::addAll, onError -> {});
+                ((BreakpointRequest) request).location()).toList().subscribe(existingLocations::addAll, onError -> {});
 
         // Remove duplicated locations.
         List<Location> newLocations = new ArrayList<>(locations.size());
         Observable.fromIterable(locations).filter(location ->
-                !existingLocations.contains(location)).toList().subscribe((Consumer<List<Location>>) newLocations::addAll, onError -> {});
+                !existingLocations.contains(location)).toList().subscribe(newLocations::addAll, onError -> {});
 
         List<BreakpointRequest> newRequests = new ArrayList<>(newLocations.size());
         newLocations.forEach(location -> {
@@ -195,7 +194,7 @@ public class Breakpoint implements IBreakpoint {
     @Override
     public CompletableFuture<IBreakpoint> install() {
         // Different class loaders can create new class with the same name.
-        // Listen to future class prepare events to handle such case.
+        // Listen to future ClassPrepareEvent to handle such case.
         ClassPrepareRequest classPrepareRequest = vm.eventRequestManager().createClassPrepareRequest();
         classPrepareRequest.addClassFilter(className);
         classPrepareRequest.enable();
@@ -229,7 +228,6 @@ public class Breakpoint implements IBreakpoint {
         subscriptions.add(subscription);
 
         // Create BreakpointRequests for loaded classes.
-        // TODO: fix bug
         List<ReferenceType> refTypes = vm.classesByName(className);
         if (refTypes.isEmpty()) {
             LOGGER.info(String.format("No loaded classes found for %s", className));

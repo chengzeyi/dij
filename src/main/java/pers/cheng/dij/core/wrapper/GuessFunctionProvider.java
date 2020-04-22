@@ -137,6 +137,8 @@ public class GuessFunctionProvider{
         return new ArrayList<>();
     }
 
+    // Not really used yet, since I have not figure out how to set a non-null value for any Object.
+    // It is still here for some unification consideration.
     public static List<Object> guessObject(Object object) {
         return Arrays.asList((Object) null);
     }

@@ -14,6 +14,7 @@ import com.sun.jdi.connect.VMStartException;
 
 import io.reactivex.Observable;
 import pers.cheng.dij.Configuration;
+import pers.cheng.dij.DijException;
 import pers.cheng.dij.core.DebugEvent;
 import pers.cheng.dij.core.DebugUtility;
 import pers.cheng.dij.core.IBreakpoint;
@@ -76,7 +77,7 @@ public class DijSession {
         this.breakpointLineNumber = lineNumber;
     }
 
-    public boolean reproduce() {
+    public void reproduce() throws DijException {
         LOGGER.info(String.format(
                 "Reproduction started, mainClass: %s, programArguments: %s, vmArguments: %s, modulePaths: %s, classPaths: %s, cwd: %s, crashPath: %s",
                 mainClass, programArguments, vmArguments, modulePaths, classPaths, cwd, crashPath));
@@ -86,7 +87,7 @@ public class DijSession {
             crashInformation.parseCrashLinesFromFile(crashPath);
         } catch (IOException e) {
             LOGGER.severe(String.format("Cannot read crash lines from file, %s", e));
-            return false;
+            throw new DijException(e);
         }
 
         if (breakpointClassName == null) {
@@ -94,7 +95,7 @@ public class DijSession {
                 setBreakpoint(crashInformation.getBreakpointClassName(), crashInformation.getBreakpointLineNumber());
             } else {
                 LOGGER.severe(String.format("Cannot infer breakpoint position from crash log, path: %s", crashPath));
-                return false;
+                throw new DijException();
             }
         }
 
@@ -106,7 +107,7 @@ public class DijSession {
                     classPaths, cwd);
         } catch (IOException | IllegalConnectorArgumentsException | VMStartException e) {
             LOGGER.severe(String.format("Cannot launch debug session, %s", e));
-            return false;
+            throw new DijException("Cannot launch debug session", e);
         }
 
         IBreakpoint breakpoint = debugSession.createBreakpoint(breakpointClassName, breakpointLineNumber);
@@ -131,8 +132,8 @@ public class DijSession {
         debugSession.waitFor();
 
         if (!pioneerBreakpointEventHandler.isSuccessful()) {
-            LOGGER.severe("Failed to handle pioneerBreakpoint successfully");
-            return false;
+            LOGGER.severe("Failed to handle pioneerBreakpoint");
+            throw new DijException("Failed to handle pioneerBreakpoint");
         }
 
         if (exceptionEventHandler.isReproductionSuccessful()) {
@@ -151,7 +152,7 @@ public class DijSession {
                         classPaths, cwd);
             } catch (IOException | IllegalConnectorArgumentsException | VMStartException e) {
                 LOGGER.severe("Failed to launch debug session.");
-                return false;
+                throw new DijException("Failed to launch debug session", e);
             }
 
             breakpoint = debugSession.createBreakpoint(breakpointClassName, breakpointLineNumber);
@@ -189,7 +190,6 @@ public class DijSession {
         if (!successfulReproduction) {
             LOGGER.severe(String.format("Reproduction failed, mainClass: %s", mainClass));
         }
-        return successfulReproduction;
     }
 
     public boolean isSuccessfulReproduction() {

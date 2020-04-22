@@ -17,6 +17,7 @@ import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.BreakpointEvent;
 
 import pers.cheng.dij.Configuration;
+import pers.cheng.dij.core.DebugException;
 import pers.cheng.dij.core.wrapper.formatter.TypeIdentifier;
 
 public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
@@ -37,7 +38,7 @@ public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
         return breakpointContext.hasNextGuessedLocalVariableValue();
     }
 
-    protected boolean handleBreakpointEvent(BreakpointEvent breakpointEvent) {
+    protected void handleBreakpointEvent(BreakpointEvent breakpointEvent) throws DebugException {
         LOGGER.info(String.format("Handling breakpointEvent: %s", breakpointEvent));
 
         // Try different values using context information.
@@ -52,28 +53,28 @@ public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
             } catch (IncompatibleThreadStateException e) {
                 // Cannot continue to change the value.
                 LOGGER.severe(String.format("Cannot get stack frames from the target thread, %s", e));
-                return false;
+                throw new DebugException("Cannot get start frames from the target thread", e);
             }
             StackFrame topStackFrame = stackFrames.get(0);
             LOGGER.info("Got top stack frame from the target thread");
-            return changeLocalVariableValue(topStackFrame, guessedLocalVariableValue, guessedLocalVariableClassName,
+            changeLocalVariableValue(topStackFrame, guessedLocalVariableValue, guessedLocalVariableClassName,
                     guessedLocalVariableName);
         }
 
         LOGGER.warning("No guessedLocalVariable left");
-        return false;
+        throw new DebugException("No guessedLocalVariable left");
     }
 
-    private boolean changeLocalVariableValue(StackFrame stackFrame, Object guessedLocalVariableValue,
-            String guessedLocalVariableClassName, String guessedLocalVariableName) {
+    private void changeLocalVariableValue(StackFrame stackFrame, Object guessedLocalVariableValue,
+            String guessedLocalVariableClassName, String guessedLocalVariableName) throws DebugException {
         LOGGER.info(String.format("Trying to change the value of the local variable: %s", guessedLocalVariableName));
 
         List<LocalVariable> localVariables;
         try {
             localVariables = stackFrame.visibleVariables();
         } catch (AbsentInformationException e) {
-            LOGGER.severe(String.format("Cannot get localVariables from the stack frame, %s", e));
-            return false;
+            LOGGER.severe(String.format("Cannot get local variables from the stack frame, %s", e));
+            throw new DebugException("Cannot get local variables from the stack frame", e);
         }
 
         for (LocalVariable localVariable : localVariables) {
@@ -217,12 +218,11 @@ public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
                 LOGGER.info(String.format(
                         "Successfully changed the value of the localVariable, name: %s, className: %s, newValue: %s",
                         guessedLocalVariableName, guessedLocalVariableValue, guessedLocalVariableValue));
-                return true;
             }
         }
 
         LOGGER.severe(String.format("No suitable local variable found for: %s", guessedLocalVariableName));
-        return false;
+        throw new DebugException(String.format("No suitable local variable for: %s", guessedLocalVariableName));
     }
 
     public String getChangedLocalVariableName() {

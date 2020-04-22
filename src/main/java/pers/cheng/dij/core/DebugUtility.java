@@ -128,6 +128,7 @@ public class DebugUtility {
             optionsBuilder.append(" --module-path \"").append(modulePaths).append("\"");
         }
         if (StringUtils.isNotBlank(classPaths)) {
+            // Maybe single quote is better.
             optionsBuilder.append(" -cp \"").append(classPaths).append("\"");
         }
         arguments.get(OPTIONS).setValue(optionsBuilder.toString());

@@ -32,15 +32,15 @@ public class DijSessionTest {
             TestCase.assertNotNull(crashPath);
 
             DijSession dijSession = new DijSession(mainClass, programArguments, vmArguments, classPaths, modulePaths, crashPath);
-            boolean reproductionStatus = false;
+
             try {
-                reproductionStatus = dijSession.reproduce();
+                dijSession.reproduce();
             } catch (Exception e) {
                 e.printStackTrace();
                 TestCase.fail();
             }
 
-            TestCase.assertTrue(reproductionStatus);
+            TestCase.assertTrue(dijSession.isSuccessfulReproduction());
 
             dijSession.getReproductionResults().forEach(ReproductionResult::print);
         }

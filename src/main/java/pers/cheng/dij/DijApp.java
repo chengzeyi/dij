@@ -22,7 +22,8 @@ public class DijApp {
         classpathOpt.setRequired(false);
         options.addOption(classpathOpt);
 
-        Option outputOpt = new Option("o", "output", true, "specify the output file to write, or the output will be printed to stdout");
+        Option outputOpt = new Option("o", "output", true,
+                "specify the output file to write, or the output will be printed to stdout");
         outputOpt.setRequired(false);
         options.addOption(outputOpt);
 
@@ -68,9 +69,11 @@ public class DijApp {
             DijSettings.getCurrent().setLogLevel("WARNING");
         }
 
-
         DijSession dijSession = new DijSession(mainClass, progArgs, "", "", classPath, crashLog);
-        if (!dijSession.reproduce()) {
+        try {
+            dijSession.reproduce();
+        } catch (DijException e) {
+            e.printStackTrace();
             System.err.println("Failed to reproduce");
             System.exit(1);
         }
@@ -79,7 +82,8 @@ public class DijApp {
         if (output != null) {
             reproductionResults.forEach(reproductionResult -> reproductionResult.writeToFile(output));
         } else {
-            reproductionResults.forEach(ReproductionResult::print);;
+            reproductionResults.forEach(ReproductionResult::print);
+            ;
         }
     }
 

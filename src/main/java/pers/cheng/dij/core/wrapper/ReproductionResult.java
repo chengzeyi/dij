@@ -29,20 +29,21 @@ public class ReproductionResult {
     }
 
     public void writeToFile(String path) {
-        PrintStream ps;
         try {
-            ps = new PrintStream(path);
+            PrintStream ps = new PrintStream(path);
+            try {
+                ps.println("BREAKPOINT_CLASS_NAME:             " + breakpointClassName);
+                ps.println("BREAKPOINT_LINE_NUMBER:            " + breakpointLineNumber);
+                ps.println("CHANGED_LOCAL_VARIABLE_CLASS_NAME: " + changedLocalVariableClassName);
+                ps.println("CHANGED_LOCAL_VARIABLE_NAME:       " + changedLocalVariableName);
+                ps.println("CHANGED_LOCAL_VARIABLE_RAW_VALUE:  " + changedLocalVariableRawValue);
+                ps.println("CHANGED_LOCAL_VARIABLE_NEW_VALUE:  " + changedLocalVariableNewValue);
+            } finally {
+                ps.close();
+            }
         } catch (FileNotFoundException e) {
             LOGGER.severe(String.format("Cannot open file for writing log, %s", e));
-            return;
         }
-        ps.println("BREAKPOINT_CLASS_NAME:             " + breakpointClassName);
-        ps.println("BREAKPOINT_LINE_NUMBER:            " + breakpointLineNumber);
-        ps.println("CHANGED_LOCAL_VARIABLE_CLASS_NAME: " + changedLocalVariableClassName);
-        ps.println("CHANGED_LOCAL_VARIABLE_NAME:       " + changedLocalVariableName);
-        ps.println("CHANGED_LOCAL_VARIABLE_RAW_VALUE:  " + changedLocalVariableRawValue);
-        ps.println("CHANGED_LOCAL_VARIABLE_NEW_VALUE:  " + changedLocalVariableNewValue);
-        ps.close();
     }
 
     public void print() {

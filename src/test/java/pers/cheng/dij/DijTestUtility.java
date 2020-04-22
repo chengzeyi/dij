@@ -76,16 +76,18 @@ public class DijTestUtility {
         try {
             mainMethod.invoke(null, (Object) new String[] { "trigger" });
         } catch (InvocationTargetException e) {
-            PrintStream ps;
             try {
-                ps = new PrintStream(crashLogPath);
+                PrintStream ps = new PrintStream(crashLogPath);
+                try {
+                    e.getTargetException().printStackTrace(ps);
+                } finally {
+                    ps.close();
+                }
+                return crashLogPath;
             } catch (FileNotFoundException ex) {
                 LOGGER.severe(String.format("Cannot open file for writing log, %s", e));
                 return null;
             }
-            e.getTargetException().printStackTrace(ps);
-            ps.close();
-            return crashLogPath;
         } catch (IllegalAccessException e) {
             LOGGER.severe(String.format("The target main method is inaccessible, %s", e));
             return null;

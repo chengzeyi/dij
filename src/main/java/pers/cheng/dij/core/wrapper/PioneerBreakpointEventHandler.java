@@ -8,6 +8,7 @@ import com.sun.jdi.StackFrame;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.BreakpointEvent;
 import pers.cheng.dij.Configuration;
+import pers.cheng.dij.core.DebugException;
 
 public class PioneerBreakpointEventHandler extends BreakpointEventHandler {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
@@ -19,7 +20,7 @@ public class PioneerBreakpointEventHandler extends BreakpointEventHandler {
     }
 
     @Override
-    protected boolean handleBreakpointEvent(BreakpointEvent breakpointEvent) {
+    protected void handleBreakpointEvent(BreakpointEvent breakpointEvent) throws DebugException {
         ThreadReference threadReference = breakpointEvent.thread();
         List<StackFrame> stackFrames;
         try {
@@ -27,12 +28,12 @@ public class PioneerBreakpointEventHandler extends BreakpointEventHandler {
         } catch (IncompatibleThreadStateException e) {
             // Cannot continue to change the value.
             LOGGER.severe(String.format("Cannot get stack frames from the target thread, %s", e));
-            return false;
+            throw new DebugException("Cannot get stack frames from the target thread", e);
         }
 
         StackFrame topStackFrame = stackFrames.get(0);
         LOGGER.info("Got top stack frame");
         breakpointContext = new BreakpointContext();
-        return breakpointContext.processTopStackFrame(topStackFrame);
+        breakpointContext.processTopStackFrame(topStackFrame);
     }
 }

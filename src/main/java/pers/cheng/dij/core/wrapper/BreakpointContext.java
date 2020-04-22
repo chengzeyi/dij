@@ -2,12 +2,13 @@ package pers.cheng.dij.core.wrapper;
 
 import com.sun.jdi.StackFrame;
 
-public class BreakpointContext {
-    private LocalVariableKVStorage localVariableKVStorage = null;
+import pers.cheng.dij.core.DebugException;
 
-    public boolean processTopStackFrame(StackFrame topStackFrame) {
-        localVariableKVStorage = new LocalVariableKVStorage();
-        return localVariableKVStorage.init(topStackFrame);
+public class BreakpointContext {
+    private LocalVariableKVStorage localVariableKVStorage;
+
+    public void processTopStackFrame(StackFrame topStackFrame) throws DebugException {
+        localVariableKVStorage = new LocalVariableKVStorage(topStackFrame);
     }
 
     public boolean hasNextGuessedLocalVariableValue() {

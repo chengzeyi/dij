@@ -89,9 +89,8 @@ public class DebugSession implements IDebugSession {
         ArrayList<ExceptionRequest> legacy = new ArrayList<>(manager.exceptionRequests());
         // Remove all exception requests.
         manager.deleteEventRequests(legacy);
-        // When no exception breakpoints are requests are requests, no need to create an
-        // empty
-        // exception request.
+        // When no exception breakpoints are requests are requests, no need to
+        // create an empty exception request.
         if (notifyCaught || notifyUncaught) {
             // java-debug says that if this method is not called,
             // there will be a bug.
