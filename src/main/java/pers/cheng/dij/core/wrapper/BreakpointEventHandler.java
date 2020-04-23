@@ -30,10 +30,13 @@ public abstract class BreakpointEventHandler {
             try {
                 handleBreakpointEvent(breakpointEvent);
                 successful = true;
-            } catch (Exception e) {
-                // Do nothing.
+            } catch (DebugException e) {
+                LOGGER.severe(String.format("Failed to handle breakpointEvent, %s", e));
             }
-        }, onError -> {});
+        }, onError -> {
+            LOGGER.severe(onError.toString());
+            onError.printStackTrace();
+        });
     }
 
     protected abstract void handleBreakpointEvent(BreakpointEvent breakpointEvent) throws DebugException;

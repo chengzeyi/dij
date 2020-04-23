@@ -26,6 +26,7 @@ import pers.cheng.dij.core.wrapper.ExceptionEventHandler;
 import pers.cheng.dij.core.wrapper.PioneerBreakpointEventHandler;
 import pers.cheng.dij.core.wrapper.ModificationBreakpointEventHandler;
 import pers.cheng.dij.core.wrapper.ReproductionResult;
+import pers.cheng.dij.core.wrapper.variable.Variable;
 
 public class DijSession {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
@@ -82,9 +83,9 @@ public class DijSession {
                 "Reproduction started, mainClass: %s, programArguments: %s, vmArguments: %s, modulePaths: %s, classPaths: %s, cwd: %s, crashPath: %s",
                 mainClass, programArguments, vmArguments, modulePaths, classPaths, cwd, crashPath));
 
-        CrashInformation crashInformation = new CrashInformation();
+        CrashInformation crashInformation;
         try {
-            crashInformation.parseCrashLinesFromFile(crashPath);
+            crashInformation = new CrashInformation(crashPath);
         } catch (IOException e) {
             LOGGER.severe(String.format("Cannot read crash lines from file, %s", e));
             throw new DijException(e);
@@ -136,7 +137,7 @@ public class DijSession {
             throw new DijException("Failed to handle pioneerBreakpoint");
         }
 
-        if (exceptionEventHandler.isReproductionSuccessful()) {
+        if (exceptionEventHandler.isSuccessful()) {
             LOGGER.severe("Please check the target program, the exception can be reproduced without modifying any variable");
         }
 
@@ -173,16 +174,18 @@ public class DijSession {
             debugSession.start();
             debugSession.waitFor();
 
-            if (exceptionEventHandler.isReproductionSuccessful()) {
+            if (exceptionEventHandler.isSuccessful()) {
                 LOGGER.info("The handler has successfully reproduced the crash");
                 successfulReproduction = true;
-                String changedLocalVariableName = modificationBreakpointEventHandler.getChangedLocalVariableName();
-                String changedLocalVariableClassName = modificationBreakpointEventHandler.getChangedLocalVariableClassName();
-                String changedLocalVariableRawValue = Objects
-                        .toString(modificationBreakpointEventHandler.getChangedLocalVariableRawValue());
-                String changedLocalVariableNewValue = Objects
-                        .toString(modificationBreakpointEventHandler.getChangedLocalVariableNewValue());
-                ReproductionResult reproductionResult = new ReproductionResult(breakpointClassName, breakpointLineNumber, changedLocalVariableName, changedLocalVariableClassName, changedLocalVariableRawValue, changedLocalVariableNewValue);
+
+                Variable changedLocalVariableRaw = modificationBreakpointEventHandler.getChangedLocalVariableRaw();
+                Variable changedLocalVariableNew = modificationBreakpointEventHandler.getChangedLocalVariableNew();
+
+                ReproductionResult reproductionResult = new ReproductionResult(
+                        breakpointClassName,
+                        breakpointLineNumber,
+                        changedLocalVariableRaw,
+                        changedLocalVariableNew);
                 reproductionResults.add(reproductionResult);
             }
         }

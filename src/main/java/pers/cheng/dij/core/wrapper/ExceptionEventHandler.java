@@ -23,31 +23,36 @@ public class ExceptionEventHandler {
     
     private CrashInformation crashInformation = null;
 
-    private boolean reproductionSuccessful = false;
+    private boolean successfulReproduction = false;
 
     public ExceptionEventHandler(CrashInformation crashInformation) {
         this.crashInformation = crashInformation;
     }
 
     public void setExceptionEvents(Observable<DebugEvent> exceptionEvents) {
-        reproductionSuccessful = false;
+        successfulReproduction = false;
 
         exceptionEvents.subscribe(debugEvent -> {
             ExceptionEvent exceptionEvent = (ExceptionEvent) debugEvent.getEvent();
             handleExceptionEvent(exceptionEvent);
-        }, onError -> {});
+        }, onError -> {
+            if (onError instanceof RuntimeException) {
+                LOGGER.severe(onError.toString());
+                onError.printStackTrace();
+            }
+        });
     }
 
     private void handleExceptionEvent(ExceptionEvent exceptionEvent) {
-        if (!reproductionSuccessful) {
-            reproductionSuccessful = isSuccessfulReproduction(exceptionEvent);
+        if (!successfulReproduction) {
+            successfulReproduction = isSuccessfulReproduction(exceptionEvent);
             return;
         }
         LOGGER.info("Previous reproduction was successful, no need to handle this exceptionEvent");
     }
 
-    public boolean isReproductionSuccessful() {
-        return reproductionSuccessful;
+    public boolean isSuccessful() {
+        return successfulReproduction;
     }
 
     private boolean isSuccessfulReproduction(ExceptionEvent exceptionEvent) {

@@ -8,25 +8,22 @@ import com.sun.jdi.ClassNotLoadedException;
 import com.sun.jdi.IncompatibleThreadStateException;
 import com.sun.jdi.InvalidTypeException;
 import com.sun.jdi.LocalVariable;
-import com.sun.jdi.PrimitiveValue;
 import com.sun.jdi.StackFrame;
-import com.sun.jdi.StringReference;
 import com.sun.jdi.ThreadReference;
+import com.sun.jdi.Type;
 import com.sun.jdi.Value;
-import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.event.BreakpointEvent;
 
 import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.DebugException;
-import pers.cheng.dij.core.wrapper.formatter.TypeIdentifier;
+import pers.cheng.dij.core.wrapper.variable.Variable;
+import pers.cheng.dij.core.wrapper.variable.VariableFormatter;
 
 public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
 
-    private String changedLocalVariableName;
-    private String changedLocalVariableClassName;
-    private Object changedLocalVariableRawValue;
-    private Object changedLocalVariableNewValue;
+    private Variable changedLocalVariableRaw;
+    private Variable changedLocalVariableNew;
 
     private BreakpointContext breakpointContext;
 
@@ -35,17 +32,15 @@ public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
     }
 
     public boolean hasNextLoop() {
-        return breakpointContext.hasNextGuessedLocalVariableValue();
+        return breakpointContext.hasNextGuessedLocalVariable();
     }
 
     protected void handleBreakpointEvent(BreakpointEvent breakpointEvent) throws DebugException {
         LOGGER.info(String.format("Handling breakpointEvent: %s", breakpointEvent));
 
         // Try different values using context information.
-        if (breakpointContext.hasNextGuessedLocalVariableValue()) {
-            Object guessedLocalVariableValue = breakpointContext.nextGuessedLocalVariableValue();
-            String guessedLocalVariableClassName = breakpointContext.getCurrentGuessedVariableClassName();
-            String guessedLocalVariableName = breakpointContext.getCurrentGuessedVariableName();
+        if (breakpointContext.hasNextGuessedLocalVariable()) {
+            Variable guessedLocalVariable = breakpointContext.nextGuessedLocalVariable();
             ThreadReference threadReference = breakpointEvent.thread();
             List<StackFrame> stackFrames;
             try {
@@ -57,17 +52,17 @@ public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
             }
             StackFrame topStackFrame = stackFrames.get(0);
             LOGGER.info("Got top stack frame from the target thread");
-            changeLocalVariableValue(topStackFrame, guessedLocalVariableValue, guessedLocalVariableClassName,
-                    guessedLocalVariableName);
+            changeLocalVariable(topStackFrame, guessedLocalVariable);
+
+            changedLocalVariableRaw = breakpointContext.getOriginalLocaVariable();
+            changedLocalVariableNew = guessedLocalVariable;
         }
 
         LOGGER.warning("No guessedLocalVariable left");
-        throw new DebugException("No guessedLocalVariable left");
     }
 
-    private void changeLocalVariableValue(StackFrame stackFrame, Object guessedLocalVariableValue,
-            String guessedLocalVariableClassName, String guessedLocalVariableName) throws DebugException {
-        LOGGER.info(String.format("Trying to change the value of the local variable: %s", guessedLocalVariableName));
+    private void changeLocalVariable(StackFrame stackFrame, Variable guessedLocalVariable) throws DebugException {
+        LOGGER.info(String.format("Trying to change the value of the local variable: %s", guessedLocalVariable));
 
         List<LocalVariable> localVariables;
         try {
@@ -78,166 +73,55 @@ public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
         }
 
         for (LocalVariable localVariable : localVariables) {
-            if (localVariable.name().equals(guessedLocalVariableName)) {
-                String signature;
+            if (localVariable.name().equals(guessedLocalVariable.getName())) {
+                Type type;
                 try {
-                    signature = localVariable.type().signature();
+                    type = localVariable.type();
                 } catch (ClassNotLoadedException e) {
                     // Ignore it since the variable must be loaded.
-                    LOGGER.warning(String.format("The class of localVariable %s is not loaded, %s", localVariable, e));
+                    LOGGER.warning(String.format("The class of local variable %s is not loaded, %s", localVariable, e));
                     continue;
                 }
 
-                char signature0 = signature.charAt(0);
-                // Pre-check
-                switch (signature0) {
-                    case TypeIdentifier.BYTE:
-                    case TypeIdentifier.CHAR:
-                    case TypeIdentifier.FLOAT:
-                    case TypeIdentifier.DOUBLE:
-                    case TypeIdentifier.INT:
-                    case TypeIdentifier.LONG:
-                    case TypeIdentifier.SHORT:
-                    case TypeIdentifier.BOOLEAN:
-                    case TypeIdentifier.STRING:
-                    case TypeIdentifier.OBJECT:
-                        break;
-                    default:
-                        LOGGER.warning(String.format("Unsupported type identifier: %s", signature));
-                        continue;
-                }
-
-                VirtualMachine virtualMachine = stackFrame.virtualMachine();
-                Value localVariableRawValue = stackFrame.getValue(localVariable);
+                String strType;
                 try {
-                    if (signature0 == TypeIdentifier.BYTE) {
-                        if (guessedLocalVariableClassName.equals(Byte.TYPE.getName())) {
-                            changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).byteValue();
-                            Value newValue = virtualMachine.mirrorOf((byte) guessedLocalVariableValue);
-                            stackFrame.setValue(localVariable, newValue);
-                        } else {
-                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                    guessedLocalVariableClassName, Byte.TYPE.getName()));
-                        }
-                    } else if (signature0 == TypeIdentifier.CHAR) {
-                        if (guessedLocalVariableClassName.equals(Character.TYPE.getName())) {
-                            changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).charValue();
-                            Value newValue = virtualMachine.mirrorOf((char) guessedLocalVariableValue);
-                            stackFrame.setValue(localVariable, newValue);
-                        } else {
-                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                    guessedLocalVariableClassName, Character.TYPE.getName()));
-                        }
-                    } else if (signature0 == TypeIdentifier.FLOAT) {
-                        if (guessedLocalVariableClassName.equals(Float.TYPE.getName())) {
-                            changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).floatValue();
-                            Value newValue = virtualMachine.mirrorOf((float) guessedLocalVariableValue);
-                            stackFrame.setValue(localVariable, newValue);
-                        } else {
-                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                    guessedLocalVariableClassName, Float.TYPE.getName()));
-                        }
-                    } else if (signature0 == TypeIdentifier.DOUBLE) {
-                        if (guessedLocalVariableClassName.equals(Double.TYPE.getName())) {
-                            changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).doubleValue();
-                            Value newValue = virtualMachine.mirrorOf((double) guessedLocalVariableValue);
-                            stackFrame.setValue(localVariable, newValue);
-                        } else {
-                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                    guessedLocalVariableClassName, Double.TYPE.getName()));
-                        }
-                    } else if (signature0 == TypeIdentifier.INT) {
-                        if (guessedLocalVariableClassName.equals(Integer.TYPE.getName())) {
-                            changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).intValue();
-                            Value newValue = virtualMachine.mirrorOf((int) guessedLocalVariableValue);
-                            stackFrame.setValue(localVariable, newValue);
-                        } else {
-                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                    guessedLocalVariableClassName, Integer.TYPE.getName()));
-                        }
-                    } else if (signature0 == TypeIdentifier.LONG) {
-                        if (guessedLocalVariableClassName.equals(Long.TYPE.getName())) {
-                            changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).longValue();
-                            Value newValue = virtualMachine.mirrorOf((long) guessedLocalVariableValue);
-                            stackFrame.setValue(localVariable, newValue);
-                        } else {
-                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                    guessedLocalVariableClassName, Long.TYPE.getName()));
-                        }
-                    } else if (signature0 == TypeIdentifier.SHORT) {
-                        if (guessedLocalVariableClassName.equals(Short.TYPE.getName())) {
-                            changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).shortValue();
-                            Value newValue = virtualMachine.mirrorOf((short) guessedLocalVariableValue);
-                            stackFrame.setValue(localVariable, newValue);
-                        } else {
-                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                    guessedLocalVariableClassName, Short.TYPE.getName()));
-                        }
-                    } else if (signature0 == TypeIdentifier.BOOLEAN) {
-                        changedLocalVariableRawValue = ((PrimitiveValue) localVariableRawValue).booleanValue();
-                        if (guessedLocalVariableClassName.equals(Boolean.TYPE.getName())) {
-                            Value newValue = virtualMachine.mirrorOf((boolean) guessedLocalVariableValue);
-                            stackFrame.setValue(localVariable, newValue);
-                        } else {
-                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                    guessedLocalVariableClassName, Boolean.TYPE.getName()));
-                        }
-                    // If the signature is TypeIdentifier.STRING_SIGNATURE, it
-                    // will be caught here, not in the 'Object' clause.
-                    } else if (signature0 == TypeIdentifier.STRING || signature.equals(TypeIdentifier.STRING_SIGNATURE)) {
-                        changedLocalVariableRawValue = ((StringReference) localVariableRawValue).value();
-                        // A null value's type is always 'Object' indeed, which is the only exception.
-                        if (guessedLocalVariableClassName.equals(String.class.getName()) || guessedLocalVariableValue == null) {
-                            Value newValue = virtualMachine.mirrorOf((String) guessedLocalVariableValue);
-                            stackFrame.setValue(localVariable, newValue);
-                        } else {
-                            LOGGER.severe(String.format("Incompatible type of guessedLocalVariable: %s, expected: %s",
-                                    guessedLocalVariableClassName, String.class.getName()));
-                        }
-                    } else if (signature0 == TypeIdentifier.OBJECT) {
-                        // Currently it is too complex to get the general value of any plain 'Object'.
-                        changedLocalVariableRawValue = "unknown";
-                        if (guessedLocalVariableClassName.equals(Object.class.getName())) {
-                            // It's hard to create a 'Value' mirror except for 'null' for a plain 'Object' type.
-                            stackFrame.setValue(localVariable, null);
-                        }
-                    } else {
-                        // This should never happen.
-                        LOGGER.severe("This line should be dead code");
-                    }
-                } catch (ClassNotLoadedException | InvalidTypeException e) {
-                    // May never hanppen.
-                    LOGGER.severe(String.format("Cannot set value for local variable: %s, %s", guessedLocalVariableName, e));
-                    break;
+                    strType = VariableFormatter.typeToString(type);
+                } catch (DebugException e) {
+                    LOGGER.warning(String.format("Cannot parse Type %s to String, %s", type, e));
+                    continue;
                 }
 
-                changedLocalVariableName = guessedLocalVariableName;
-                changedLocalVariableClassName = guessedLocalVariableClassName;
-                changedLocalVariableNewValue = guessedLocalVariableValue;
+                if (!strType.equals(guessedLocalVariable.getType())) {
+                    LOGGER.warning(String.format("Type mismatch, current: %s, guessed: %s", strType, guessedLocalVariable.getType()));
+                    continue;
+                }
+
+                Value guessedValue = VariableFormatter.createVariableMirror(guessedLocalVariable, type);
+                try {
+                    stackFrame.setValue(localVariable, guessedValue);
+                } catch (InvalidTypeException | ClassNotLoadedException e) {
+                    LOGGER.warning(String.format(
+                                "Failed to set value for local variable: %s, guessed value: %s", localVariable, guessedValue));
+                    continue;
+                }
 
                 LOGGER.info(String.format(
-                        "Successfully changed the value of the localVariable, name: %s, className: %s, newValue: %s",
-                        guessedLocalVariableName, guessedLocalVariableValue, guessedLocalVariableValue));
+                        "Successfully changed the value of the local variable: %s, guessed: %s",
+                        localVariable, guessedLocalVariable));
+
+                return;
             }
         }
 
-        LOGGER.severe(String.format("No suitable local variable found for: %s", guessedLocalVariableName));
-        throw new DebugException(String.format("No suitable local variable for: %s", guessedLocalVariableName));
+        LOGGER.severe(String.format("No suitable local variable found for: %s", guessedLocalVariable));
+        throw new DebugException(String.format("No suitable local variable for: %s", guessedLocalVariable));
     }
 
-    public String getChangedLocalVariableName() {
-        return changedLocalVariableName;
+    public Variable getChangedLocalVariableRaw() {
+        return changedLocalVariableRaw;
     }
 
-    public String getChangedLocalVariableClassName() {
-        return changedLocalVariableClassName;
-    }
-
-    public Object getChangedLocalVariableNewValue() {
-        return changedLocalVariableNewValue;
-    }
-
-    public Object getChangedLocalVariableRawValue() {
-        return changedLocalVariableRawValue;
+    public Variable getChangedLocalVariableNew() {
+        return changedLocalVariableNew;
     }
 }

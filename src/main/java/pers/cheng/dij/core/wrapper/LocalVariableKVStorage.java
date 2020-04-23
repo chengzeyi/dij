@@ -33,10 +33,10 @@ public class LocalVariableKVStorage extends VariableKVStorage {
                 continue;
             }
             variableName2Storage.put(variableName, localVariableStorage);
-            guessedValueTotal += localVariableStorage.getGuessedValueCount();
+            guessedTotal += localVariableStorage.getGuessedTotal();
             LOGGER.info(String.format("New local variable added, name: %s, type: %s", localVariable.name(), localVariable.typeName()));
         }
 
-        LOGGER.info(String.format("Got guessed values, total count: %d", guessedValueTotal));
+        LOGGER.info(String.format("Got guessed values, total count: %d", guessedTotal));
     }
 }

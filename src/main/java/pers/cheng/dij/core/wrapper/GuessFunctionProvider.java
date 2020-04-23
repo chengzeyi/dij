@@ -3,11 +3,21 @@ package pers.cheng.dij.core.wrapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
+
+import com.sun.jdi.PrimitiveValue;
+import com.sun.jdi.StringReference;
+import com.sun.jdi.Value;
+
+import pers.cheng.dij.Configuration;
 
 public class GuessFunctionProvider{
-    public static List<Object> guessByte(Object object) {
+    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
+
+    public static List<Object> guessByte(Value value) {
         List<Object> ret = new ArrayList<>(256);
-        if (!(object instanceof Byte)) {
+        if (!(value instanceof PrimitiveValue)) {
+            LOGGER.severe(String.format("Unsupported value: %s", value));
             return ret;
         }
         // We have 256 possibilities for a byte value.
@@ -17,9 +27,10 @@ public class GuessFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessChar(Object object) {
+    public static List<Object> guessChar(Value value) {
         List<Object> ret = new ArrayList<>(256);
-        if (!(object instanceof Character)) {
+        if (!(value instanceof PrimitiveValue)) {
+            LOGGER.severe(String.format("Unsupported value: %s", value));
             return ret;
         }
         // We have 256 possibilities for a char value.
@@ -29,9 +40,10 @@ public class GuessFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessFloat(Object object) {
+    public static List<Object> guessFloat(Value value) {
         List<Object> ret = new ArrayList<>();
-        if (!(object instanceof Float)) {
+        if (!(value instanceof PrimitiveValue)) {
+            LOGGER.severe(String.format("Unsupported value: %s", value));
             return ret;
         }
         ret.add(0.0F);
@@ -46,15 +58,17 @@ public class GuessFunctionProvider{
         ret.add(-Float.MIN_VALUE);
         ret.add(-Float.MIN_NORMAL);
         ret.add(Float.NaN);
-        if (!ret.contains(object)) {
-            ret.add(object);
+        float floatValue = ((PrimitiveValue) value).floatValue();
+        if (!ret.contains(floatValue)) {
+            ret.add(floatValue);
         }
         return ret;
     }
 
-    public static List<Object> guessDouble(Object object) {
+    public static List<Object> guessDouble(Value value) {
         List<Object> ret = new ArrayList<>();
-        if (!(object instanceof Double)) {
+        if (!(value instanceof PrimitiveValue)) {
+            LOGGER.severe(String.format("Unsupported value: %s", value));
             return ret;
         }
         ret.add(0.0D);
@@ -69,15 +83,17 @@ public class GuessFunctionProvider{
         ret.add(-Double.MIN_VALUE);
         ret.add(-Double.MIN_NORMAL);
         ret.add(Double.NaN);
-        if (!ret.contains(object)) {
-            ret.add(object);
+        double doubleValue = ((PrimitiveValue) value).doubleValue();
+        if (!ret.contains(doubleValue)) {
+            ret.add(doubleValue);
         }
         return ret;
     }
 
-    public static List<Object> guessInt(Object object) {
+    public static List<Object> guessInt(Value value) {
         List<Object> ret = new ArrayList<>();
-        if (!(object instanceof Integer)) {
+        if (!(value instanceof PrimitiveValue)) {
+            LOGGER.severe(String.format("Unsupported value: %s", value));
             return ret;
         }
         ret.add(0);
@@ -85,15 +101,17 @@ public class GuessFunctionProvider{
         ret.add(-1);
         ret.add(Integer.MAX_VALUE);
         ret.add(Integer.MIN_VALUE);
-        if (!ret.contains(object)) {
-            ret.add(object);
+        int intValue = ((PrimitiveValue) value).intValue();
+        if (!ret.contains(intValue)) {
+            ret.add(intValue);
         }
         return ret;
     }
 
-    public static List<Object> guessLong(Object object) {
+    public static List<Object> guessLong(Value value) {
         List<Object> ret = new ArrayList<>();
-        if (!(object instanceof Long)) {
+        if (!(value instanceof PrimitiveValue)) {
+            LOGGER.severe(String.format("Unsupported value: %s", value));
             return ret;
         }
         ret.add(0L);
@@ -101,15 +119,17 @@ public class GuessFunctionProvider{
         ret.add(-1L);
         ret.add(Long.MAX_VALUE);
         ret.add(Integer.MIN_VALUE);
-        if (!ret.contains(object)) {
-            ret.add(object);
+        long longValue = ((PrimitiveValue) value).longValue();
+        if (!ret.contains(longValue)) {
+            ret.add(longValue);
         }
         return ret;
     }
 
-    public static List<Object> guessShort(Object object) {
+    public static List<Object> guessShort(Value value) {
         List<Object> ret = new ArrayList<>();
-        if (!(object instanceof Short)) {
+        if (!(value instanceof PrimitiveValue)) {
+            LOGGER.severe(String.format("Unsupported value: %s", value));
             return ret;
         }
         ret.add((short) 0);
@@ -117,15 +137,17 @@ public class GuessFunctionProvider{
         ret.add((short) -1);
         ret.add(Short.MAX_VALUE);
         ret.add(Short.MIN_VALUE);
-        if (!ret.contains(object)) {
-            ret.add(object);
+        short shortValue = ((PrimitiveValue) value).shortValue();
+        if (!ret.contains(shortValue)) {
+            ret.add(shortValue);
         }
         return ret;
     }
 
-    public static List<Object> guessBoolean(Object object) {
+    public static List<Object> guessBoolean(Value value) {
         List<Object> ret = new ArrayList<>(2);
-        if (!(object instanceof Boolean)) {
+        if (!(value instanceof PrimitiveValue)) {
+            LOGGER.severe(String.format("Unsupported value: %s", value));
             return ret;
         }
         ret.add(false);
@@ -133,18 +155,22 @@ public class GuessFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessAnything(Object object) {
+    public static List<Object> guessAnything(Value value) {
         return new ArrayList<>();
     }
 
     // Not really used yet, since I have not figure out how to set a non-null value for any Object.
     // It is still here for some unification consideration.
-    public static List<Object> guessObject(Object object) {
+    public static List<Object> guessObject(Value value) {
         return Arrays.asList((Object) null);
     }
 
-    public static List<Object> guessString(Object object) {
-        String str = (String) object;
+    public static List<Object> guessString(Value value) {
+        if (!(value instanceof StringReference)) {
+            LOGGER.severe(String.format("Unsupported value: %s", value));
+            return new ArrayList<>();
+        }
+        String str = ((StringReference) value).value();
         List<Object> ret = Arrays.asList((String) null, "", str + str);
         if (str.length() < 16) {
             for (int i = 1; i < str.length(); ++i) {

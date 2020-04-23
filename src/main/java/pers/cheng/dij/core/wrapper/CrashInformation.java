@@ -22,7 +22,7 @@ public class CrashInformation {
 
     private int breakpointLineNumber;
 
-    public void parseCrashLinesFromFile(String filename) throws IOException {
+    public CrashInformation(String filename) throws IOException {
         crashLines = new ArrayList<>();
 
         BufferedReader bufferedReader;

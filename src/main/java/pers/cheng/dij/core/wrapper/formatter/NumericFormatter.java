@@ -5,7 +5,6 @@ import com.sun.jdi.Value;
 import com.sun.jdi.VirtualMachine;
 
 public class NumericFormatter implements IValueFormatter {
-    private static final int NUMERIC_PRECISION = 0;
     private static final String NUMERIC_FORMAT = "%d";
 
     @Override
@@ -92,7 +91,7 @@ public class NumericFormatter implements IValueFormatter {
     }
 
     private static String formatFloatDouble(double value) {
-        return String.format(NUMERIC_PRECISION > 0 ? String.format("%%.%df", NUMERIC_PRECISION) : "%f", value);
+        return String.format("%f", value);
     }
 
     private static boolean hasFraction(char signature0) {

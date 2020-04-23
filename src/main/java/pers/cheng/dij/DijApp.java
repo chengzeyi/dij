@@ -83,7 +83,6 @@ public class DijApp {
             reproductionResults.forEach(reproductionResult -> reproductionResult.writeToFile(output));
         } else {
             reproductionResults.forEach(ReproductionResult::print);
-            ;
         }
     }
 

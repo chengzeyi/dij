@@ -90,7 +90,8 @@ public class EventHub implements IEventHub {
                     return;
                 } catch (VMDisconnectedException e) {
                     isClosed = true;
-                    subject.onError(e);
+                    subject.onComplete();
+                    // subject.onError(e);
                     LOGGER.warning(String.format("The target VM has been disconnected, %s", e));
                     return;
                 }

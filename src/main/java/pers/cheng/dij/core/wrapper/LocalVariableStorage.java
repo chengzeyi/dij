@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import com.sun.jdi.ClassNotLoadedException;
 import com.sun.jdi.LocalVariable;
 import com.sun.jdi.StackFrame;
+import com.sun.jdi.Type;
 import com.sun.jdi.Value;
 
 import pers.cheng.dij.Configuration;
@@ -15,17 +16,16 @@ public class LocalVariableStorage extends VariableStorage {
 
     public LocalVariableStorage(LocalVariable localVariable, StackFrame stackFrame) throws DebugException {
         LOGGER.info(String.format("Handling local variable: %s", localVariable));
-        String variableName = localVariable.name();
 
-        String variableTypeSignature;
+        Type type;
         try {
-            variableTypeSignature = localVariable.type().signature();
+            type = localVariable.type();
         } catch (ClassNotLoadedException e) {
-            throw new DebugException(e);
+            LOGGER.severe(String.format("Failed to get type, %s", e));
+            throw new DebugException("Failed to get type", e);
         }
+        Value value = stackFrame.getValue(localVariable);
 
-        Value variableValue = stackFrame.getValue(localVariable);
-
-        init(variableName, variableTypeSignature, variableValue);
+        init(localVariable.name(), type, value);
     }
 }
