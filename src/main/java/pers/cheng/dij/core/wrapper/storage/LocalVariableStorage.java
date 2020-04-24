@@ -1,4 +1,4 @@
-package pers.cheng.dij.core.wrapper;
+package pers.cheng.dij.core.wrapper.storage;
 
 import java.util.logging.Logger;
 

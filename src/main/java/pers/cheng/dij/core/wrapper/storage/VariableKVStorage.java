@@ -1,10 +1,9 @@
-package pers.cheng.dij.core.wrapper;
+package pers.cheng.dij.core.wrapper.storage;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
-
 
 import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.wrapper.variable.Variable;
@@ -60,5 +59,12 @@ public abstract class VariableKVStorage implements Iterator<Object> {
 
     public Variable getOriginalVariable() {
         return originalVariable;
+    }
+    
+    protected VariableStorage put(VariableStorage variableStorage) {
+        String key = variableStorage.getOriginalVariable().getName();
+        guessedTotal += variableStorage.getGuessedTotal();
+        LOGGER.info(String.format("New variable storage added, name: %s, type: %s", key, variableStorage.getOriginalVariable().getType()));
+        return variableName2Storage.put(key, variableStorage);
     }
 }

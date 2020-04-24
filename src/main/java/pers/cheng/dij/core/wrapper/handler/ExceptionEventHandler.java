@@ -1,4 +1,4 @@
-package pers.cheng.dij.core.wrapper;
+package pers.cheng.dij.core.wrapper.handler;
 
 import java.util.Collections;
 import java.util.logging.Logger;
@@ -17,6 +17,7 @@ import com.sun.jdi.event.ExceptionEvent;
 import io.reactivex.Observable;
 import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.DebugEvent;
+import pers.cheng.dij.core.wrapper.CrashInformation;
 
 public class ExceptionEventHandler {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);

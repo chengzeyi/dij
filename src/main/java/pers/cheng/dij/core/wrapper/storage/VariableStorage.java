@@ -1,4 +1,4 @@
-package pers.cheng.dij.core.wrapper;
+package pers.cheng.dij.core.wrapper.storage;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,6 +11,7 @@ import com.sun.jdi.Value;
 
 import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.DebugException;
+import pers.cheng.dij.core.wrapper.GuessFunctionProvider;
 import pers.cheng.dij.core.wrapper.formatter.TypeIdentifier;
 import pers.cheng.dij.core.wrapper.variable.Variable;
 import pers.cheng.dij.core.wrapper.variable.VariableFormatter;
@@ -35,7 +36,8 @@ public abstract class VariableStorage {
         SIGNATURE0_2_GUESS_FUNCTION.put(TypeIdentifier.LONG,    GuessFunctionProvider::guessLong);
         SIGNATURE0_2_GUESS_FUNCTION.put(TypeIdentifier.SHORT,   GuessFunctionProvider::guessShort);
         SIGNATURE0_2_GUESS_FUNCTION.put(TypeIdentifier.BOOLEAN, GuessFunctionProvider::guessBoolean);
-        SIGNATURE0_2_GUESS_FUNCTION.put(TypeIdentifier.STRING,  GuessFunctionProvider::guessString);
+        SIGNATURE0_2_GUESS_FUNCTION.put(TypeIdentifier.STRING,  GuessFunctionProvider::guessStringObject);
+        SIGNATURE0_2_GUESS_FUNCTION.put(TypeIdentifier.ARRAY,   GuessFunctionProvider::guessArrayObject);
         SIGNATURE0_2_GUESS_FUNCTION.put(TypeIdentifier.OBJECT,  GuessFunctionProvider::guessObject);
     }
 
@@ -58,14 +60,14 @@ public abstract class VariableStorage {
         }
         guessedVariables = VariableFormatter.createVariables(name, type, guessedResults);
 
-        LOGGER.info(String.format("Guessed variables are: %s", guessedVariables));
+        LOGGER.info(String.format("Guessed variables are %s", guessedVariables));
     }
 
     private Function<Value, List<Object>> getGuessFunction(Type type) {
         String signature = type.signature();
-        // The only exception.
+        // Currently this is the only exception.
         if (signature.equals(TypeIdentifier.STRING_SIGNATURE)) {
-            return GuessFunctionProvider::guessString;
+            return GuessFunctionProvider::guessStringObject;
         }
 
         char signature0 = signature.charAt(0);

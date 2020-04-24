@@ -1,4 +1,4 @@
-package pers.cheng.dij.core.wrapper;
+package pers.cheng.dij.core.wrapper.handler;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -9,6 +9,7 @@ import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.BreakpointEvent;
 import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.DebugException;
+import pers.cheng.dij.core.wrapper.BreakpointContext;
 
 public class PioneerBreakpointEventHandler extends BreakpointEventHandler {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
@@ -33,7 +34,6 @@ public class PioneerBreakpointEventHandler extends BreakpointEventHandler {
 
         StackFrame topStackFrame = stackFrames.get(0);
         LOGGER.info("Got top stack frame");
-        breakpointContext = new BreakpointContext();
-        breakpointContext.processTopStackFrame(topStackFrame);
+        breakpointContext = new BreakpointContext(topStackFrame);
     }
 }

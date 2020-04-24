@@ -1,4 +1,4 @@
-package pers.cheng.dij.core.wrapper;
+package pers.cheng.dij.core.wrapper.handler;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,6 +16,8 @@ import com.sun.jdi.event.BreakpointEvent;
 
 import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.DebugException;
+import pers.cheng.dij.core.wrapper.BreakpointContext;
+import pers.cheng.dij.core.wrapper.handler.BreakpointEventHandler;
 import pers.cheng.dij.core.wrapper.variable.Variable;
 import pers.cheng.dij.core.wrapper.variable.VariableFormatter;
 
@@ -96,7 +98,15 @@ public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
                     continue;
                 }
 
-                Value guessedValue = VariableFormatter.createVariableMirror(guessedLocalVariable, type);
+                Value guessedValue;
+                try {
+                    guessedValue = VariableFormatter.createVariableMirror(guessedLocalVariable, type);
+                } catch (DebugException e) {
+                    LOGGER.warning(String.format("Failed to create mirror in the target VM, variable: %s, type: %s", guessedLocalVariable, type));
+                    throw new DebugException(String.format(
+                                "Failed to create mirror in the target VM, variable: %s, type: %s", guessedLocalVariable, type), e);
+                }
+
                 try {
                     stackFrame.setValue(localVariable, guessedValue);
                 } catch (InvalidTypeException | ClassNotLoadedException e) {

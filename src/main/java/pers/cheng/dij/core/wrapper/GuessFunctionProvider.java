@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.sun.jdi.ArrayReference;
 import com.sun.jdi.PrimitiveValue;
 import com.sun.jdi.StringReference;
 import com.sun.jdi.Value;
@@ -165,7 +166,7 @@ public class GuessFunctionProvider{
         return Arrays.asList((Object) null);
     }
 
-    public static List<Object> guessString(Value value) {
+    public static List<Object> guessStringObject(Value value) {
         if (!(value instanceof StringReference)) {
             LOGGER.severe(String.format("Unsupported value: %s", value));
             return new ArrayList<>();
@@ -178,5 +179,13 @@ public class GuessFunctionProvider{
             }
         }
         return ret;
+    }
+
+    public static List<Object> guessArrayObject(Value value) {
+        if (!(value instanceof ArrayReference)) {
+            LOGGER.severe(String.format("Unsupported value: %s", value));
+            return new ArrayList<>();
+        }
+        return Arrays.asList((Object) null);
     }
 }
