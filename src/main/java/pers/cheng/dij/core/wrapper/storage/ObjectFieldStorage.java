@@ -1,19 +1,16 @@
 package pers.cheng.dij.core.wrapper.storage;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import com.sun.jdi.ClassNotLoadedException;
-import com.sun.jdi.ClassNotPreparedException;
-import com.sun.jdi.ClassType;
 import com.sun.jdi.Field;
 import com.sun.jdi.ObjectReference;
-import com.sun.jdi.ReferenceType;
 import com.sun.jdi.Type;
 import com.sun.jdi.Value;
 
 import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.DebugException;
+import pers.cheng.dij.core.wrapper.variable.VariableType;
 
 public class ObjectFieldStorage extends VariableStorage {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
@@ -36,6 +33,6 @@ public class ObjectFieldStorage extends VariableStorage {
             throw new DebugException(String.format("Cannot get field value for field %s", field));
         }
 
-        init(fieldName, fieldType, fieldValue);
+        init(fieldName, fieldType, fieldValue, VariableType.THIS_OBJECT_FIELD);
     }
 }

@@ -79,7 +79,7 @@ public class DijSession {
 
     public void reproduce() throws DijException {
         LOGGER.info(String.format(
-                "Reproduction started, mainClass: %s, programArguments: %s, vmArguments: %s, modulePaths: %s, classPaths: %s, cwd: %s, crashPath: %s",
+                "Reproduction started, main class: %s, programArguments: %s, vmArguments: %s, modulePaths: %s, classPaths: %s, cwd: %s, crashPath: %s",
                 mainClass, programArguments, vmArguments, modulePaths, classPaths, cwd, crashPath));
 
         CrashInformation crashInformation;
@@ -112,7 +112,7 @@ public class DijSession {
 
         IBreakpoint breakpoint = debugSession.createBreakpoint(breakpointClassName, breakpointLineNumber);
         breakpoint.install();
-        LOGGER.info(String.format("Breakpoint have been installed for debug session, className: %s, line: %d",
+        LOGGER.info(String.format("Breakpoint have been installed for debug session, class name: %s, line: %d",
                 breakpointClassName, breakpointLineNumber));
 
         IEventHub eventHub = debugSession.getEventHub();
@@ -157,7 +157,7 @@ public class DijSession {
 
             breakpoint = debugSession.createBreakpoint(breakpointClassName, breakpointLineNumber);
             breakpoint.install();
-            LOGGER.info(String.format("Breakpoint have been installed for debug session, className: %s, line: %d",
+            LOGGER.info(String.format("Breakpoint have been installed for debug session, class name: %s, line: %d",
                     breakpointClassName, breakpointLineNumber));
 
             eventHub = debugSession.getEventHub();
@@ -177,20 +177,20 @@ public class DijSession {
                 LOGGER.info("The handler has successfully reproduced the crash");
                 successfulReproduction = true;
 
-                Variable changedLocalVariableRaw = modificationBreakpointEventHandler.getChangedLocalVariableRaw();
-                Variable changedLocalVariableNew = modificationBreakpointEventHandler.getChangedLocalVariableNew();
+                Variable changedVariableRaw = modificationBreakpointEventHandler.getChangedVariableRaw();
+                Variable changedVariableNew = modificationBreakpointEventHandler.getChangedVariableNew();
 
                 ReproductionResult reproductionResult = new ReproductionResult(
                         breakpointClassName,
                         breakpointLineNumber,
-                        changedLocalVariableRaw,
-                        changedLocalVariableNew);
+                        changedVariableRaw,
+                        changedVariableNew);
                 reproductionResults.add(reproductionResult);
             }
         }
 
         if (!successfulReproduction) {
-            LOGGER.severe(String.format("Reproduction failed, mainClass: %s", mainClass));
+            LOGGER.severe(String.format("Reproduction failed, main class: %s", mainClass));
         }
     }
 

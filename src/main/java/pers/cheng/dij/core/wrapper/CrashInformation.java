@@ -5,8 +5,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+
+import pers.cheng.dij.Configuration;
 
 public class CrashInformation {
+    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
+
     private static final String[] EXCLUDED_PREFIXS = {
         "java.",
         "com.sun."
@@ -42,6 +47,8 @@ public class CrashInformation {
         } else {
             exceptionLine = crashLines.get(0);
         }
+
+        LOGGER.info(String.format("Exception line: %s", exceptionLine));
 
         if (crashLines.size() > 1) {
             stackTrace = crashLines.subList(1, crashLines.size());

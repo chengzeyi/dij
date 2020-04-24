@@ -15,6 +15,7 @@ import pers.cheng.dij.core.wrapper.GuessFunctionProvider;
 import pers.cheng.dij.core.wrapper.formatter.TypeIdentifier;
 import pers.cheng.dij.core.wrapper.variable.Variable;
 import pers.cheng.dij.core.wrapper.variable.VariableFormatter;
+import pers.cheng.dij.core.wrapper.variable.VariableType;
 
 public abstract class VariableStorage {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
@@ -49,8 +50,8 @@ public abstract class VariableStorage {
         return guessedVariables.size();
     }
 
-    protected final void init(String name, Type type, Value value) throws DebugException {
-        originalVariable = VariableFormatter.createVariable(name, type, value);
+    protected final void init(String name, Type type, Value value, VariableType variableType) throws DebugException {
+        originalVariable = VariableFormatter.createVariable(name, type, value, variableType);
 
         Function<Value, List<Object>> guessFunction = getGuessFunction(type);
         List<Object> guessedResults = guessFunction.apply(value);
@@ -58,7 +59,7 @@ public abstract class VariableStorage {
             LOGGER.severe(String.format("No guessed results, name: %s, type: %s, value: %s", name, type, value));
             throw new DebugException(String.format("No guessed results, name: %s, type: %s, value: %s", name, type, value));
         }
-        guessedVariables = VariableFormatter.createVariables(name, type, guessedResults);
+        guessedVariables = VariableFormatter.createVariables(name, type, guessedResults, variableType);
 
         LOGGER.info(String.format("Guessed variables are %s", guessedVariables));
     }

@@ -46,7 +46,7 @@ public class ExceptionEventHandler {
 
     private void handleExceptionEvent(ExceptionEvent exceptionEvent) {
         if (!successfulReproduction) {
-            successfulReproduction = isSuccessfulReproduction(exceptionEvent);
+            successfulReproduction = evaluateReproduction(exceptionEvent);
             return;
         }
         LOGGER.info("Previous reproduction was successful, no need to handle this exceptionEvent");
@@ -56,7 +56,7 @@ public class ExceptionEventHandler {
         return successfulReproduction;
     }
 
-    private boolean isSuccessfulReproduction(ExceptionEvent exceptionEvent) {
+    private boolean evaluateReproduction(ExceptionEvent exceptionEvent) {
         ObjectReference exceptionReference = exceptionEvent.exception();
         Method toStringMethod = null;
         for (Method method : exceptionReference.referenceType().allMethods()) {

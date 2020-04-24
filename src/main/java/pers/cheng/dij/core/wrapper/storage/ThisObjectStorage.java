@@ -36,7 +36,6 @@ public class ThisObjectStorage extends VariableKVStorage {
             throw new DebugException(String.format("Reference type %s is not ClassType", referenceType));
         }
 
-
         ClassType classType = (ClassType) referenceType;
         List<Field> fields;
         try {

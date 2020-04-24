@@ -75,7 +75,7 @@ public class VariableFormatter {
         }
     }
 
-    public static Variable createVariable(String name, Type type, Value value) throws DebugException {
+    public static Variable createVariable(String name, Type type, Value value, VariableType variableType) throws DebugException {
         LOGGER.info(String.format("Handling variable, name: %s, type: %s, value: %s",
                 name, type, value));
 
@@ -91,10 +91,10 @@ public class VariableFormatter {
         }
 
         LOGGER.info(String.format("Parse variable successfully, name: %s, strType: %s, strValue: %s", name, strType, strValue));
-        return new Variable(name, strType, strValue);
+        return new Variable(name, strType, strValue, variableType);
     }
 
-    public static List<Variable> createVariables(String name, Type type, List<Object> values) throws DebugException {
+    public static List<Variable> createVariables(String name, Type type, List<Object> values, VariableType variableType) throws DebugException {
         String strType;
         try {
             strType = typeToString(type);
@@ -102,9 +102,10 @@ public class VariableFormatter {
             LOGGER.severe(String.format("Unable to parse type: %s", type));
             throw new DebugException(e);
         }
+
         return values.stream().map(value -> {
             String strValue = Objects.toString(value);
-            return new Variable(name, strType, strValue);
+            return new Variable(name, strType, strValue, variableType);
         }).collect(Collectors.toList());
     }
 

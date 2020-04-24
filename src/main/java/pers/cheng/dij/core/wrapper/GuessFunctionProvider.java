@@ -98,8 +98,11 @@ public class GuessFunctionProvider{
             return ret;
         }
         ret.add(0);
-        ret.add(1);
-        ret.add(-1);
+        for (int i = 1; i < 16; ++i) {
+            ret.add(i);
+            ret.add(-i);
+        }
+
         ret.add(Integer.MAX_VALUE);
         ret.add(Integer.MIN_VALUE);
         int intValue = ((PrimitiveValue) value).intValue();
@@ -116,8 +119,10 @@ public class GuessFunctionProvider{
             return ret;
         }
         ret.add(0L);
-        ret.add(1L);
-        ret.add(-1L);
+        for (long i = 1; i < 16; ++i) {
+            ret.add(i);
+            ret.add(-i);
+        }
         ret.add(Long.MAX_VALUE);
         ret.add(Integer.MIN_VALUE);
         long longValue = ((PrimitiveValue) value).longValue();
@@ -134,8 +139,10 @@ public class GuessFunctionProvider{
             return ret;
         }
         ret.add((short) 0);
-        ret.add((short) 1);
-        ret.add((short) -1);
+        for (short i = 1; i < 16; ++i) {
+            ret.add(i);
+            ret.add(-i);
+        }
         ret.add(Short.MAX_VALUE);
         ret.add(Short.MIN_VALUE);
         short shortValue = ((PrimitiveValue) value).shortValue();

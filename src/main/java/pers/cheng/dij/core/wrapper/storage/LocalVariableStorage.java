@@ -10,6 +10,7 @@ import com.sun.jdi.Value;
 
 import pers.cheng.dij.Configuration;
 import pers.cheng.dij.core.DebugException;
+import pers.cheng.dij.core.wrapper.variable.VariableType;
 
 public class LocalVariableStorage extends VariableStorage {
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
@@ -26,6 +27,6 @@ public class LocalVariableStorage extends VariableStorage {
         }
         Value value = stackFrame.getValue(localVariable);
 
-        init(localVariable.name(), type, value);
+        init(localVariable.name(), type, value, VariableType.LOCAL_VARIABLE);
     }
 }

@@ -5,9 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.logging.Logger;
+
+import junit.framework.TestCase;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import pers.cheng.dij.core.wrapper.ReproductionResult;
+import pers.cheng.dij.runner.DijSession;
 import pers.cheng.dij.testcase.*;
 
 public class DijTestUtility {
@@ -27,14 +32,8 @@ public class DijTestUtility {
     private static final String[] MODULE_PATHS = {};
 
     private static final Class<?>[] TESTED_CLASSES = {
-        DijTestDevidedByZero.class,
-        DijTestDevidedByFloatZero.class,
-        DijTestDevidedByDoubleZero.class,
-        DijTestBooleanOperation.class,
-        DijTestIndexOutOfBound.class,
-        DijTestStringIndexOutOfBound.class,
-        DijTestNullPointer.class
     };
+
 
     public static Class<?>[] getTestedClasses() {
         return TESTED_CLASSES;
@@ -59,6 +58,35 @@ public class DijTestUtility {
 
     public static String[] getClassPaths() {
         return MODULE_PATHS;
+    }
+
+    public static void test(Class<?> testedClass) {
+        DijSettings.getCurrent().setLogLevel("ALL");
+
+        String[] classPaths = DijTestUtility.getClassPaths();
+        String[] modulePaths = DijTestUtility.getModulePaths();
+        String programArguments = "";
+        String vmArguments = "";
+
+        LOGGER.info(String.format("Running reproduction for %s", testedClass));
+
+        String mainClass = testedClass.getName();
+        String crashPath = DijTestUtility.generateCrashLog(testedClass);
+
+        TestCase.assertNotNull(crashPath);
+
+        DijSession dijSession = new DijSession(mainClass, programArguments, vmArguments, classPaths, modulePaths, crashPath);
+
+        try {
+            dijSession.reproduce();
+        } catch (Exception e) {
+            e.printStackTrace();
+            TestCase.fail();
+        }
+
+        TestCase.assertTrue(dijSession.isSuccessfulReproduction());
+
+        dijSession.getReproductionResults().forEach(ReproductionResult::print);
     }
 
     public static String generateCrashLog(Class<?> testCaseClass) {
