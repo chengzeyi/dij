@@ -25,7 +25,7 @@ Command line syntax:
 For example:
 
 `java -jar target/dij-1.0-SNAPSHOT.jar -X -cp target/test-classes tmp/log/pers.cheng.dij.testcase.
-DijTestNullPointer.log pers.cheng.dij.testcase.DijNullPointerTest`
+DijNullPointerTest.log pers.cheng.dij.testcase.DijNullPointerTest`
 
 To see the help of options, run without any argument:
 
@@ -37,7 +37,7 @@ To run tests:
 
 ## Test
 
-The Dij Application has its own test system. All test cases are located in `src/test/java/pers/cheng/dij/testcase/`. Each test case is a single Java class file with a `main` method defined. Each test case would not throw an exception if it is executed without any argument. However, if the arguments contain a String of `trigger`, then the exception would be thrown. The class `pers.cheng.dij.DijTestUtility` would use this feature to generate crash logs in `tmp/log` and run crash reproduction process.
+The Dij Application has its own test system. All test cases are located in `src/test/java/pers/cheng/dij/testcase/`. Each test case is a single Java class file with a `main` method defined and must extend the abstract class `DijTestCase`. Each test case would not throw an exception if it is executed without any argument. However, if the arguments contain a String of `trigger`, then the exception would be thrown. The class `pers.cheng.dij.DijTestUtility` would use this feature to generate crash logs in `tmp/log` and run crash reproduction process.
 
 ## Roadmap
 
