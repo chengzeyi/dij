@@ -1,7 +1,12 @@
 package pers.cheng.dij;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -80,7 +85,13 @@ public class DijApp {
 
         List<ReproductionResult> reproductionResults = dijSession.getReproductionResults();
         if (output != null) {
-            reproductionResults.forEach(reproductionResult -> reproductionResult.writeToFile(output));
+            try {
+                writeToFile(output, reproductionResults.stream().map(ReproductionResult::toString).collect(Collectors.toList()));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                System.err.println("Failed to write reproduction result(s) to file");
+                System.exit(1);
+            }
         } else {
             reproductionResults.forEach(ReproductionResult::print);
         }
@@ -91,5 +102,14 @@ public class DijApp {
         String header = "Reproduce the crash from the crash log";
         String footer = "Author: Chengzeyi - ichengzeyi@gmail.com";
         formatter.printHelp(cmdLineSyntax, header, options, footer);
+    }
+
+    private static void writeToFile(String filepath, Iterable<String> lines) throws FileNotFoundException {
+        PrintStream ps = new PrintStream(filepath);
+        try {
+            lines.forEach(line -> ps.println(line));
+        } finally {
+            ps.close();
+        }
     }
 }
