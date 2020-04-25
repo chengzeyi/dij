@@ -12,7 +12,7 @@ public class DijThisObjectTest extends DijTestCase {
     public static void main(String[] args) {
         DijThisObjectTest dijTestThisObject = new DijThisObjectTest();
 
-        int idx = DijTestUtility.isTrigger(args) ? 10 : 0;
+        int idx = DijTestUtility.isTrigger(args) ? 5 : 0;
         dijTestThisObject.setIdx(idx);
 
         dijTestThisObject.retrieve();

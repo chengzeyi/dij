@@ -16,6 +16,7 @@ import com.sun.jdi.event.ExceptionEvent;
 
 import io.reactivex.Observable;
 import pers.cheng.dij.Configuration;
+import pers.cheng.dij.DijSettings;
 import pers.cheng.dij.core.DebugEvent;
 import pers.cheng.dij.core.wrapper.CrashInformation;
 
@@ -89,6 +90,46 @@ public class ExceptionEventHandler {
         LOGGER.info(String.format("Got exceptionString: %s", exceptionString));
 
         String exceptionLine = crashInformation.getExceptionLine();
-        return exceptionString.trim().equals(exceptionLine);
+        
+        int editDistance = DijSettings.getCurrent().getEditDistance();
+        if (editDistance <= 0) {
+            return exceptionString.trim().equals(exceptionLine);
+        }
+        return calcEditDistance(exceptionString, exceptionLine) <= editDistance;
+    }
+
+    private static int calcEditDistance(String exceptionA, String exceptionB) {
+        int lenA = exceptionA.length();
+        int lenB = exceptionB.length();
+
+        int[][] dp = new int[lenA + 1][lenB + 1];
+
+        for (int i = 0; i <= lenA; i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 0; j <= lenB; j++) {
+            dp[0][j] = j;
+        }
+
+        for (int i = 0; i < lenA; i++) {
+            char c1 = exceptionA.charAt(i);
+            for (int j = 0; j < lenB; j++) {
+                char c2 = exceptionB.charAt(j);
+
+                if (c1 == c2) {
+                    dp[i + 1][j + 1] = dp[i][j];
+                } else {
+                    int replace = dp[i][j] + 1;
+                    int insert = dp[i][j + 1] + 1;
+                    int delete = dp[i + 1][j] + 1;
+
+                    int min = replace > insert ? insert : replace;
+                    min = delete > min ? min : delete;
+                    dp[i + 1][j + 1] = min;
+                }
+            }
+        }
+
+        return dp[lenA][lenB];
     }
 }

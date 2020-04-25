@@ -1,11 +1,11 @@
 package pers.cheng.dij;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.apache.commons.cli.CommandLine;
@@ -20,6 +20,8 @@ import pers.cheng.dij.core.wrapper.ReproductionResult;
 import pers.cheng.dij.runner.DijSession;
 
 public class DijApp {
+    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
+
     public static void main(String[] args) {
         Options options = new Options();
 
@@ -35,6 +37,16 @@ public class DijApp {
         Option debugOpt = new Option("X", "debug", false, "running with debug");
         debugOpt.setRequired(false);
         options.addOption(debugOpt);
+
+        Option editDistanceOpt = new Option("ed", "edit-distance", true,
+                "specify the edit distance threshold to evaluate reproduced and recorded exception strings, default is 0 (exact match)");
+        editDistanceOpt.setRequired(false);
+        options.addOption(editDistanceOpt);
+
+        Option timeoutOpt = new Option("t", "timeout", true,
+                "specify the timeout second(s) for waiting debug session to terminate, default is 0 (disable timeout)");
+        timeoutOpt.setRequired(false);
+        options.addOption(timeoutOpt);
 
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
@@ -56,22 +68,55 @@ public class DijApp {
             printHelp(formatter, options);
             System.exit(1);
         }
+
         String crashLog = remainingArgs[0];
         String mainClass = remainingArgs[1];
         String progArgs = String.join(" ", Arrays.copyOfRange(remainingArgs, 2, remainingArgs.length));
 
-        String classPath = cmd.getOptionValue("classpath");
-        if (classPath == null) {
-            classPath = "";
+        String classPath = cmd.hasOption("classpath") ? cmd.getOptionValue("classpath") : "";
+
+        if (cmd.hasOption("debug")) {
+            // DijSettings.getCurrent().setLogLevel("ALL");
+            LOGGER.setLevel(Level.ALL);
+        } else {
+            // DijSettings.getCurrent().setLogLevel("WARNING");
+            LOGGER.setLevel(Level.WARNING);
         }
 
-        String output = cmd.getOptionValue("output");
+        if (cmd.hasOption("edit-distance")) {
+            int editDistance = 0;
+            try {
+                editDistance = Integer.parseInt(cmd.getOptionValue("edit-distance"));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                System.err.println(String.format("Invalid value %s for option 'edit-distance'", cmd.getOptionValue("edit-distance")));
+                System.exit(1);
+            }
 
-        boolean debug = cmd.hasOption("debug");
-        if (debug) {
-            DijSettings.getCurrent().setLogLevel("ALL");
-        } else {
-            DijSettings.getCurrent().setLogLevel("WARNING");
+            if (editDistance < 0) {
+                System.err.println(String.format("Cannot set 'edit-distance' to negative value %d", editDistance));
+                System.exit(1);
+            }
+
+            DijSettings.getCurrent().setEditDistance(editDistance);
+        }
+
+        if (cmd.hasOption("timeout")) {
+            int timeout = 0;
+            try {
+                timeout= Integer.parseInt(cmd.getOptionValue("timeout"));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                System.err.println(String.format("Invalid value %s for option 'timeout'", cmd.getOptionValue("timeout")));
+                System.exit(1);
+            }
+            
+            if (timeout < 0) {
+                System.err.println(String.format("Cannot set 'timeout' to negative value %d", timeout));
+                System.exit(1);
+            }
+
+            DijSettings.getCurrent().setTimeout(timeout);
         }
 
         DijSession dijSession = new DijSession(mainClass, progArgs, "", "", classPath, crashLog);
@@ -84,6 +129,8 @@ public class DijApp {
         }
 
         List<ReproductionResult> reproductionResults = dijSession.getReproductionResults();
+
+        String output = cmd.getOptionValue("output");
         if (output != null) {
             try {
                 writeToFile(output, reproductionResults.stream().map(ReproductionResult::toString).collect(Collectors.toList()));

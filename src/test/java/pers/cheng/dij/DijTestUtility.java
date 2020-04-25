@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.nio.file.Path;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import junit.framework.TestCase;
@@ -31,13 +32,13 @@ public class DijTestUtility {
 
     private static final String[] MODULE_PATHS = {};
 
-    private static final Class<?>[] TESTED_CLASSES = {
-    };
+    // private static final Class<?>[] TESTED_CLASSES = {
+    // };
 
 
-    public static Class<?>[] getTestedClasses() {
-        return TESTED_CLASSES;
-    }
+    // public static Class<?>[] getTestedClasses() {
+    //     return TESTED_CLASSES;
+    // }
 
     public static boolean isTrigger(String[] args) {
         for (String arg : args) {
@@ -60,8 +61,8 @@ public class DijTestUtility {
         return MODULE_PATHS;
     }
 
-    public static void test(Class<?> testedClass) {
-        DijSettings.getCurrent().setLogLevel("ALL");
+    public static void test(Class<? extends DijTestCase> testedClass) {
+        LOGGER.setLevel(Level.ALL);
 
         String[] classPaths = DijTestUtility.getClassPaths();
         String[] modulePaths = DijTestUtility.getModulePaths();

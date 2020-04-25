@@ -15,6 +15,10 @@ import pers.cheng.dij.Configuration;
 public class GuessFunctionProvider{
     private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
 
+    public static List<Object> guessAnything(Value value) {
+        return new ArrayList<>();
+    }
+
     public static List<Object> guessByte(Value value) {
         List<Object> ret = new ArrayList<>(256);
         if (!(value instanceof PrimitiveValue)) {
@@ -163,12 +167,6 @@ public class GuessFunctionProvider{
         return ret;
     }
 
-    public static List<Object> guessAnything(Value value) {
-        return new ArrayList<>();
-    }
-
-    // Not really used yet, since I have not figure out how to set a non-null value for any Object.
-    // It is still here for some unification consideration.
     public static List<Object> guessObject(Value value) {
         return Arrays.asList((Object) null);
     }
@@ -179,7 +177,7 @@ public class GuessFunctionProvider{
             return new ArrayList<>();
         }
         String str = ((StringReference) value).value();
-        List<Object> ret = Arrays.asList((String) null, "", str + str);
+        List<Object> ret = Arrays.asList((String) null, "");
         if (str.length() < 16) {
             for (int i = 1; i < str.length(); ++i) {
                 ret.add(str.substring(0, i));

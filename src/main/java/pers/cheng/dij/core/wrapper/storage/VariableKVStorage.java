@@ -61,7 +61,7 @@ public abstract class VariableKVStorage implements Iterator<Object> {
         return originalVariable;
     }
     
-    protected VariableStorage put(VariableStorage variableStorage) {
+    protected final VariableStorage put(VariableStorage variableStorage) {
         String key = variableStorage.getOriginalVariable().getName();
         guessedTotal += variableStorage.getGuessedTotal();
         LOGGER.info(String.format("New variable storage added, name: %s, type: %s", key, variableStorage.getOriginalVariable().getType()));

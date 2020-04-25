@@ -4,11 +4,8 @@ package pers.cheng.dij;
 // import java.io.IOException;
 // import java.util.Properties;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DijSettings {
-    private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
     private static DijSettings CURRENT = new DijSettings();
 
     // This might not be effective since this class might be loaded after
@@ -17,9 +14,10 @@ public class DijSettings {
     //     LOGGER.setLevel(Level.WARNING);
     // }
 
-    // TODO: update logLevel and javaHome.
-    private String logLevel = null;
+    // private String logLevel = null;
     private String javaHome = null;
+    private int editDistance = 0;
+    private int timeout = 0;
 
     public static DijSettings getCurrent() {
         return CURRENT;
@@ -38,14 +36,21 @@ public class DijSettings {
     //     }
     // }
 
-    public String getLogLevel() {
-        return logLevel;
+	public int getEditDistance() {
+        return editDistance;
     }
 
-    public void setLogLevel(String logLevel) {
-        this.logLevel = logLevel;
-        LOGGER.setLevel(Level.parse(logLevel));
+    public void setEditDistance(int editDistance) {
+        this.editDistance = editDistance;
     }
+
+    // public String getLogLevel() {
+    //     return logLevel;
+    // }
+
+    // public void setLogLevel(String logLevel) {
+    //     this.logLevel = logLevel;
+    // }
 
     public String getJavaHome() {
         return javaHome;
@@ -53,5 +58,13 @@ public class DijSettings {
 
     public void setJavaHome(String javaHome) {
         this.javaHome = javaHome;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 }

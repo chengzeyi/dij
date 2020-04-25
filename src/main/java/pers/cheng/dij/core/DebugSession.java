@@ -6,6 +6,7 @@ import com.sun.jdi.request.EventRequest;
 import com.sun.jdi.request.EventRequestManager;
 import com.sun.jdi.request.ExceptionRequest;
 import pers.cheng.dij.Configuration;
+import pers.cheng.dij.DijSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,13 @@ public class DebugSession implements IDebugSession {
 
     @Override
     public void waitFor() {
+        int timeout = DijSettings.getCurrent().getTimeout();
         try {
-            vm.process().waitFor();
+            if (timeout <= 0) {
+                vm.process().waitFor();
+            } else {
+                vm.process().wait((long) timeout * 1000L * 1000L);
+            }
         } catch (InterruptedException e) {
             LOGGER.warning(String.format("The current thread is interrupted, %s", e));
         }
