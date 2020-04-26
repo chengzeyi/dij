@@ -14,7 +14,9 @@ import com.sun.jdi.connect.VMStartException;
 import io.reactivex.Observable;
 import pers.cheng.dij.Configuration;
 import pers.cheng.dij.DijException;
+import pers.cheng.dij.DijSettings;
 import pers.cheng.dij.core.DebugEvent;
+import pers.cheng.dij.core.DebugException;
 import pers.cheng.dij.core.DebugUtility;
 import pers.cheng.dij.core.IBreakpoint;
 import pers.cheng.dij.core.IDebugSession;
@@ -84,9 +86,17 @@ public class DijSession {
 
         CrashInformation crashInformation;
         try {
-            crashInformation = new CrashInformation(crashPath);
+            int targetFrame = DijSettings.getCurrent().getTargetFrame();
+            if (targetFrame <= 0) {
+                crashInformation = new CrashInformation(crashPath);
+            } else {
+                crashInformation = new CrashInformation(crashPath, targetFrame);
+            }
         } catch (IOException e) {
-            LOGGER.severe(String.format("Cannot read crash lines from file, %s", e));
+            LOGGER.severe(String.format("Cannot read crash lines from file %s, %s", crashPath, e));
+            throw new DijException(e);
+        } catch (DebugException e) {
+            LOGGER.severe(String.format("Failed to parse crash lines from file %s, %s", crashPath, e));
             throw new DijException(e);
         }
 
@@ -130,6 +140,7 @@ public class DijSession {
 
         debugSession.start();
         debugSession.waitFor();
+        debugSession.terminate();
 
         if (!pioneerBreakpointEventHandler.isSuccessful()) {
             LOGGER.severe("Failed to handle pioneerBreakpoint");
@@ -137,14 +148,16 @@ public class DijSession {
         }
 
         if (exceptionEventHandler.isSuccessful()) {
-            LOGGER.severe("Please check the target program, the exception can be reproduced without modifying any variable");
+            LOGGER.severe(
+                    "Please check the target program, the exception can be reproduced without modifying any variable");
         }
 
         BreakpointContext breakpointContext = pioneerBreakpointEventHandler.getBreakpointContext();
 
         LOGGER.info("Got breakpointContext from pioneerBreakpointEventHandler");
 
-        ModificationBreakpointEventHandler modificationBreakpointEventHandler = new ModificationBreakpointEventHandler(breakpointContext);
+        ModificationBreakpointEventHandler modificationBreakpointEventHandler = new ModificationBreakpointEventHandler(
+                breakpointContext);
         while (modificationBreakpointEventHandler.hasNextLoop()) {
             LOGGER.info("Trying to start a new debug loop");
             try {
@@ -172,6 +185,7 @@ public class DijSession {
 
             debugSession.start();
             debugSession.waitFor();
+            debugSession.terminate();
 
             if (exceptionEventHandler.isSuccessful()) {
                 LOGGER.info("The handler has successfully reproduced the crash");
@@ -180,11 +194,8 @@ public class DijSession {
                 Variable changedVariableRaw = modificationBreakpointEventHandler.getChangedVariableRaw();
                 Variable changedVariableNew = modificationBreakpointEventHandler.getChangedVariableNew();
 
-                ReproductionResult reproductionResult = new ReproductionResult(
-                        breakpointClassName,
-                        breakpointLineNumber,
-                        changedVariableRaw,
-                        changedVariableNew);
+                ReproductionResult reproductionResult = new ReproductionResult(breakpointClassName,
+                        breakpointLineNumber, changedVariableRaw, changedVariableNew);
                 reproductionResults.add(reproductionResult);
             }
         }

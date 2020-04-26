@@ -15,6 +15,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PatternOptionBuilder;
 
 import pers.cheng.dij.core.wrapper.ReproductionResult;
 import pers.cheng.dij.runner.DijSession;
@@ -25,27 +26,42 @@ public class DijApp {
     public static void main(String[] args) {
         Options options = new Options();
 
-        Option classpathOpt = new Option("cp", "classpath", true, "classpath for JVM to search class files");
+        Option classpathOpt = new Option("cp", "classpath", true, "class search path of directories and zip/jar files");
         classpathOpt.setRequired(false);
         options.addOption(classpathOpt);
 
+        Option modulePathOpt = new Option("m", "module-path", true, "module search path of directories");
+        modulePathOpt.setRequired(false);
+        options.addOption(modulePathOpt);
+
+        Option cwdOpt = new Option("c", "cwd", true, "current working directory for the launched program");
+        cwdOpt.setRequired(false);
+        options.addOption(cwdOpt);
+        
         Option outputOpt = new Option("o", "output", true,
                 "specify the output file to write, or the output will be printed to stdout");
         outputOpt.setRequired(false);
         options.addOption(outputOpt);
 
-        Option debugOpt = new Option("X", "debug", false, "running with debug");
+        Option debugOpt = new Option("X", "debug", false, "running in debug mode");
         debugOpt.setRequired(false);
         options.addOption(debugOpt);
+        
+        Option targetFrameOpt = new Option("tf", "target-frame", true, "1-indexed target frame element in the crash log for setting breakpoint, or the first valid one will be used, default is 0 (not specified)");
+        targetFrameOpt.setRequired(false);
+        targetFrameOpt.setType(PatternOptionBuilder.NUMBER_VALUE);
+        options.addOption(targetFrameOpt);
 
         Option editDistanceOpt = new Option("ed", "edit-distance", true,
-                "specify the edit distance threshold to evaluate reproduced and recorded exception strings, default is 0 (exact match)");
+                "edit distance threshold to evaluate reproduced and recorded exception strings, default is 0 (exact match)");
         editDistanceOpt.setRequired(false);
+        editDistanceOpt.setType(PatternOptionBuilder.NUMBER_VALUE);
         options.addOption(editDistanceOpt);
 
         Option timeoutOpt = new Option("t", "timeout", true,
-                "specify the timeout second(s) for waiting debug session to terminate, default is 0 (disable timeout)");
+                "timeout second(s) for waiting debug session to terminate, default is 0 (timeout disabled)");
         timeoutOpt.setRequired(false);
+        timeoutOpt.setType(PatternOptionBuilder.NUMBER_VALUE);
         options.addOption(timeoutOpt);
 
         CommandLineParser parser = new DefaultParser();
@@ -73,7 +89,9 @@ public class DijApp {
         String mainClass = remainingArgs[1];
         String progArgs = String.join(" ", Arrays.copyOfRange(remainingArgs, 2, remainingArgs.length));
 
-        String classPath = cmd.hasOption("classpath") ? cmd.getOptionValue("classpath") : "";
+        String classPaths = cmd.hasOption("classpath") ? cmd.getOptionValue("classpath") : "";
+        String modulePaths = cmd.hasOption("module-path") ? cmd.getOptionValue("module-path") : "";
+        String cwd = cmd.hasOption("cwd") ? cmd.getOptionValue("cwd") : ".";
 
         if (cmd.hasOption("debug")) {
             // DijSettings.getCurrent().setLogLevel("ALL");
@@ -83,43 +101,44 @@ public class DijApp {
             LOGGER.setLevel(Level.WARNING);
         }
 
+        if (cmd.hasOption("target-frame")) {
+            int targetFrame = 0;
+            try {
+                targetFrame = (Integer) cmd.getParsedOptionValue("target-frame");
+            } catch (ParseException e) {
+                e.printStackTrace();
+                System.err.println("Failed to parse option 'target-frame'");
+                System.exit(1);
+            }
+            DijSettings.getCurrent().setTargetFrame(targetFrame);
+        }
+
         if (cmd.hasOption("edit-distance")) {
             int editDistance = 0;
             try {
-                editDistance = Integer.parseInt(cmd.getOptionValue("edit-distance"));
-            } catch (NumberFormatException e) {
+                editDistance = (Integer) cmd.getParsedOptionValue("edit-distance");
+            } catch (ParseException e) {
                 e.printStackTrace();
-                System.err.println(String.format("Invalid value %s for option 'edit-distance'", cmd.getOptionValue("edit-distance")));
+                System.err.println("Failed to parse option 'edit-distance'");
                 System.exit(1);
             }
-
-            if (editDistance < 0) {
-                System.err.println(String.format("Cannot set 'edit-distance' to negative value %d", editDistance));
-                System.exit(1);
-            }
-
             DijSettings.getCurrent().setEditDistance(editDistance);
         }
 
         if (cmd.hasOption("timeout")) {
             int timeout = 0;
             try {
-                timeout= Integer.parseInt(cmd.getOptionValue("timeout"));
-            } catch (NumberFormatException e) {
+                timeout = (Integer) cmd.getParsedOptionValue("timeout");
+            } catch (ParseException e) {
                 e.printStackTrace();
-                System.err.println(String.format("Invalid value %s for option 'timeout'", cmd.getOptionValue("timeout")));
+                System.err.println("Failed to parse option 'timeout'");
                 System.exit(1);
             }
-            
-            if (timeout < 0) {
-                System.err.println(String.format("Cannot set 'timeout' to negative value %d", timeout));
-                System.exit(1);
-            }
-
             DijSettings.getCurrent().setTimeout(timeout);
         }
 
-        DijSession dijSession = new DijSession(mainClass, progArgs, "", "", classPath, crashLog);
+
+        DijSession dijSession = new DijSession(mainClass, progArgs, "", modulePaths, classPaths, cwd, crashLog);
         try {
             dijSession.reproduce();
         } catch (DijException e) {
@@ -133,7 +152,8 @@ public class DijApp {
         String output = cmd.getOptionValue("output");
         if (output != null) {
             try {
-                writeToFile(output, reproductionResults.stream().map(ReproductionResult::toString).collect(Collectors.toList()));
+                writeToFile(output,
+                        reproductionResults.stream().map(ReproductionResult::toString).collect(Collectors.toList()));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 System.err.println("Failed to write reproduction result(s) to file");

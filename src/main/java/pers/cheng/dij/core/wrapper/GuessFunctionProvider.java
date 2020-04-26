@@ -102,7 +102,7 @@ public class GuessFunctionProvider{
             return ret;
         }
         ret.add(0);
-        for (int i = 1; i < 16; ++i) {
+        for (int i = 1; i < 8; ++i) {
             ret.add(i);
             ret.add(-i);
         }
@@ -123,7 +123,7 @@ public class GuessFunctionProvider{
             return ret;
         }
         ret.add(0L);
-        for (long i = 1; i < 16; ++i) {
+        for (long i = 1; i < 8; ++i) {
             ret.add(i);
             ret.add(-i);
         }
@@ -143,7 +143,7 @@ public class GuessFunctionProvider{
             return ret;
         }
         ret.add((short) 0);
-        for (short i = 1; i < 16; ++i) {
+        for (short i = 1; i < 8; ++i) {
             ret.add(i);
             ret.add(-i);
         }
@@ -178,7 +178,7 @@ public class GuessFunctionProvider{
         }
         String str = ((StringReference) value).value();
         List<Object> ret = Arrays.asList((String) null, "");
-        if (str.length() < 16) {
+        if (str.length() < 8) {
             for (int i = 1; i < str.length(); ++i) {
                 ret.add(str.substring(0, i));
             }
