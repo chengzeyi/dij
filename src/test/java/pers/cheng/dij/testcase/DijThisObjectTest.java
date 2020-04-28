@@ -27,6 +27,10 @@ public class DijThisObjectTest extends DijTestCase {
     }
 
     public int retrieve() {
+        boolean t = true;
+        boolean f = false;
+        Object obj = new Object();
+
         int[] arr = {1, 2, 3, 4, 5};
         return arr[idx];
     }

@@ -28,7 +28,9 @@ public class CrashInformation {
 
     private int breakpointLineNumber;
 
-    public CrashInformation(String filename) throws IOException, DebugException {
+    private String methodName;
+
+    public CrashInformation(String filename) throws IOException {
         crashLines = new ArrayList<>();
 
         BufferedReader bufferedReader;
@@ -59,7 +61,7 @@ public class CrashInformation {
         }
     }
 
-    public CrashInformation(String filename, int targetFrame) throws IOException, DebugException {
+    public CrashInformation(String filename, int targetFrame) throws IOException {
         crashLines = new ArrayList<>();
 
         BufferedReader bufferedReader;
@@ -90,7 +92,7 @@ public class CrashInformation {
         }
     }
 
-    private void analyzeStackTrace(List<String> stackTrace) throws DebugException {
+    private void analyzeStackTrace(List<String> stackTrace) {
 OUTER_LOOP:
         for (String stackTraceLine : stackTrace) {
             String[] split = stackTraceLine.split("\\s", 2);
@@ -123,18 +125,18 @@ OUTER_LOOP:
             }
 
             breakpointClassName = methodSignature.substring(0, lastDotPos);
+            methodName = methodSignature.substring(lastDotPos);
             return;
         }
-
-        throw new DebugException(String.format("Failed to analyze stack trace %s", stackTrace));
     }
 
-    private void analyzeStackTrace(List<String> stackTrace, int targetFrame) throws DebugException {
+    private void analyzeStackTrace(List<String> stackTrace, int targetFrame) {
         if (targetFrame <= 0) {
             analyzeStackTrace(stackTrace);
         }
         if (targetFrame > stackTrace.size()) {
-            throw new DebugException(String.format("Target frame index %d is out of bound", targetFrame));
+            LOGGER.severe(String.format("Target frame index %d is out of bound", targetFrame));
+            return;
         }
 
         try {
@@ -164,8 +166,9 @@ OUTER_LOOP:
             }
 
             breakpointClassName = methodSignature.substring(0, lastDotPos);
+            methodName = methodSignature.substring(lastDotPos);
         } catch (DebugException e) {
-            throw new DebugException(String.format("Failed to parse target frame %d of stack trace %s", targetFrame, stackTrace));
+            LOGGER.severe(String.format("Failed to parse target frame %d of stack trace %s", targetFrame, stackTrace));
         }
     }
 
@@ -191,5 +194,13 @@ OUTER_LOOP:
 
     public boolean hasBreakpoint() {
         return breakpointClassName != null;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public boolean hasMethodName() {
+        return methodName != null;
     }
 }

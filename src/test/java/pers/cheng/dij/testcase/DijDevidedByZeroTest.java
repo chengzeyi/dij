@@ -9,6 +9,11 @@ public class DijDevidedByZeroTest extends DijTestCase {
     // private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
 
     public static void main(String[] args) {
+        boolean t = true;
+        boolean f = false;
+        Object obj = new Object();
+        int[] arr = new int[]{};
+
         int divisor = DijTestUtility.isTrigger(args) ? 0 : 1;
         // EXP
         int result = 1 / divisor;

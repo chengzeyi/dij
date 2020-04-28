@@ -9,6 +9,11 @@ public class DijDevidedByFloatZeroTest extends DijTestCase {
     // private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
 
     public static void main(String[] args) {
+        boolean t = true;
+        boolean f = false;
+        Object obj = new Object();
+        int[] arr = new int[]{};
+
         float divisor = DijTestUtility.isTrigger(args) ? 0.0f : 1.0f;
         // EXP
         int result = 1 / (int) divisor;

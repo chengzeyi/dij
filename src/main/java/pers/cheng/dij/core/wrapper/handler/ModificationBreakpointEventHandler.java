@@ -190,13 +190,13 @@ public class ModificationBreakpointEventHandler extends BreakpointEventHandler {
                     continue;
                 }
 
-                String strType;
-                try {
-                    strType = VariableFormatter.typeToString(type);
-                } catch (DebugException e) {
-                    LOGGER.warning(String.format("Cannot parse Type %s to String, %s", type, e));
-                    continue;
-                }
+                // String strType;
+                // try {
+                //     strType = VariableFormatter.typeToString(type);
+                // } catch (DebugException e) {
+                //     LOGGER.warning(String.format("Cannot parse Type %s to String, %s", type, e));
+                //     continue;
+                // }
 
                 Value guessedValue;
                 try {

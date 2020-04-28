@@ -2,6 +2,7 @@ package pers.cheng.dij.runner;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,17 +17,16 @@ import pers.cheng.dij.Configuration;
 import pers.cheng.dij.DijException;
 import pers.cheng.dij.DijSettings;
 import pers.cheng.dij.core.DebugEvent;
-import pers.cheng.dij.core.DebugException;
 import pers.cheng.dij.core.DebugUtility;
 import pers.cheng.dij.core.IBreakpoint;
 import pers.cheng.dij.core.IDebugSession;
 import pers.cheng.dij.core.IEventHub;
 import pers.cheng.dij.core.wrapper.BreakpointContext;
 import pers.cheng.dij.core.wrapper.CrashInformation;
-import pers.cheng.dij.core.wrapper.handler.ExceptionEventHandler;
-import pers.cheng.dij.core.wrapper.handler.PioneerBreakpointEventHandler;
-import pers.cheng.dij.core.wrapper.handler.ModificationBreakpointEventHandler;
 import pers.cheng.dij.core.wrapper.ReproductionResult;
+import pers.cheng.dij.core.wrapper.handler.ExceptionEventHandler;
+import pers.cheng.dij.core.wrapper.handler.ModificationBreakpointEventHandler;
+import pers.cheng.dij.core.wrapper.handler.PioneerBreakpointEventHandler;
 import pers.cheng.dij.core.wrapper.variable.Variable;
 
 public class DijSession {
@@ -94,9 +94,6 @@ public class DijSession {
             }
         } catch (IOException e) {
             LOGGER.severe(String.format("Cannot read crash lines from file %s, %s", crashPath, e));
-            throw new DijException(e);
-        } catch (DebugException e) {
-            LOGGER.severe(String.format("Failed to parse crash lines from file %s, %s", crashPath, e));
             throw new DijException(e);
         }
 

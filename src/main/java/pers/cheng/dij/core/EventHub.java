@@ -66,12 +66,7 @@ public class EventHub implements IEventHub {
 
                     boolean shouldResume = true;
                     for (Event event : set) {
-                        try {
-                            LOGGER.info(String.format("JDI Event: %s", event));
-                        } catch (VMDisconnectedException e) {
-                            LOGGER.warning(String.format("The target VM has been disconnected, %s", e));
-                            // do nothing
-                        }
+                        LOGGER.info(String.format("JDI Event: %s", event));
                         DebugEvent debugEvent = new DebugEvent();
                         debugEvent.setEvent(event);
                         debugEvent.setEventSet(set);

@@ -9,7 +9,12 @@ public class DijIndexOutOfBoundTest extends DijTestCase {
     // private static final Logger LOGGER = Logger.getLogger(Configuration.LOGGER_NAME);
 
     public static void main(String[] args) {
+        boolean t = true;
+        boolean f = false;
+        Object obj = new Object();
+
         int[] arr = {1, 2};
+
         int idx = DijTestUtility.isTrigger(args) ? -1 : 1;
         // EXP
         int x = arr[idx];

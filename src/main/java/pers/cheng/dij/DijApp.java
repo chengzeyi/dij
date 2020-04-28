@@ -78,7 +78,7 @@ public class DijApp {
         }
 
         String[] remainingArgs = cmd.getArgs();
-        if (remainingArgs.length < 2) {
+        if (remainingArgs.length < 1) {
             System.err.println("No enough command line arguemnts");
 
             printHelp(formatter, options);
@@ -86,8 +86,14 @@ public class DijApp {
         }
 
         String crashLog = remainingArgs[0];
-        String mainClass = remainingArgs[1];
-        String progArgs = String.join(" ", Arrays.copyOfRange(remainingArgs, 2, remainingArgs.length));
+        String mainClass = "";
+        if (remainingArgs.length >= 2) {
+            mainClass = remainingArgs[1];
+        }
+        String progArgs = "";
+        if (remainingArgs.length >= 3) {
+            progArgs = String.join(" ", Arrays.copyOfRange(remainingArgs, 2, remainingArgs.length));
+        }
 
         String classPaths = cmd.hasOption("classpath") ? cmd.getOptionValue("classpath") : "";
         String modulePaths = cmd.hasOption("module-path") ? cmd.getOptionValue("module-path") : "";
@@ -137,7 +143,6 @@ public class DijApp {
             DijSettings.getCurrent().setTimeout(timeout);
         }
 
-
         DijSession dijSession = new DijSession(mainClass, progArgs, "", modulePaths, classPaths, cwd, crashLog);
         try {
             dijSession.reproduce();
@@ -165,7 +170,7 @@ public class DijApp {
     }
 
     private static void printHelp(HelpFormatter formatter, Options options) {
-        String cmdLineSyntax = "DijApp [OPTION]... CRASH_LOG MAIN_CLASS [PROG_ARG]...";
+        String cmdLineSyntax = "DijApp [OPTION]... CRASH_LOG [MAIN_CLASS [PROG_ARG]...]";
         String header = "Reproduce the crash from the crash log";
         String footer = "Author: Chengzeyi - ichengzeyi@gmail.com";
         formatter.printHelp(cmdLineSyntax, header, options, footer);
